@@ -316,6 +316,172 @@
             text-align: center; line-height: 20px; font-weight: bold; font-size: 12px; margin-right: 5px; 
         }
 
+        /* --- SIMPLIFY TAB --- */
+        .simp-mode-row {
+            display: flex; gap: 10px; margin-bottom: 20px;
+        }
+        .simp-input-area {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;
+        }
+        .simp-frac-group {
+            display: flex; flex-direction: column; align-items: center; width: 80px;
+        }
+        .simp-frac-group .frac-input { font-size: 2rem; }
+        .simp-whole-input {
+            width: 70px; font-family: 'Fredoka', sans-serif; font-size: 2rem;
+            text-align: center; background: white; border: 2px solid #eceff1;
+            color: var(--text-main); border-radius: 8px; padding: 5px 0;
+        }
+        .simp-whole-input:focus { outline: none; border-color: var(--text-muted); }
+        .simp-arrow {
+            font-size: 2.5rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif;
+        }
+        .simp-result-box {
+            min-width: 120px; min-height: 80px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--c-green-light); border: 2px solid var(--c-green);
+            border-radius: 16px; padding: 10px 20px;
+        }
+        .simp-result-whole {
+            font-family: 'Fredoka', sans-serif; font-size: 2.5rem; font-weight: bold; color: var(--c-green);
+        }
+        .simp-result-frac {
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .simp-result-frac span {
+            font-family: 'Fredoka', sans-serif; font-size: 2rem; font-weight: bold; color: var(--c-green); line-height: 1.1;
+        }
+        .simp-steps-container {
+            width: 100%; max-width: 600px; margin-top: 20px;
+        }
+        .simp-step {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; background: white; border-radius: 12px;
+            margin-bottom: 8px; border: 1px solid #eceff1;
+            font-family: 'Outfit', sans-serif; font-size: 1rem; color: var(--text-main);
+            opacity: 0; transform: translateX(-10px);
+            animation: stepReveal 0.3s ease forwards;
+        }
+        .simp-step .step-icon {
+            width: 32px; height: 32px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-weight: bold;
+            font-family: 'Fredoka', sans-serif; font-size: 0.85rem; flex-shrink: 0;
+        }
+        .simp-step .step-icon.green { background: var(--c-green-light); color: var(--c-green); }
+        .simp-step .step-icon.gold { background: var(--c-gold-light); color: #f57f17; }
+        .simp-step .step-icon.blue { background: var(--c-blue-light); color: var(--c-blue); }
+        @keyframes stepReveal { to { opacity: 1; transform: translateX(0); } }
+
+        .simp-vis-row {
+            display: flex; gap: 20px; align-items: center; justify-content: center;
+            flex-wrap: wrap; margin-top: 15px;
+        }
+
+        /* --- FRACTION BARS TAB --- */
+        .fb-toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 10px; width: 100%;
+            background: #1f2937; color: white; padding: 10px 16px; border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .fb-tool-group { display: flex; align-items: center; gap: 15px; }
+        .fb-toggle-label { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer; user-select: none; }
+        .fb-toggle-label input[type="checkbox"] { transform: scale(1.2); cursor: pointer; accent-color: #3b82f6; }
+        .fb-total-display {
+            background: #374151; padding: 4px 12px; border-radius: 6px;
+            font-weight: bold; font-family: monospace; font-size: 1.1rem;
+            min-width: 80px; text-align: center; border: 1px solid #4b5563;
+        }
+        .fb-total-display.fb-hidden { visibility: hidden; opacity: 0; }
+
+        .fb-work-area {
+            width: 100%; max-width: 900px;
+            min-height: 200px; max-height: 55vh;
+            overflow-y: auto; padding: 15px 0; position: relative;
+        }
+        .fb-bars-wrapper {
+            display: flex; flex-direction: column; gap: 10px; width: 100%;
+        }
+
+        .fb-row {
+            display: flex; align-items: center; gap: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .fb-row-label {
+            width: 50px; text-align: right; font-size: 0.9rem;
+            font-weight: 600; color: var(--text-muted); flex-shrink: 0;
+            cursor: pointer;
+        }
+        .fb-row-label:hover { color: var(--c-red); }
+        .fb-bar {
+            flex: 1; height: 50px; display: flex;
+            border: 2px solid #111827; background: transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15); border-radius: 4px; overflow: hidden;
+        }
+        .fb-seg {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; color: #111827;
+            background-color: var(--fb-base);
+            border-right: 2px solid #111827;
+            cursor: pointer; user-select: none;
+            transition: background-color 0.15s;
+        }
+        .fb-seg:last-child { border-right: none; }
+        .fb-seg:hover { filter: brightness(1.1); }
+        .fb-seg.fb-selected {
+            background-color: var(--fb-highlight) !important;
+            box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35);
+        }
+
+        .fb-controls-panel {
+            width: 100%; max-width: 900px; margin-top: 15px;
+            background: white; border-radius: 12px; padding: 12px;
+            border: 1px solid #eceff1;
+            display: flex; flex-direction: column; gap: 8px; align-items: center;
+        }
+        .fb-preset-row {
+            display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+        }
+        .fb-preset-btn {
+            background: #f3f4f6; color: #374151; border: 1px solid #d1d5db;
+            padding: 7px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
+            font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.15s;
+        }
+        .fb-preset-btn:hover { background: #e5e7eb; }
+        .fb-custom-group {
+            display: flex; gap: 5px; background: #f3f4f6; padding: 4px;
+            border-radius: 8px; border: 1px solid #d1d5db;
+        }
+        .fb-custom-input {
+            width: 60px; padding: 4px 8px; border: 1px solid #d1d5db;
+            border-radius: 4px; font-family: 'Fredoka', sans-serif; font-size: 0.9rem;
+        }
+        .fb-add-btn {
+            background: var(--c-blue); color: white; border: none;
+            padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
+            font-weight: 600; cursor: pointer;
+        }
+        .fb-add-btn:hover { filter: brightness(1.1); }
+        .fb-clear-btn {
+            background: var(--c-red); color: white; border: none;
+            padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
+            font-weight: 600; cursor: pointer;
+        }
+        .fb-clear-btn:hover { filter: brightness(1.1); }
+
+        /* Ruler */
+        .fb-ruler-line {
+            position: absolute; top: 0; bottom: 0; width: 2px;
+            background-color: #ef4444; pointer-events: none; z-index: 50;
+            display: none; box-shadow: 0 0 4px rgba(0,0,0,0.4);
+        }
+        .fb-ruler-label {
+            position: absolute; top: -22px; left: -18px;
+            background: #ef4444; color: white; font-size: 11px;
+            padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+            font-family: 'Fredoka', sans-serif;
+        }
+
     </style>
 </head>
 <body>
@@ -327,6 +493,8 @@
     <div class="main-nav">
         <button class="nav-tab active" onclick="switchTab('tab-fractions')">Fraction Lab</button>
         <button class="nav-tab" onclick="switchTab('tab-lcd')">LCD Finder</button>
+        <button class="nav-tab" onclick="switchTab('tab-simplify')">Simplify</button>
+        <button class="nav-tab" onclick="switchTab('tab-bars')">Fraction Bars</button>
     </div>
 
     <div id="tab-fractions" class="tool-section active">
@@ -438,6 +606,127 @@
         </div>
     </div>
 
+    <!-- ==================== SIMPLIFY TAB ==================== -->
+    <div id="tab-simplify" class="tool-section">
+
+        <div class="simp-mode-row">
+            <button class="btn btn-gold" id="btn-simp-simplify" onclick="simp_setMode('simplify')">Simplify</button>
+            <button class="btn btn-outline" id="btn-simp-improper" onclick="simp_setMode('improper')">Improper → Mixed</button>
+            <button class="btn btn-outline" id="btn-simp-mixed" onclick="simp_setMode('mixed')">Mixed → Improper</button>
+        </div>
+
+        <div class="dashboard">
+            <!-- Simplify Mode Input -->
+            <div id="simp-input-simplify" class="simp-input-area">
+                <div class="simp-frac-group">
+                    <input type="number" id="simp-n" class="frac-input" value="6" min="0" oninput="simp_update()">
+                    <div class="frac-bar"></div>
+                    <input type="number" id="simp-d" class="frac-input" value="8" min="1" max="100" oninput="simp_update()">
+                </div>
+                <div class="simp-arrow">→</div>
+                <div id="simp-result-simplify" class="simp-result-box">
+                    <div class="simp-result-frac">
+                        <span id="simp-rn">3</span>
+                        <div class="frac-bar" style="width:100%;"></div>
+                        <span id="simp-rd">4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Improper → Mixed Input -->
+            <div id="simp-input-improper" class="simp-input-area" style="display:none;">
+                <div class="simp-frac-group">
+                    <input type="number" id="simp-imp-n" class="frac-input" value="11" min="0" oninput="simp_update()">
+                    <div class="frac-bar"></div>
+                    <input type="number" id="simp-imp-d" class="frac-input" value="4" min="1" max="100" oninput="simp_update()">
+                </div>
+                <div class="simp-arrow">→</div>
+                <div id="simp-result-improper" class="simp-result-box">
+                    <span id="simp-imp-whole" class="simp-result-whole"></span>
+                    <div class="simp-result-frac" id="simp-imp-frac-part">
+                        <span id="simp-imp-rn"></span>
+                        <div class="frac-bar" style="width:100%;"></div>
+                        <span id="simp-imp-rd"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mixed → Improper Input -->
+            <div id="simp-input-mixed" class="simp-input-area" style="display:none;">
+                <input type="number" id="simp-mix-w" class="simp-whole-input" value="2" min="0" oninput="simp_update()">
+                <div class="simp-frac-group">
+                    <input type="number" id="simp-mix-n" class="frac-input" value="3" min="0" oninput="simp_update()">
+                    <div class="frac-bar"></div>
+                    <input type="number" id="simp-mix-d" class="frac-input" value="4" min="1" max="100" oninput="simp_update()">
+                </div>
+                <div class="simp-arrow">→</div>
+                <div id="simp-result-mixed" class="simp-result-box">
+                    <div class="simp-result-frac">
+                        <span id="simp-mix-rn"></span>
+                        <div class="frac-bar" style="width:100%;"></div>
+                        <span id="simp-mix-rd"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step-by-step explanation -->
+        <div class="simp-steps-container" id="simp-steps"></div>
+
+        <!-- Visual -->
+        <div class="vis-card" style="max-width:900px; width:100%;">
+            <div class="vis-label">Visual Model</div>
+            <div class="simp-vis-row" id="simp-vis"></div>
+        </div>
+    </div>
+
+    <!-- ==================== FRACTION BARS TAB ==================== -->
+    <div id="tab-bars" class="tool-section">
+
+        <div class="fb-toolbar">
+            <div class="fb-tool-group">
+                <label class="fb-toggle-label">
+                    <input type="checkbox" id="fb-ruler-toggle">
+                    <span>Ruler Tool</span>
+                </label>
+                <label class="fb-toggle-label">
+                    <input type="checkbox" id="fb-total-toggle" checked>
+                    <span>Show Decimal</span>
+                </label>
+            </div>
+            <div class="fb-total-display" id="fb-total-display">Total: 0</div>
+        </div>
+
+        <div class="dashboard" style="padding:15px; position:relative;">
+            <div class="fb-ruler-line" id="fb-ruler-line">
+                <div class="fb-ruler-label" id="fb-ruler-label"></div>
+            </div>
+            <div class="fb-work-area" id="fb-work-area">
+                <div class="fb-bars-wrapper" id="fb-bars-wrapper"></div>
+            </div>
+        </div>
+
+        <div class="fb-controls-panel">
+            <div class="fb-preset-row">
+                <button class="fb-preset-btn" onclick="fb_addBar(2)">1/2</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(3)">1/3</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(4)">1/4</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(5)">1/5</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(6)">1/6</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(8)">1/8</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(10)">1/10</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(12)">1/12</button>
+            </div>
+            <div class="fb-preset-row">
+                <div class="fb-custom-group">
+                    <input type="number" id="fb-custom-input" class="fb-custom-input" placeholder="#" min="1" max="50">
+                    <button class="fb-add-btn" onclick="fb_addCustom()">Add</button>
+                </div>
+                <button class="fb-clear-btn" onclick="fb_reset()">Clear All</button>
+            </div>
+        </div>
+    </div>
+
 <script>
     // --- GLOBAL NAV ---
     function switchTab(tabId) {
@@ -445,8 +734,8 @@
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
         
         document.getElementById(tabId).classList.add('active');
-        const idx = tabId === 'tab-fractions' ? 0 : 1;
-        document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+        const tabMap = {'tab-fractions':0, 'tab-lcd':1, 'tab-simplify':2, 'tab-bars':3};
+        document.querySelectorAll('.nav-tab')[tabMap[tabId]].classList.add('active');
     }
 
     // =====================================================
@@ -1091,6 +1380,431 @@
         }
     }
 
+    // =====================================================
+    // LOGIC: SIMPLIFY TAB
+    // =====================================================
+    let simp_mode = 'simplify'; // 'simplify', 'improper', 'mixed'
+
+    function simp_setMode(mode) {
+        simp_mode = mode;
+        const modes = ['simplify', 'improper', 'mixed'];
+        const btns = [
+            document.getElementById('btn-simp-simplify'),
+            document.getElementById('btn-simp-improper'),
+            document.getElementById('btn-simp-mixed')
+        ];
+        modes.forEach((m, i) => {
+            document.getElementById('simp-input-' + m).style.display = m === mode ? 'flex' : 'none';
+            btns[i].className = m === mode ? 'btn btn-gold' : 'btn btn-outline';
+        });
+        simp_update();
+    }
+
+    function simp_update() {
+        if(simp_mode === 'simplify') simp_doSimplify();
+        else if(simp_mode === 'improper') simp_doImproper();
+        else simp_doMixed();
+    }
+
+    function simp_doSimplify() {
+        const n = parseInt(document.getElementById('simp-n').value) || 0;
+        const d = parseInt(document.getElementById('simp-d').value) || 1;
+        const g = gcd(Math.abs(n), Math.abs(d));
+        const sn = n / g;
+        const sd = d / g;
+
+        document.getElementById('simp-rn').textContent = sn;
+        document.getElementById('simp-rd').textContent = sd;
+
+        // Steps
+        const steps = document.getElementById('simp-steps');
+        steps.innerHTML = '';
+
+        if(g === 1 && n <= d) {
+            steps.innerHTML = simp_stepHTML('green', '✓', `${n}/${d} is already in simplest form — no common factors.`);
+        } else {
+            // Find common factors for explanation
+            const factors = [];
+            for(let i = 2; i <= Math.min(Math.abs(n), Math.abs(d)); i++) {
+                if(n % i === 0 && d % i === 0) factors.push(i);
+            }
+            
+            let delay = 0;
+            if(factors.length > 0) {
+                steps.innerHTML += simp_stepHTML('gold', '1', 
+                    `Find common factors of ${n} and ${d}: <strong>${factors.join(', ')}</strong>`, delay);
+                delay++;
+                steps.innerHTML += simp_stepHTML('gold', '2', 
+                    `The greatest common factor (GCF) is <strong>${g}</strong>`, delay);
+                delay++;
+                steps.innerHTML += simp_stepHTML('blue', '3', 
+                    `Divide both by ${g}: &nbsp; ${n} ÷ ${g} = <strong>${sn}</strong> &nbsp;and&nbsp; ${d} ÷ ${g} = <strong>${sd}</strong>`, delay);
+                delay++;
+            }
+
+            // Check if result is improper
+            if(sn > sd && sd > 1) {
+                const whole = Math.floor(sn / sd);
+                const rem = sn % sd;
+                if(rem > 0) {
+                    steps.innerHTML += simp_stepHTML('green', '✓', 
+                        `<strong>${sn}/${sd}</strong> = <strong>${whole} ${rem}/${sd}</strong> as a mixed number`, delay);
+                } else {
+                    steps.innerHTML += simp_stepHTML('green', '✓', 
+                        `<strong>${sn}/${sd}</strong> = <strong>${whole}</strong>`, delay);
+                }
+            } else if(sd === 1) {
+                steps.innerHTML += simp_stepHTML('green', '✓', 
+                    `<strong>${n}/${d}</strong> = <strong>${sn}</strong>`, delay);
+            } else {
+                steps.innerHTML += simp_stepHTML('green', '✓', 
+                    `Simplest form: <strong>${sn}/${sd}</strong>`, delay);
+            }
+        }
+
+        // Visual: show original and simplified as circle models side by side
+        simp_drawComparison(n, d, sn, sd);
+    }
+
+    function simp_doImproper() {
+        const n = parseInt(document.getElementById('simp-imp-n').value) || 0;
+        const d = parseInt(document.getElementById('simp-imp-d').value) || 1;
+
+        const whole = Math.floor(n / d);
+        const rem = n % d;
+
+        // Simplify the remainder fraction
+        const g = rem > 0 ? gcd(rem, d) : 1;
+        const simpRem = rem / g;
+        const simpD = d / g;
+
+        const wholeEl = document.getElementById('simp-imp-whole');
+        const fracPart = document.getElementById('simp-imp-frac-part');
+        const rnEl = document.getElementById('simp-imp-rn');
+        const rdEl = document.getElementById('simp-imp-rd');
+
+        if(whole > 0) {
+            wholeEl.textContent = whole;
+            wholeEl.style.display = 'inline';
+        } else {
+            wholeEl.style.display = 'none';
+        }
+
+        if(simpRem > 0) {
+            rnEl.textContent = simpRem;
+            rdEl.textContent = simpD;
+            fracPart.style.display = 'flex';
+        } else {
+            fracPart.style.display = 'none';
+        }
+
+        // Steps
+        const steps = document.getElementById('simp-steps');
+        steps.innerHTML = '';
+
+        if(n < d) {
+            steps.innerHTML = simp_stepHTML('green', '✓', `${n}/${d} is already a proper fraction (numerator < denominator).`);
+        } else {
+            let delay = 0;
+            steps.innerHTML += simp_stepHTML('gold', '1',
+                `Divide: ${n} ÷ ${d} = <strong>${whole}</strong> remainder <strong>${rem}</strong>`, delay);
+            delay++;
+            steps.innerHTML += simp_stepHTML('blue', '2',
+                `The whole number is <strong>${whole}</strong>, the remainder goes over the denominator: <strong>${rem}/${d}</strong>`, delay);
+            delay++;
+            if(g > 1) {
+                steps.innerHTML += simp_stepHTML('blue', '3',
+                    `Simplify ${rem}/${d} by dividing both by ${g}: <strong>${simpRem}/${simpD}</strong>`, delay);
+                delay++;
+            }
+            const mixedStr = simpRem > 0 ? `${whole} ${simpRem}/${simpD}` : `${whole}`;
+            steps.innerHTML += simp_stepHTML('green', '✓',
+                `<strong>${n}/${d}</strong> = <strong>${mixedStr}</strong>`, delay);
+        }
+
+        // Visual: show circles with filled slices
+        simp_drawImproper(n, d);
+    }
+
+    function simp_doMixed() {
+        const w = parseInt(document.getElementById('simp-mix-w').value) || 0;
+        const n = parseInt(document.getElementById('simp-mix-n').value) || 0;
+        const d = parseInt(document.getElementById('simp-mix-d').value) || 1;
+
+        const impNum = (w * d) + n;
+
+        document.getElementById('simp-mix-rn').textContent = impNum;
+        document.getElementById('simp-mix-rd').textContent = d;
+
+        // Steps
+        const steps = document.getElementById('simp-steps');
+        steps.innerHTML = '';
+        let delay = 0;
+
+        steps.innerHTML += simp_stepHTML('gold', '1',
+            `Multiply the whole number by the denominator: ${w} × ${d} = <strong>${w * d}</strong>`, delay);
+        delay++;
+        steps.innerHTML += simp_stepHTML('blue', '2',
+            `Add the numerator: ${w * d} + ${n} = <strong>${impNum}</strong>`, delay);
+        delay++;
+        steps.innerHTML += simp_stepHTML('green', '✓',
+            `<strong>${w} ${n}/${d}</strong> = <strong>${impNum}/${d}</strong>`, delay);
+
+        // Visual
+        simp_drawImproper(impNum, d);
+    }
+
+    function simp_stepHTML(colorClass, icon, text, delayIdx) {
+        const delay = (delayIdx || 0) * 0.15;
+        return `<div class="simp-step" style="animation-delay:${delay}s">
+            <div class="step-icon ${colorClass}">${icon}</div>
+            <div>${text}</div>
+        </div>`;
+    }
+
+    // Draw side-by-side circle comparison for simplify mode
+    function simp_drawComparison(n1, d1, n2, d2) {
+        const container = document.getElementById('simp-vis');
+        container.innerHTML = '';
+        
+        if(d1 < 1 || d2 < 1 || n1 < 0) return;
+
+        // Clamp for visual sanity
+        const showN1 = Math.min(n1, d1 * 3);
+        const showN2 = Math.min(n2, d2 * 3);
+
+        // Original
+        const leftDiv = document.createElement('div');
+        leftDiv.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:8px;';
+        leftDiv.innerHTML = `<div style="font-family:'Fredoka',sans-serif; font-weight:600; color:var(--text-muted); font-size:0.85rem;">ORIGINAL</div>`;
+        const leftCircles = document.createElement('div');
+        leftCircles.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; justify-content:center;';
+        const wholes1 = Math.ceil(Math.max(1, showN1 / d1));
+        for(let w = 0; w < wholes1; w++) {
+            leftCircles.appendChild(simp_drawCircle(showN1, d1, w, 'var(--c-blue)'));
+        }
+        leftDiv.appendChild(leftCircles);
+        container.appendChild(leftDiv);
+
+        // Arrow
+        const arrow = document.createElement('div');
+        arrow.className = 'simp-arrow';
+        arrow.textContent = '→';
+        container.appendChild(arrow);
+
+        // Simplified
+        const rightDiv = document.createElement('div');
+        rightDiv.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:8px;';
+        rightDiv.innerHTML = `<div style="font-family:'Fredoka',sans-serif; font-weight:600; color:var(--c-green); font-size:0.85rem;">SIMPLIFIED</div>`;
+        const rightCircles = document.createElement('div');
+        rightCircles.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; justify-content:center;';
+        const wholes2 = Math.ceil(Math.max(1, showN2 / d2));
+        for(let w = 0; w < wholes2; w++) {
+            rightCircles.appendChild(simp_drawCircle(showN2, d2, w, 'var(--c-green)'));
+        }
+        rightDiv.appendChild(rightCircles);
+        container.appendChild(rightDiv);
+    }
+
+    // Draw circles for improper/mixed mode (single set)
+    function simp_drawImproper(n, d) {
+        const container = document.getElementById('simp-vis');
+        container.innerHTML = '';
+        if(d < 1) return;
+
+        const showN = Math.min(n, d * 6);
+        const wholes = Math.ceil(Math.max(1, showN / d));
+        
+        for(let w = 0; w < wholes; w++) {
+            container.appendChild(simp_drawCircle(showN, d, w, 'var(--c-green)'));
+        }
+    }
+
+    function simp_drawCircle(n, d, wholeIdx, fillColor) {
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("width", "100"); svg.setAttribute("height", "100");
+        svg.setAttribute("viewBox", "-5 -5 110 110");
+        const cx = 50, cy = 50, r = 50;
+
+        for(let i = 0; i < d; i++) {
+            const absIdx = (wholeIdx * d) + i;
+            const startA = (i * 360 / d) - 90;
+            const endA = ((i + 1) * 360 / d) - 90;
+            const x1 = cx + r * Math.cos(startA * Math.PI / 180);
+            const y1 = cy + r * Math.sin(startA * Math.PI / 180);
+            const x2 = cx + r * Math.cos(endA * Math.PI / 180);
+            const y2 = cy + r * Math.sin(endA * Math.PI / 180);
+            const large = (endA - startA) > 180 ? 1 : 0;
+
+            const path = document.createElementNS(svgNS, "path");
+            path.setAttribute("d", `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
+            path.setAttribute("stroke", "#37474f");
+            path.setAttribute("stroke-width", "2");
+
+            if(absIdx < n) {
+                path.setAttribute("fill", fillColor);
+            } else {
+                path.setAttribute("fill", "white");
+            }
+            svg.appendChild(path);
+        }
+
+        return svg;
+    }
+
+    // =====================================================
+    // LOGIC: FRACTION BARS TAB
+    // =====================================================
+    let fb_bars = [];
+
+    const fb_colorMap = {
+        1:  { base: '#ef4444', hl: '#fca5a5' },
+        2:  { base: '#f97316', hl: '#fdba74' },
+        3:  { base: '#f59e0b', hl: '#fde047' },
+        4:  { base: '#eab308', hl: '#fef08a' },
+        5:  { base: '#84cc16', hl: '#bef264' },
+        6:  { base: '#22c55e', hl: '#86efac' },
+        7:  { base: '#10b981', hl: '#6ee7b7' },
+        8:  { base: '#14b8a6', hl: '#5eead4' },
+        9:  { base: '#06b6d4', hl: '#67e8f9' },
+        10: { base: '#0ea5e9', hl: '#7dd3fc' },
+        12: { base: '#6366f1', hl: '#a5b4fc' }
+    };
+
+    function fb_getColors(n) {
+        if(fb_colorMap[n]) return fb_colorMap[n];
+        const hue = (n * 137.508) % 360;
+        return { base: `hsl(${hue}, 70%, 50%)`, hl: `hsl(${hue}, 90%, 80%)` };
+    }
+
+    function fb_addBar(denom) {
+        const id = Date.now() + Math.random();
+        const colors = fb_getColors(denom);
+        const barObj = { id, denom, colors };
+        fb_bars.push(barObj);
+
+        const wrapper = document.getElementById('fb-bars-wrapper');
+        const row = fb_createRow(barObj);
+
+        // Insert sorted by denom (smallest denom = biggest fraction first)
+        const existing = Array.from(wrapper.children);
+        let inserted = false;
+        for(const el of existing) {
+            if(parseInt(el.dataset.denom) > denom) {
+                wrapper.insertBefore(row, el);
+                inserted = true;
+                break;
+            }
+        }
+        if(!inserted) wrapper.appendChild(row);
+    }
+
+    function fb_createRow(barObj) {
+        const row = document.createElement('div');
+        row.className = 'fb-row';
+        row.dataset.id = barObj.id;
+        row.dataset.denom = barObj.denom;
+        row.style.setProperty('--fb-base', barObj.colors.base);
+        row.style.setProperty('--fb-highlight', barObj.colors.hl);
+
+        // Label (double-click to remove)
+        const label = document.createElement('div');
+        label.className = 'fb-row-label';
+        label.textContent = barObj.denom === 1 ? '1' : `1/${barObj.denom}`;
+        label.title = 'Double-click to remove';
+        label.addEventListener('dblclick', () => fb_removeBar(barObj.id));
+        row.appendChild(label);
+
+        // Bar
+        const bar = document.createElement('div');
+        bar.className = 'fb-bar';
+        for(let i = 0; i < barObj.denom; i++) {
+            const seg = document.createElement('div');
+            seg.className = 'fb-seg';
+            seg.textContent = barObj.denom === 1 ? '1' : `1/${barObj.denom}`;
+            seg.dataset.value = 1 / barObj.denom;
+            seg.addEventListener('click', () => {
+                seg.classList.toggle('fb-selected');
+                fb_calcTotal();
+            });
+            bar.appendChild(seg);
+        }
+        row.appendChild(bar);
+        return row;
+    }
+
+    function fb_removeBar(id) {
+        fb_bars = fb_bars.filter(b => b.id !== id);
+        const el = document.querySelector(`.fb-row[data-id='${id}']`);
+        if(el) el.remove();
+        fb_calcTotal();
+    }
+
+    function fb_reset() {
+        fb_bars = [];
+        document.getElementById('fb-bars-wrapper').innerHTML = '';
+        fb_calcTotal();
+        fb_addBar(1);
+    }
+
+    function fb_calcTotal() {
+        const selected = document.querySelectorAll('.fb-seg.fb-selected');
+        let sum = 0;
+        selected.forEach(s => sum += parseFloat(s.dataset.value));
+        sum = Math.round(sum * 10000) / 10000;
+        document.getElementById('fb-total-display').textContent = `Total: ${sum}`;
+    }
+
+    function fb_addCustom() {
+        const input = document.getElementById('fb-custom-input');
+        const val = parseInt(input.value);
+        if(val && val > 0 && val <= 100) {
+            fb_addBar(val);
+            input.value = '';
+        }
+    }
+
+    // Ruler tool
+    let fb_rulerOn = false;
+    document.getElementById('fb-ruler-toggle').addEventListener('change', (e) => {
+        fb_rulerOn = e.target.checked;
+        document.getElementById('fb-ruler-line').style.display = fb_rulerOn ? 'block' : 'none';
+    });
+
+    const fb_dashboard = document.querySelector('#tab-bars .dashboard');
+    fb_dashboard.addEventListener('mousemove', (e) => {
+        if(!fb_rulerOn) return;
+        const wrapperEl = document.getElementById('fb-bars-wrapper');
+        const wrapperRect = wrapperEl.getBoundingClientRect();
+        const dashRect = fb_dashboard.getBoundingClientRect();
+        const x = e.clientX - dashRect.left;
+        const relLeft = wrapperRect.left - dashRect.left;
+        const relRight = relLeft + wrapperRect.width;
+        const rulerLine = document.getElementById('fb-ruler-line');
+        const rulerLabel = document.getElementById('fb-ruler-label');
+
+        if(x >= relLeft && x <= relRight) {
+            rulerLine.style.display = 'block';
+            rulerLine.style.left = x + 'px';
+            const pct = (e.clientX - wrapperRect.left) / wrapperRect.width;
+            rulerLabel.textContent = pct.toFixed(2);
+        } else {
+            rulerLine.style.display = 'none';
+        }
+    });
+
+    fb_dashboard.addEventListener('mouseleave', () => {
+        if(fb_rulerOn) document.getElementById('fb-ruler-line').style.display = 'none';
+    });
+
+    // Total toggle
+    document.getElementById('fb-total-toggle').addEventListener('change', (e) => {
+        const el = document.getElementById('fb-total-display');
+        if(e.target.checked) el.classList.remove('fb-hidden');
+        else el.classList.add('fb-hidden');
+    });
+
     // FIX 4: Clean initialization — set state directly, no double-toggle hack
     (function init() {
         // Ensure state matches the DOM defaults
@@ -1107,6 +1821,8 @@
         
         updateLab();
         lcd_init();
+        simp_update();
+        fb_addBar(1);
     })();
 
 </script>
