@@ -192,7 +192,7 @@
         .res-container { 
             min-width: 90px; 
             display: flex; 
-            flex-direction: column; /* CRITICAL FIX: Stacks items vertically */
+            flex-direction: column; /* This fixes the "1320" horizontal issue */
             align-items: center; 
             justify-content: center;
         }
@@ -250,9 +250,9 @@
         .sub-line { stroke: var(--c-gold); stroke-width: 2px; stroke-dasharray: 4 3; opacity: 0; transition: opacity 0.5s; }
         .show-common .sub-line { opacity: 1; }
 
-        /* Number Line Specifics */
-        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 13px; fill: var(--text-muted); font-weight: 500; }
-        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: bold; fill: var(--text-main); }
+        /* Number Line Specifics - IMPROVED LABELS */
+        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 14px; fill: var(--text-muted); font-weight: 500; }
+        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: bold; fill: var(--text-main); }
 
         /* --- LCD CHART STYLES --- */
         .chart-container { overflow-x: auto; max-width: 100%; padding: 10px; }
@@ -281,6 +281,24 @@
             background: var(--c-gold-light); border: 2px solid var(--c-gold);
             border-radius: 12px; padding: 15px; margin-bottom: 20px;
             width: 100%; max-width: 500px; text-align: center; display: none;
+        }
+
+        /* LCD Explainer */
+        .explainer {
+            max-width: 600px; width: 100%; margin-top: 20px;
+            border-radius: 12px; background: white; border: 1px solid var(--border); overflow: hidden;
+        }
+        .explainer-toggle {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 18px; cursor: pointer;
+            font-family: 'Fredoka', sans-serif; font-weight: 600;
+            background: #f9f9f9; color: var(--text-muted);
+        }
+        .explainer-content { padding: 15px; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.6; }
+        .step-num { 
+            display: inline-block; background: var(--c-gold); color: #3e2723; 
+            width: 20px; height: 20px; border-radius: 50%; 
+            text-align: center; line-height: 20px; font-weight: bold; font-size: 12px; margin-right: 5px; 
         }
 
     </style>
@@ -390,6 +408,17 @@
 
         <div class="chart-container">
             <table class="mult-chart" id="lcd-table"></table>
+        </div>
+
+        <div class="explainer">
+            <div class="explainer-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display==='none'?'block':'none'">
+                <span>How to Find the LCD</span> <span>▼</span>
+            </div>
+            <div class="explainer-content" style="display:none">
+                <p><span class="step-num">1</span> <strong>Check:</strong> Does the smaller number divide into the bigger one? If yes, the bigger number is the LCD! (e.g. 2 and 6 -> LCD is 6).</p>
+                <p style="margin-top:8px;"><span class="step-num">2</span> <strong>If not:</strong> List the multiples of each until you find a match. (e.g. 4 and 6 -> 4, 8, 12... vs 6, 12... Match at 12).</p>
+                <p style="margin-top:8px;"><span class="step-num">3</span> <strong>Shortcut:</strong> If they share no factors, just multiply them. (e.g. 3 and 5 -> 15).</p>
+            </div>
         </div>
     </div>
 
@@ -574,7 +603,7 @@
                 if(i < n) rect.setAttribute("class", colorCls);
                 else rect.setAttribute("fill", "white");
                 
-                // Interaction
+                // Interaction - FIXED: Always enabled
                 rect.style.cursor = "pointer";
                 rect.onclick = () => {
                     // If clicking a filled part -> sub. If empty -> add (if mode matches)
@@ -594,7 +623,7 @@
                         l.setAttribute("x1", x); l.setAttribute("x2", x);
                         l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
                         l.setAttribute("class", "sub-line");
-                        l.style.pointerEvents = "none"; // Pass clicks through
+                        l.style.pointerEvents = "none"; 
                         svg.appendChild(l);
                     }
                 }
@@ -607,7 +636,7 @@
         // 2. Blue Bar
         drawBar(state.n2, state.d2, 'fill-blue', 2);
         
-        // 3. Result Bar (Stacked/Overflow)
+        // 3. Result Bar (Stacked/Overflow Fix)
         const drawResult = () => {
              const w = 600; const h = 50; const gap = 15;
              const val1 = state.n1/state.d1; 
@@ -616,6 +645,7 @@
              const wholes = Math.ceil(Math.max(1, total));
              const svgNS = "http://www.w3.org/2000/svg";
              
+             // Calculate SVG height to fit stacked bars
              const totalH = (h * wholes) + (gap * (wholes-1)) + 20;
              const svg = document.createElementNS(svgNS, "svg");
              svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${w+4} ${totalH}`);
@@ -644,14 +674,17 @@
                      remG -= gInRow; if(remG < 0.001) remG = 0;
                  }
 
-                 // Blue
+                 // Blue (Only fill what's left in this row)
                  if(remB > 0 && gInRow < 1.0) {
-                     let bInRow = Math.min(remB, 1.0 - gInRow);
+                     let spaceLeft = 1.0 - gInRow;
+                     let bInRow = Math.min(remB, spaceLeft);
+                     
                      const rB = document.createElementNS(svgNS, "rect");
                      rB.setAttribute("x", gInRow*w); rB.setAttribute("y", y);
                      rB.setAttribute("width", bInRow*w); rB.setAttribute("height", h);
                      rB.setAttribute("class", "fill-blue");
                      svg.appendChild(rB);
+                     
                      remB -= bInRow; if(remB < 0.001) remB = 0;
                  }
 
@@ -668,7 +701,7 @@
                      }
                  } else {
                      // Split Line
-                     if(gInRow > 0 && gInRow < 1) {
+                     if(gInRow > 0.001 && gInRow < 0.999) {
                          const x = gInRow*w;
                          const l = document.createElementNS(svgNS, "line");
                          l.setAttribute("x1", x); l.setAttribute("x2", x);
@@ -764,7 +797,7 @@
             tick.setAttribute("stroke", "#37474f");
             svg.appendChild(tick);
 
-            // Small Fraction Label (FIXED: Ensure visibility)
+            // Small Fraction Label (FIXED: Improved visibility and placement)
             const smTxt = document.createElementNS(svgNS, "text");
             smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
             smTxt.setAttribute("text-anchor", "middle");
@@ -877,7 +910,7 @@
         const narr = document.getElementById('narration');
         const btn = document.getElementById('lcd-btn-anim');
 
-        // FIXED: Click 3rd resets
+        // FIXED: Clicking a 3rd number now instantly resets and selects the new one
         if(lcd_selA !== null && lcd_selB !== null) {
             lcd_reset();
         }
