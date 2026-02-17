@@ -188,11 +188,11 @@
         .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; opacity: 0.8; }
         .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; font-weight: 300; }
 
-        /* Result Styles - FIXED NOTATION */
+        /* Result Styles */
         .res-container { 
             min-width: 90px; 
             display: flex; 
-            flex-direction: column; /* This fixes the "1320" horizontal issue */
+            flex-direction: column;
             align-items: center; 
             justify-content: center;
         }
@@ -202,6 +202,21 @@
             font-weight: bold; 
             color: var(--text-main); 
             line-height: 1.1;
+        }
+
+        /* Simplified result */
+        .simplified-badge {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--c-gold);
+            background: var(--c-gold-light);
+            border: 1px solid var(--c-gold);
+            border-radius: 20px;
+            padding: 3px 12px;
+            margin-top: 6px;
+            display: none;
+            white-space: nowrap;
         }
 
         /* Ghost Labels (LCD Hints) */
@@ -250,7 +265,7 @@
         .sub-line { stroke: var(--c-gold); stroke-width: 2px; stroke-dasharray: 4 3; opacity: 0; transition: opacity 0.5s; }
         .show-common .sub-line { opacity: 1; }
 
-        /* Number Line Specifics - IMPROVED LABELS */
+        /* Number Line Specifics */
         .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 14px; fill: var(--text-muted); font-weight: 500; }
         .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: bold; fill: var(--text-main); }
 
@@ -356,6 +371,7 @@
                         <span id="rd" class="res-text">4</span>
                     </div>
                     <div id="res-unknown" class="res-text" style="display:none; color:#ccc;">?</div>
+                    <div id="simplified-badge" class="simplified-badge"></div>
                 </div>
             </div>
 
@@ -415,9 +431,9 @@
                 <span>How to Find the LCD</span> <span>▼</span>
             </div>
             <div class="explainer-content" style="display:none">
-                <p><span class="step-num">1</span> <strong>Check:</strong> Does the smaller number divide into the bigger one? If yes, the bigger number is the LCD! (e.g. 2 and 6 -> LCD is 6).</p>
-                <p style="margin-top:8px;"><span class="step-num">2</span> <strong>If not:</strong> List the multiples of each until you find a match. (e.g. 4 and 6 -> 4, 8, 12... vs 6, 12... Match at 12).</p>
-                <p style="margin-top:8px;"><span class="step-num">3</span> <strong>Shortcut:</strong> If they share no factors, just multiply them. (e.g. 3 and 5 -> 15).</p>
+                <p><span class="step-num">1</span> <strong>Check:</strong> Does the smaller number divide into the bigger one? If yes, the bigger number is the LCD! (e.g. 2 and 6 → LCD is 6).</p>
+                <p style="margin-top:8px;"><span class="step-num">2</span> <strong>If not:</strong> List the multiples of each until you find a match. (e.g. 4 and 6 → 4, 8, 12... vs 6, 12... Match at 12).</p>
+                <p style="margin-top:8px;"><span class="step-num">3</span> <strong>Shortcut:</strong> If they share no factors, just multiply them. (e.g. 3 and 5 → 15).</p>
             </div>
         </div>
     </div>
@@ -438,7 +454,7 @@
     // =====================================================
     let state = {
         n1: 1, d1: 4,
-        n2: 2, d2: 5,
+        n2: 1, d2: 4,
         paintMode: 'a', // 'a' (green) or 'b' (blue)
         unlikeMode: false,
         showCommon: false
@@ -464,7 +480,7 @@
 
     function toggleUnlikeMode() {
         state.unlikeMode = !state.unlikeMode;
-        state.showCommon = false; // Reset common grid on toggle
+        state.showCommon = false;
         
         const toggleEl = document.getElementById('mode-toggle');
         const d2Input = document.getElementById('d2');
@@ -479,11 +495,11 @@
         } else {
             toggleEl.classList.remove('active');
             d2Input.disabled = true;
-            // Sync D2 to D1 immediately
             state.d2 = state.d1;
             d2Input.value = state.d1;
             commonBtn.style.display = 'none';
         }
+        document.getElementById('tab-fractions').classList.remove('show-common');
         updateLab();
     }
 
@@ -510,7 +526,6 @@
 
         if(which === 1) {
             state.d1 = v;
-            // If in like mode, sync d2
             if(!state.unlikeMode) {
                 state.d2 = v;
                 document.getElementById('d2').value = v;
@@ -542,16 +557,54 @@
         // Result Logic
         const resFinal = document.getElementById('res-final');
         const resUnk = document.getElementById('res-unknown');
+        const simplBadge = document.getElementById('simplified-badge');
         
-        // Show result if denominators match OR common grid is ON
         if(state.d1 === state.d2 || state.showCommon) {
             resFinal.style.display = 'flex';
             resUnk.style.display = 'none';
-            document.getElementById('rn').innerText = n1_conv + n2_conv;
+            
+            const sumNum = n1_conv + n2_conv;
+            document.getElementById('rn').innerText = sumNum;
             document.getElementById('rd').innerText = cd;
+
+            // FIX 5: Show simplified form
+            const g = gcd(Math.abs(sumNum), cd);
+            const simpNum = sumNum / g;
+            const simpDen = cd / g;
+            
+            if(g > 1 && sumNum > 0) {
+                if(simpDen === 1) {
+                    simplBadge.innerText = `= ${simpNum}`;
+                } else {
+                    const wholepart = Math.floor(simpNum / simpDen);
+                    const remainder = simpNum % simpDen;
+                    if(wholepart >= 1 && remainder > 0) {
+                        simplBadge.innerText = `= ${wholepart} ${remainder}/${simpDen}`;
+                    } else {
+                        simplBadge.innerText = `= ${simpNum}/${simpDen}`;
+                    }
+                }
+                simplBadge.style.display = 'inline-block';
+            } else if(sumNum > 0 && sumNum > cd) {
+                // Not reducible but improper — show mixed number
+                const wholepart = Math.floor(sumNum / cd);
+                const remainder = sumNum % cd;
+                if(wholepart >= 1 && remainder > 0) {
+                    simplBadge.innerText = `= ${wholepart} ${remainder}/${cd}`;
+                    simplBadge.style.display = 'inline-block';
+                } else if(remainder === 0) {
+                    simplBadge.innerText = `= ${wholepart}`;
+                    simplBadge.style.display = 'inline-block';
+                } else {
+                    simplBadge.style.display = 'none';
+                }
+            } else {
+                simplBadge.style.display = 'none';
+            }
         } else {
             resFinal.style.display = 'none';
             resUnk.style.display = 'block';
+            simplBadge.style.display = 'none';
         }
 
         renderBars(cd);
@@ -559,14 +612,14 @@
         renderLine(cd);
     }
 
-    function clickPiece(whichFrac, operation) {
-        // Operation: 'add' or 'sub'
-        if(whichFrac === 1) {
-            if(operation === 'add' && state.paintMode === 'a') state.n1++;
-            else if(operation === 'sub') state.n1 = Math.max(0, state.n1 - 1);
+    // FIX 1: Reworked click logic — clicking directly adds/removes from the correct fraction
+    function clickPiece(fracId, operation) {
+        if(fracId === 1) {
+            if(operation === 'add') state.n1++;
+            else state.n1 = Math.max(0, state.n1 - 1);
         } else {
-             if(operation === 'add' && state.paintMode === 'b') state.n2++;
-             else if(operation === 'sub') state.n2 = Math.max(0, state.n2 - 1);
+            if(operation === 'add') state.n2++;
+            else state.n2 = Math.max(0, state.n2 - 1);
         }
         document.getElementById('n1').value = state.n1;
         document.getElementById('n2').value = state.n2;
@@ -579,7 +632,6 @@
         const container = document.getElementById('vis-bars');
         container.innerHTML = '';
 
-        // Helper to draw interactive bar
         const drawBar = (n, d, colorCls, fracId) => {
             const w = 600; const h = 50;
             const svgNS = "http://www.w3.org/2000/svg";
@@ -589,7 +641,6 @@
             const svg = document.createElementNS(svgNS, "svg");
             svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${totalW} ${h+20}`);
             
-            // Draw Interactive Segments
             for(let i=0; i<wholes*d; i++) {
                 const segW = w/d;
                 const x = i * segW;
@@ -599,14 +650,11 @@
                 rect.setAttribute("width", segW); rect.setAttribute("height", h);
                 rect.setAttribute("stroke", "#37474f"); rect.setAttribute("stroke-width", 2);
                 
-                // Fill logic
                 if(i < n) rect.setAttribute("class", colorCls);
                 else rect.setAttribute("fill", "white");
                 
-                // Interaction - FIXED: Always enabled
                 rect.style.cursor = "pointer";
                 rect.onclick = () => {
-                    // If clicking a filled part -> sub. If empty -> add (if mode matches)
                     if(i < n) clickPiece(fracId, 'sub');
                     else clickPiece(fracId, 'add');
                 };
@@ -618,7 +666,7 @@
             if(state.showCommon && cd !== d) {
                 for(let i=1; i<wholes*cd; i++) {
                     const x = i * (w/cd);
-                    if((i*d)%cd !== 0) { // Don't overlay existing lines
+                    if((i*d)%cd !== 0) {
                         const l = document.createElementNS(svgNS, "line");
                         l.setAttribute("x1", x); l.setAttribute("x2", x);
                         l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
@@ -631,12 +679,10 @@
             container.appendChild(svg);
         };
 
-        // 1. Green Bar
         drawBar(state.n1, state.d1, 'fill-green', 1);
-        // 2. Blue Bar
         drawBar(state.n2, state.d2, 'fill-blue', 2);
         
-        // 3. Result Bar (Stacked/Overflow Fix)
+        // Result Bar
         const drawResult = () => {
              const w = 600; const h = 50; const gap = 15;
              const val1 = state.n1/state.d1; 
@@ -645,7 +691,6 @@
              const wholes = Math.ceil(Math.max(1, total));
              const svgNS = "http://www.w3.org/2000/svg";
              
-             // Calculate SVG height to fit stacked bars
              const totalH = (h * wholes) + (gap * (wholes-1)) + 20;
              const svg = document.createElementNS(svgNS, "svg");
              svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${w+4} ${totalH}`);
@@ -655,7 +700,6 @@
 
              for(let r=0; r<wholes; r++){
                  const y = 10 + r*(h+gap);
-                 // Frame
                  const frame = document.createElementNS(svgNS, "rect");
                  frame.setAttribute("x", 0); frame.setAttribute("y", y);
                  frame.setAttribute("width", w); frame.setAttribute("height", h);
@@ -663,7 +707,6 @@
                  frame.setAttribute("fill", "white");
                  svg.appendChild(frame);
 
-                 // Green
                  let gInRow = Math.min(remG, 1.0);
                  if(gInRow > 0) {
                      const rG = document.createElementNS(svgNS, "rect");
@@ -674,7 +717,6 @@
                      remG -= gInRow; if(remG < 0.001) remG = 0;
                  }
 
-                 // Blue (Only fill what's left in this row)
                  if(remB > 0 && gInRow < 1.0) {
                      let spaceLeft = 1.0 - gInRow;
                      let bInRow = Math.min(remB, spaceLeft);
@@ -688,7 +730,6 @@
                      remB -= bInRow; if(remB < 0.001) remB = 0;
                  }
 
-                 // Grid Lines
                  if(state.showCommon) {
                      for(let i=1; i<cd; i++) {
                          const x = i * (w/cd);
@@ -700,7 +741,6 @@
                          svg.appendChild(l);
                      }
                  } else {
-                     // Split Line
                      if(gInRow > 0.001 && gInRow < 0.999) {
                          const x = gInRow*w;
                          const l = document.createElementNS(svgNS, "line");
@@ -716,12 +756,14 @@
         drawResult();
     }
 
+    // FIX 2: Circle model now includes common grid overlay lines
     function renderPies(cd) {
         const container = document.getElementById('vis-pies');
         container.innerHTML = '';
         
+        const svgNS = "http://www.w3.org/2000/svg";
+
         const drawPie = (n, d, colorCls, fracId) => {
-            const svgNS = "http://www.w3.org/2000/svg";
             const wholes = Math.ceil(Math.max(1, n/d));
             
             for(let w=0; w<wholes; w++) {
@@ -730,6 +772,7 @@
                 svg.setAttribute("viewBox", "-5 -5 110 110");
                 const cx=50, cy=50, r=50;
 
+                // Draw the main slices
                 for(let i=0; i<d; i++) {
                     const absIdx = (w*d) + i;
                     const startA = (i*360/d) - 90;
@@ -753,6 +796,28 @@
                     };
                     svg.appendChild(path);
                 }
+
+                // FIX 2: Common grid overlay — draw subdivision lines for the LCD
+                if(state.showCommon && cd !== d) {
+                    for(let i=0; i<cd; i++) {
+                        // Only draw lines that don't already exist from the main slices
+                        if((i * d) % cd !== 0) {
+                            const angle = (i * 360 / cd) - 90;
+                            const lx = cx + r * Math.cos(angle * Math.PI / 180);
+                            const ly = cy + r * Math.sin(angle * Math.PI / 180);
+                            
+                            const line = document.createElementNS(svgNS, "line");
+                            line.setAttribute("x1", cx);
+                            line.setAttribute("y1", cy);
+                            line.setAttribute("x2", lx);
+                            line.setAttribute("y2", ly);
+                            line.setAttribute("class", "sub-line");
+                            line.style.pointerEvents = "none";
+                            svg.appendChild(line);
+                        }
+                    }
+                }
+
                 container.appendChild(svg);
             }
         };
@@ -761,11 +826,11 @@
         drawPie(state.n2, state.d2, 'fill-blue', 2);
     }
 
+    // FIX 3: Number line with smart label filtering for large LCDs
     function renderLine(cd) {
         const container = document.getElementById('vis-line');
         container.innerHTML = '';
         
-        // Always show ticks for the CD so alignment is obvious
         const tickD = cd;
         
         const val1 = state.n1/state.d1; 
@@ -773,13 +838,24 @@
         const total = val1 + val2;
         const wholes = Math.ceil(Math.max(1, total));
         
-        const w = Math.max(800, wholes * 400);
+        // Calculate smart label interval based on LCD size
+        // If there are too many ticks, only label every Nth one
+        const totalTicks = wholes * tickD;
+        let labelInterval = 1;
+        if(totalTicks > 40) labelInterval = 5;
+        else if(totalTicks > 24) labelInterval = 3;
+        else if(totalTicks > 16) labelInterval = 2;
+        
+        const minW = 800;
+        const pixelsPerTick = Math.max(30, minW / totalTicks); // At least 30px per tick
+        const w = Math.max(minW, totalTicks * pixelsPerTick + 80);
+        
         const svgNS = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(svgNS, "svg");
         svg.setAttribute("width", w); svg.setAttribute("height", "120");
         
         const margin = 40; const lineY = 60; const effW = w - 2*margin;
-        const step = effW / (wholes * tickD);
+        const step = effW / totalTicks;
 
         // Main line
         const line = document.createElementNS(svgNS, "line");
@@ -788,7 +864,7 @@
         line.setAttribute("stroke", "#37474f"); line.setAttribute("stroke-width", 2);
         svg.appendChild(line);
 
-        for(let i=0; i<=wholes*tickD; i++){
+        for(let i=0; i<=totalTicks; i++){
             const x = margin + i*step;
             const isWhole = i % tickD === 0;
             const tick = document.createElementNS(svgNS, "line");
@@ -797,15 +873,18 @@
             tick.setAttribute("stroke", "#37474f");
             svg.appendChild(tick);
 
-            // Small Fraction Label (FIXED: Improved visibility and placement)
-            const smTxt = document.createElementNS(svgNS, "text");
-            smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
-            smTxt.setAttribute("text-anchor", "middle");
-            smTxt.textContent = `${i}/${tickD}`;
-            smTxt.setAttribute("class", "nl-text-small");
-            svg.appendChild(smTxt);
+            // Smart fraction label — only show at intervals or at key positions
+            const showLabel = isWhole || (i % labelInterval === 0);
+            if(showLabel) {
+                const smTxt = document.createElementNS(svgNS, "text");
+                smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
+                smTxt.setAttribute("text-anchor", "middle");
+                smTxt.textContent = `${i}/${tickD}`;
+                smTxt.setAttribute("class", "nl-text-small");
+                svg.appendChild(smTxt);
+            }
 
-            // Large Integer Label
+            // Large Integer Label at whole numbers
             if(isWhole) {
                 const lgTxt = document.createElementNS(svgNS, "text");
                 lgTxt.setAttribute("x", x); lgTxt.setAttribute("y", lineY + 60);
@@ -910,7 +989,6 @@
         const narr = document.getElementById('narration');
         const btn = document.getElementById('lcd-btn-anim');
 
-        // FIXED: Clicking a 3rd number now instantly resets and selects the new one
         if(lcd_selA !== null && lcd_selB !== null) {
             lcd_reset();
         }
@@ -975,7 +1053,6 @@
             document.getElementById('lcd-btn-anim').disabled = true;
         }
 
-        // Clear All visual states
         document.querySelectorAll('.col-header').forEach(el => el.classList.remove('sel-green', 'sel-blue'));
         document.querySelectorAll('.data-cell').forEach(el => el.classList.remove('hl-green', 'hl-blue', 'lcd-match'));
     }
@@ -989,7 +1066,6 @@
         document.getElementById('challengeInput').value = '';
         document.getElementById('challengeFeedback').innerText = '';
         
-        // Hint: Highlight headers
         lcd_highlightCol(lcd_pair[0], 'sel-green');
         lcd_highlightCol(lcd_pair[1], 'sel-blue');
     }
@@ -1015,11 +1091,23 @@
         }
     }
 
-    // INIT
-    toggleUnlikeMode(); // Start in simple mode
-    toggleUnlikeMode(); // Toggle twice to ensure state
-    updateLab();
-    lcd_init();
+    // FIX 4: Clean initialization — set state directly, no double-toggle hack
+    (function init() {
+        // Ensure state matches the DOM defaults
+        state.unlikeMode = false;
+        state.showCommon = false;
+        state.n1 = parseInt(document.getElementById('n1').value) || 1;
+        state.n2 = parseInt(document.getElementById('n2').value) || 1;
+        state.d1 = parseInt(document.getElementById('d1').value) || 4;
+        state.d2 = state.d1; // Sync d2 to d1 in like-denom mode
+        document.getElementById('d2').value = state.d2;
+        document.getElementById('d2').disabled = true;
+        document.getElementById('mode-toggle').classList.remove('active');
+        document.getElementById('btn-common').style.display = 'none';
+        
+        updateLab();
+        lcd_init();
+    })();
 
 </script>
 </body>
