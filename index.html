@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            /* Theme Palette */
+            /* Palette */
             --c-green: #4CAF50;
             --c-green-light: #e8f5e9;
             --c-blue: #2196F3;
             --c-blue-light: #e3f2fd;
             --c-gold: #FFC107; 
             --c-gold-light: #fff8e1;
-            --c-red: #ef5350; /* For errors/resets */
+            --c-red: #ef5350; 
             
             --bg-body: #f0f4f8;
             --bg-card: #ffffff;
@@ -33,25 +33,27 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* --- HEADER --- */
         .header {
             width: 100%;
             background: white;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             border-bottom: 1px solid var(--border);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .header h1 {
             font-family: 'Fredoka', sans-serif;
             color: var(--text-main);
             letter-spacing: 0.5px;
+            font-size: 1.5rem;
         }
 
+        /* --- NAVIGATION --- */
         .main-nav {
             display: flex;
             gap: 10px;
@@ -64,7 +66,7 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 12px 25px;
+            padding: 10px 25px;
             font-family: 'Fredoka', sans-serif;
             font-size: 1rem;
             cursor: pointer;
@@ -79,7 +81,7 @@
         }
         .nav-tab:hover:not(.active) { color: var(--text-main); background: rgba(255,255,255,0.5); }
 
-        /* --- LAYOUT UTILS --- */
+        /* --- SECTIONS --- */
         .tool-section {
             display: none;
             width: 100%;
@@ -92,9 +94,10 @@
         .tool-section.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* --- DASHBOARD & CONTROLS --- */
         .dashboard {
             background: var(--bg-card);
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.05);
             width: 100%;
@@ -106,16 +109,48 @@
             border: 1px solid white;
         }
 
-        h2 { font-family: 'Fredoka', sans-serif; color: var(--text-main); margin-bottom: 5px; }
-        p.subtitle { color: var(--text-muted); margin-bottom: 10px; text-align: center; max-width: 650px; line-height: 1.5; }
+        .controls-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
 
-        /* --- COMMON INPUTS --- */
+        /* Toggle Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #eceff1;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .switch-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+        .toggle-switch {
+            position: relative; width: 44px; height: 24px;
+            background: #b0bec5; border-radius: 20px; transition: 0.3s;
+        }
+        .toggle-switch::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; background: white; border-radius: 50%;
+            transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .switch-container.active .toggle-switch { background: var(--c-gold); }
+        .switch-container.active .toggle-switch::after { transform: translateX(20px); }
+        .switch-container.active .switch-label { color: #3e2723; }
+
+        /* --- INPUTS --- */
         .equation-wrapper {
             display: flex;
             align-items: center;
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            margin-top: 10px;
         }
         .frac-group {
             display: flex;
@@ -144,26 +179,33 @@
             transition: all 0.2s;
         }
         .frac-input:focus { outline: none; border-color: var(--text-muted); }
+        .frac-input:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; }
+        
         .input-green { color: var(--c-green); }
         .input-blue { color: var(--c-blue); }
 
         .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; opacity: 0.8; }
         .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; font-weight: 300; }
 
+        /* Result Styles */
+        .res-container { min-width: 90px; display: flex; flex-direction: column; align-items: center; }
+        .res-text { font-size: 2.5rem; font-weight: bold; color: var(--text-main); }
+
+        /* Ghost Labels (LCD Hints) */
+        .ghost-label {
+            position: absolute; top: -35px;
+            background: var(--c-gold); color: #3e2723;
+            padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;
+            opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap;
+        }
+        .show-common .ghost-label { opacity: 1; transform: translateY(0); }
+
         /* --- BUTTONS --- */
         .btn {
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 8px 20px; border-radius: 30px; font-family: 'Fredoka', sans-serif; font-weight: 600;
+            cursor: pointer; border: none; transition: all 0.2s; font-size: 0.95rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn:hover:not(:disabled) { transform: translateY(-2px); }
@@ -176,92 +218,37 @@
         /* --- VISUALS --- */
         .vis-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .vis-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 25px;
+            background: var(--bg-card); border-radius: 16px; padding: 25px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
             border: 1px solid #eceff1;
         }
         .vis-label {
-            font-family: 'Fredoka', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 20px;
+            font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;
+            font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 20px;
         }
 
-        /* --- TAB 1 & 2 SPECIFIC SVG STYLES --- */
+        /* SVG Styles */
         svg { overflow: visible; }
-        .svg-text-bold { font-family: 'Fredoka', sans-serif; fill: var(--text-main); font-weight: bold; font-size: 24px; }
-        
         .shape-stroke { stroke: var(--text-main); stroke-width: 2px; }
         .fill-empty { fill: white; }
         .fill-green { fill: var(--c-green); }
         .fill-blue { fill: var(--c-blue); }
-
-        /* Unlike Grid Specifics */
-        .ghost-label {
-            position: absolute; top: -35px;
-            background: var(--c-gold); color: #3e2723;
-            padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;
-            opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .show-common .ghost-label { opacity: 1; transform: translateY(0); }
         .sub-line { stroke: var(--c-gold); stroke-width: 2px; stroke-dasharray: 4 3; opacity: 0; transition: opacity 0.5s; }
         .show-common .sub-line { opacity: 1; }
 
-        /* --- TAB 3: LCD FINDER SPECIFIC --- */
-        .lcd-controls { display: flex; gap: 6px; margin-bottom: 15px; }
-        .lcd-mode-btn {
-            padding: 6px 16px;
-            border: 2px solid var(--c-gold);
-            background: transparent;
-            color: #f57f17; /* darker gold text */
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .lcd-mode-btn.active { background: var(--c-gold); color: #3e2723; }
+        /* Number Line Specifics */
+        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 12px; fill: var(--text-muted); }
+        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: bold; fill: var(--text-main); }
 
-        .challenge-box {
-            background: var(--c-gold-light);
-            border: 2px solid var(--c-gold);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px 0 20px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            display: none;
-        }
-        .challenge-input {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.2rem;
-            width: 80px;
-            text-align: center;
-        }
-
+        /* --- LCD CHART STYLES --- */
         .chart-container { overflow-x: auto; max-width: 100%; padding: 10px; }
         .mult-chart { border-collapse: separate; border-spacing: 3px; margin: 0 auto; }
         .mult-chart td, .mult-chart th {
             width: 42px; height: 42px; text-align: center;
             font-family: 'Fredoka', sans-serif; font-size: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
+            border-radius: 6px; cursor: pointer; transition: all 0.2s;
         }
-        
         .col-header { background: #eceff1; color: var(--text-muted); font-weight: bold; }
         .col-header:hover { background: #cfd8dc; }
         .col-header.sel-green { background: var(--c-green); color: white; transform: scale(1.1); box-shadow: 0 4px 10px rgba(76,175,80,0.3); }
@@ -276,41 +263,11 @@
             box-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
             border: 2px solid white;
         }
-
-        .narration {
-            background: #eceff1;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-family: 'Fredoka', sans-serif;
-            color: var(--text-main);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .explainer {
-            max-width: 600px;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 12px;
-            background: white;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-        .explainer-toggle {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 18px; cursor: pointer;
-            font-family: 'Fredoka', sans-serif; font-weight: 600;
-            background: #f9f9f9; color: var(--text-muted);
-        }
-        .explainer-content { padding: 15px; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.6; }
-        .step-num { 
-            display: inline-block; background: var(--c-gold); color: #3e2723; 
-            width: 20px; height: 20px; border-radius: 50%; 
-            text-align: center; line-height: 20px; font-weight: bold; font-size: 12px; margin-right: 5px; 
+        
+        .challenge-box {
+            background: var(--c-gold-light); border: 2px solid var(--c-gold);
+            border-radius: 12px; padding: 15px; margin-bottom: 20px;
+            width: 100%; max-width: 500px; text-align: center; display: none;
         }
 
     </style>
@@ -322,129 +279,94 @@
     </div>
 
     <div class="main-nav">
-        <button class="nav-tab active" onclick="switchTab('tab-like')">Visual Painter</button>
-        <button class="nav-tab" onclick="switchTab('tab-unlike')">Unlike Grids</button>
+        <button class="nav-tab active" onclick="switchTab('tab-fractions')">Fraction Lab</button>
         <button class="nav-tab" onclick="switchTab('tab-lcd')">LCD Finder</button>
     </div>
 
-    <div id="tab-like" class="tool-section active">
-        <h2>Like Fractions</h2>
-        <p class="subtitle">Paint the shapes. Notice how the denominator (total pieces) stays the same.</p>
-
+    <div id="tab-fractions" class="tool-section active">
+        
         <div class="dashboard">
-            <div style="display:flex; gap:15px; margin-bottom:15px;">
-                <button id="l-btn-a" class="btn btn-green" onclick="like_setPaintMode('a')">Paint Green</button>
-                <button id="l-btn-b" class="btn btn-outline" onclick="like_setPaintMode('b')">Paint Blue</button>
+            
+            <div class="controls-row">
+                <div style="display:flex; gap:10px;">
+                    <button id="btn-paint-a" class="btn btn-green" onclick="setPaintMode('a')">Paint Green</button>
+                    <button id="btn-paint-b" class="btn btn-outline" onclick="setPaintMode('b')">Paint Blue</button>
+                </div>
+
+                <div class="switch-container" id="mode-toggle" onclick="toggleUnlikeMode()">
+                    <span class="switch-label">Different Denominators</span>
+                    <div class="toggle-switch"></div>
+                </div>
             </div>
 
             <div class="equation-wrapper">
-                <div class="frac-group focus-green" id="l-grp-1">
-                    <input type="number" id="l-n1" class="frac-input input-green" value="1" min="0" oninput="like_update()">
+                <div class="frac-group focus-green" id="grp-1">
+                    <div class="ghost-label" id="ghost-1"></div>
+                    <input type="number" id="n1" class="frac-input input-green" value="1" min="0" oninput="updateLab()">
                     <div class="frac-bar"></div>
-                    <input type="number" id="l-d1" class="frac-input" value="5" min="1" max="12" oninput="like_denomChange(this.value)">
+                    <input type="number" id="d1" class="frac-input" value="4" min="1" max="12" oninput="handleDenomChange(1, this.value)">
                 </div>
+
                 <div class="operator">+</div>
-                <div class="frac-group" id="l-grp-2">
-                    <input type="number" id="l-n2" class="frac-input input-blue" value="2" min="0" oninput="like_update()">
+
+                <div class="frac-group" id="grp-2">
+                    <div class="ghost-label" id="ghost-2"></div>
+                    <input type="number" id="n2" class="frac-input input-blue" value="1" min="0" oninput="updateLab()">
                     <div class="frac-bar"></div>
-                    <input type="number" id="l-d2" class="frac-input" value="5" disabled style="background:#f5f5f5; color:#aaa">
+                    <input type="number" id="d2" class="frac-input" value="4" min="1" max="12" oninput="handleDenomChange(2, this.value)" disabled>
                 </div>
+
                 <div class="operator">=</div>
-                <div class="frac-group">
-                    <span id="l-rn" class="frac-input" style="border:none; background:transparent; font-size:2.5rem;">3</span>
-                    <div class="frac-bar"></div>
-                    <span id="l-rd" class="frac-input" style="border:none; background:transparent; font-size:2.5rem;">5</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="vis-container">
-            <div class="vis-card">
-                <div class="vis-label">Bar Model (Click to paint)</div>
-                <div id="like-bars" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:10px;"></div>
-            </div>
-            <div class="vis-card">
-                <div class="vis-label">Circle Model</div>
-                <div id="like-pies" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;"></div>
-            </div>
-            <div class="vis-card">
-                <div class="vis-label">Number Line</div>
-                <div id="like-line" style="width:100%; overflow-x:auto; padding-bottom:10px;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-unlike" class="tool-section">
-        <h2>Unlike Fractions</h2>
-        <p class="subtitle">Different sizes don't fit? Turn on the "Common Grid" to see the equivalence.</p>
-
-        <div class="dashboard">
-            <div class="equation-wrapper" id="unlike-eq-wrapper">
-                <div class="frac-group">
-                    <div class="ghost-label" id="u-ghost-1">3/6</div>
-                    <input type="number" id="u-n1" class="frac-input input-green" value="1" min="0" oninput="unlike_update()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="u-d1" class="frac-input" value="2" min="1" max="12" oninput="unlike_update()">
-                </div>
-                <div class="operator">+</div>
-                <div class="frac-group">
-                    <div class="ghost-label" id="u-ghost-2">2/6</div>
-                    <input type="number" id="u-n2" class="frac-input input-blue" value="1" min="0" oninput="unlike_update()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="u-d2" class="frac-input" value="3" min="1" max="12" oninput="unlike_update()">
-                </div>
-                <div class="operator">=</div>
-                <div class="frac-group" style="width:100px;">
-                    <div id="u-res-final" style="display:none; text-align:center;">
-                        <span id="u-rn" style="font-size:2.5rem; font-weight:bold; color:var(--text-main)">5</span>
+                <div class="res-container">
+                    <div id="res-final">
+                        <span id="rn" class="res-text">2</span>
                         <div class="frac-bar"></div>
-                        <span id="u-rd" style="font-size:2.5rem; font-weight:bold; color:var(--text-main)">6</span>
+                        <span id="rd" class="res-text">4</span>
                     </div>
-                    <div id="u-res-unknown" style="font-size:3rem; color:#ccc; font-family:'Fredoka',sans-serif">?</div>
+                    <div id="res-unknown" class="res-text" style="display:none; color:#ccc;">?</div>
                 </div>
             </div>
 
-            <button class="btn btn-outline" id="btn-common" onclick="unlike_toggleCommon()" style="margin-top:20px;">
+            <button class="btn btn-gold" id="btn-common" onclick="toggleCommonGrid()" style="display:none; margin-top:10px;">
                 Show Common Grid
             </button>
         </div>
 
-        <div class="vis-container" id="unlike-vis-root">
+        <div class="vis-container" id="vis-root">
             <div class="vis-card">
-                <div class="vis-label">First Fraction</div>
-                <div id="u-svg-1" style="width:100%"></div>
+                <div class="vis-label">Bar Model (Click to Paint)</div>
+                <div id="vis-bars" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:15px;"></div>
             </div>
+            
             <div class="vis-card">
-                <div class="vis-label">Second Fraction</div>
-                <div id="u-svg-2" style="width:100%"></div>
+                <div class="vis-label">Circle Model (Click to Paint)</div>
+                <div id="vis-pies" style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center;"></div>
             </div>
+
             <div class="vis-card">
-                <div class="vis-label">Combined Result (Overflows if > 1)</div>
-                <div id="u-svg-3" style="width:100%"></div>
+                <div class="vis-label">Number Line</div>
+                <div id="vis-line" style="width:100%; overflow-x:auto; padding-bottom:10px;"></div>
             </div>
         </div>
     </div>
 
     <div id="tab-lcd" class="tool-section">
-        <h2>LCD Finder</h2>
-        <p class="subtitle">Find the multiples of two numbers to see where they match.</p>
-
-        <div class="lcd-controls">
-            <button class="lcd-mode-btn active" data-mode="explore" onclick="lcd_setMode('explore')">Explore</button>
-            <button class="lcd-mode-btn" data-mode="challenge" onclick="lcd_setMode('challenge')">Challenge</button>
+        
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <button class="btn btn-gold" id="btn-lcd-explore" onclick="lcd_setMode('explore')">Explore</button>
+            <button class="btn btn-outline" id="btn-lcd-challenge" onclick="lcd_setMode('challenge')">Challenge</button>
         </div>
 
         <div class="challenge-box" id="challengeBox">
-            <div id="challengePrompt" style="font-size:1.2rem; margin-bottom:10px;"></div>
-            <div>
-                <input type="number" id="challengeInput" class="challenge-input" placeholder="LCD?">
-                <button class="btn btn-gold" onclick="lcd_checkAnswer()">Check</button>
-            </div>
-            <div id="challengeFeedback" style="margin-top:8px; font-weight:bold; min-height:24px;"></div>
+            <p id="challengePrompt" style="font-size:1.2rem; margin-bottom:10px; font-family:'Fredoka',sans-serif;"></p>
+            <input type="number" id="challengeInput" class="frac-input" style="width:100px; display:inline-block; font-size:1.5rem;" placeholder="?">
+            <button class="btn btn-green" onclick="lcd_checkAnswer()">Check</button>
+            <div id="challengeFeedback" style="margin-top:10px; font-weight:bold; min-height:24px;"></div>
         </div>
 
-        <div class="dashboard">
-            <div class="narration" id="narration">
+        <div class="dashboard" id="lcd-dashboard">
+            <div id="narration" style="font-family:'Fredoka',sans-serif; font-size:1.1rem; color:var(--text-main); min-height:30px;">
                 Pick two denominators in the top row to start.
             </div>
             <div style="display:flex; gap:10px;">
@@ -456,427 +378,435 @@
         <div class="chart-container">
             <table class="mult-chart" id="lcd-table"></table>
         </div>
-
-        <div class="explainer">
-            <div class="explainer-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display==='none'?'block':'none'">
-                <span>How to Find the LCD</span> <span>▼</span>
-            </div>
-            <div class="explainer-content" style="display:none">
-                <p><span class="step-num">1</span> <strong>Check:</strong> Does the smaller number divide into the bigger one? If yes, the bigger number is the LCD! (e.g. 2 and 6 -> LCD is 6).</p>
-                <p style="margin-top:8px;"><span class="step-num">2</span> <strong>If not:</strong> List the multiples of each until you find a match. (e.g. 4 and 6 -> 4, 8, 12... vs 6, 12... Match at 12).</p>
-                <p style="margin-top:8px;"><span class="step-num">3</span> <strong>Shortcut:</strong> If they share no factors, just multiply them. (e.g. 3 and 5 -> 15).</p>
-            </div>
-        </div>
     </div>
 
 <script>
-    // --- GLOBAL ---
+    // --- GLOBAL NAV ---
     function switchTab(tabId) {
         document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
         
         document.getElementById(tabId).classList.add('active');
-        const index = ['tab-like','tab-unlike','tab-lcd'].indexOf(tabId);
-        document.querySelectorAll('.nav-tab')[index].classList.add('active');
+        const idx = tabId === 'tab-fractions' ? 0 : 1;
+        document.querySelectorAll('.nav-tab')[idx].classList.add('active');
     }
 
     // =====================================================
-    // LOGIC: LIKE FRACTIONS
+    // LOGIC: FRACTION LAB (Unified)
     // =====================================================
-    let l_n1 = 1, l_n2 = 2, l_den = 5;
-    let l_paintMode = 'a'; // 'a' (green) or 'b' (blue)
+    let state = {
+        n1: 1, d1: 4,
+        n2: 1, d2: 4,
+        paintMode: 'a', // 'a' (green) or 'b' (blue)
+        unlikeMode: false,
+        showCommon: false
+    };
 
-    function like_setPaintMode(mode) {
-        l_paintMode = mode;
-        const btnA = document.getElementById('l-btn-a');
-        const btnB = document.getElementById('l-btn-b');
-        const grp1 = document.getElementById('l-grp-1');
-        const grp2 = document.getElementById('l-grp-2');
+    // --- Interaction Handlers ---
+
+    function setPaintMode(mode) {
+        state.paintMode = mode;
+        const btnA = document.getElementById('btn-paint-a');
+        const btnB = document.getElementById('btn-paint-b');
+        const grp1 = document.getElementById('grp-1');
+        const grp2 = document.getElementById('grp-2');
 
         if(mode === 'a') {
-            btnA.className = 'btn btn-green';
-            btnB.className = 'btn btn-outline';
-            grp1.classList.add('focus-green');
-            grp2.classList.remove('focus-blue');
+            btnA.className = 'btn btn-green'; btnB.className = 'btn btn-outline';
+            grp1.classList.add('focus-green'); grp2.classList.remove('focus-blue');
         } else {
-            btnA.className = 'btn btn-outline';
-            btnB.className = 'btn btn-blue';
-            grp1.classList.remove('focus-green');
-            grp2.classList.add('focus-blue');
+            btnA.className = 'btn btn-outline'; btnB.className = 'btn btn-blue';
+            grp1.classList.remove('focus-green'); grp2.classList.add('focus-blue');
         }
     }
 
-    function like_denomChange(val) {
+    function toggleUnlikeMode() {
+        state.unlikeMode = !state.unlikeMode;
+        state.showCommon = false; // Reset common grid on toggle
+        
+        const toggleEl = document.getElementById('mode-toggle');
+        const d2Input = document.getElementById('d2');
+        const commonBtn = document.getElementById('btn-common');
+
+        if(state.unlikeMode) {
+            toggleEl.classList.add('active');
+            d2Input.disabled = false;
+            commonBtn.style.display = 'inline-block';
+            commonBtn.innerText = "Show Common Grid";
+            commonBtn.classList.remove('active');
+        } else {
+            toggleEl.classList.remove('active');
+            d2Input.disabled = true;
+            // Sync D2 to D1 immediately
+            state.d2 = state.d1;
+            d2Input.value = state.d1;
+            commonBtn.style.display = 'none';
+        }
+        updateLab();
+    }
+
+    function toggleCommonGrid() {
+        state.showCommon = !state.showCommon;
+        const btn = document.getElementById('btn-common');
+        const root = document.getElementById('tab-fractions');
+        
+        if(state.showCommon) {
+            btn.classList.add('active');
+            btn.innerText = "Hide Common Grid";
+            root.classList.add('show-common');
+        } else {
+            btn.classList.remove('active');
+            btn.innerText = "Show Common Grid";
+            root.classList.remove('show-common');
+        }
+        updateLab();
+    }
+
+    function handleDenomChange(which, val) {
         let v = parseInt(val) || 1;
         if(v > 12) v = 12; if(v < 1) v = 1;
-        l_den = v;
-        document.getElementById('l-d1').value = v;
-        document.getElementById('l-d2').value = v;
-        like_update();
-    }
 
-    function like_update() {
-        l_n1 = parseInt(document.getElementById('l-n1').value) || 0;
-        l_n2 = parseInt(document.getElementById('l-n2').value) || 0;
-        
-        const total = l_n1 + l_n2;
-        document.getElementById('l-rn').innerText = total;
-        document.getElementById('l-rd').innerText = l_den;
-
-        const wholes = Math.max(1, Math.ceil(total / l_den));
-        
-        like_renderBars(wholes);
-        like_renderPies(wholes);
-        like_renderLine(wholes);
-    }
-
-    function like_clickPiece(type) {
-        if(type === 'a' && l_n1 > 0) l_n1--;
-        else if(type === 'b' && l_n2 > 0) l_n2--;
-        else if(type === 'empty') {
-            if(l_paintMode === 'a') l_n1++; else l_n2++;
-        }
-        document.getElementById('l-n1').value = l_n1;
-        document.getElementById('l-n2').value = l_n2;
-        like_update();
-    }
-
-    function like_renderBars(wholes) {
-        const container = document.getElementById('like-bars');
-        container.innerHTML = '';
-        let c1 = l_n1, c2 = l_n2;
-
-        for(let w=0; w<wholes; w++){
-            const row = document.createElement('div');
-            // Simplified styling for JS generated visual
-            row.style.cssText = "display:flex; width:100%; max-width:600px; height:50px; border:2px solid var(--text-main); border-radius:8px; overflow:hidden; background:white; cursor:pointer;";
-
-            for(let i=0; i<l_den; i++){
-                const cell = document.createElement('div');
-                cell.style.cssText = "flex:1; border-right:1px solid var(--text-main); transition:background 0.1s;";
-                if(i===l_den-1) cell.style.borderRight = 'none';
-                
-                if(c1 > 0) { cell.style.background = 'var(--c-green)'; cell.onclick = () => like_clickPiece('a'); c1--; }
-                else if(c2 > 0) { cell.style.background = 'var(--c-blue)'; cell.onclick = () => like_clickPiece('b'); c2--; }
-                else { cell.style.background = 'white'; cell.onclick = () => like_clickPiece('empty'); }
-                
-                row.appendChild(cell);
+        if(which === 1) {
+            state.d1 = v;
+            // If in like mode, sync d2
+            if(!state.unlikeMode) {
+                state.d2 = v;
+                document.getElementById('d2').value = v;
             }
-            container.appendChild(row);
+        } else {
+            state.d2 = v;
         }
+        updateLab();
     }
 
-    function like_renderPies(wholes) {
-        const container = document.getElementById('like-pies');
+    // --- Main Update ---
+
+    const gcd = (a, b) => b == 0 ? a : gcd(b, a % b);
+    const lcm = (a, b) => (a * b) / gcd(a, b);
+
+    function updateLab() {
+        // Read numerators
+        state.n1 = parseInt(document.getElementById('n1').value) || 0;
+        state.n2 = parseInt(document.getElementById('n2').value) || 0;
+        
+        const cd = lcm(state.d1, state.d2);
+
+        // Update Ghost Labels
+        const n1_conv = state.n1 * (cd/state.d1);
+        const n2_conv = state.n2 * (cd/state.d2);
+        document.getElementById('ghost-1').innerText = `${n1_conv}/${cd}`;
+        document.getElementById('ghost-2').innerText = `${n2_conv}/${cd}`;
+
+        // Result Logic
+        const resFinal = document.getElementById('res-final');
+        const resUnk = document.getElementById('res-unknown');
+        
+        // Show result if denominators match OR common grid is ON
+        if(state.d1 === state.d2 || state.showCommon) {
+            resFinal.style.display = 'flex';
+            resUnk.style.display = 'none';
+            document.getElementById('rn').innerText = n1_conv + n2_conv;
+            document.getElementById('rd').innerText = cd;
+        } else {
+            resFinal.style.display = 'none';
+            resUnk.style.display = 'block';
+        }
+
+        renderBars(cd);
+        renderPies(cd);
+        renderLine(cd);
+    }
+
+    function clickPiece(whichFrac, operation) {
+        // Operation: 'add' or 'sub'
+        if(whichFrac === 1) {
+            if(operation === 'add' && state.paintMode === 'a') state.n1++;
+            else if(operation === 'sub') state.n1 = Math.max(0, state.n1 - 1);
+        } else {
+             if(operation === 'add' && state.paintMode === 'b') state.n2++;
+             else if(operation === 'sub') state.n2 = Math.max(0, state.n2 - 1);
+        }
+        document.getElementById('n1').value = state.n1;
+        document.getElementById('n2').value = state.n2;
+        updateLab();
+    }
+
+    // --- Renderers ---
+
+    function renderBars(cd) {
+        const container = document.getElementById('vis-bars');
         container.innerHTML = '';
-        let c1 = l_n1, c2 = l_n2;
 
-        for(let w=0; w<wholes; w++){
+        // Helper to draw interactive bar
+        const drawBar = (n, d, colorCls, fracId) => {
+            const w = 600; const h = 50;
             const svgNS = "http://www.w3.org/2000/svg";
-            const svg = document.createElementNS(svgNS, "svg");
-            svg.setAttribute("width", "120"); svg.setAttribute("height", "120");
-            svg.setAttribute("viewBox", "-5 -5 110 110");
+            const wholes = Math.ceil(Math.max(1, n/d));
+            const totalW = Math.max(w, w*(n/d)) + 10;
             
-            const cx = 50, cy = 50, r = 50;
-
-            for(let i=0; i<l_den; i++){
-                let cls = 'fill-empty', type = 'empty';
-                if(c1 > 0) { cls = 'fill-green'; type = 'a'; c1--; }
-                else if(c2 > 0) { cls = 'fill-blue'; type = 'b'; c2--; }
-
-                const startAngle = (i*360/l_den) - 90;
-                const endAngle = ((i+1)*360/l_den) - 90;
-                const x1 = cx + r * Math.cos(startAngle*Math.PI/180);
-                const y1 = cy + r * Math.sin(startAngle*Math.PI/180);
-                const x2 = cx + r * Math.cos(endAngle*Math.PI/180);
-                const y2 = cy + r * Math.sin(endAngle*Math.PI/180);
-                const large = (endAngle - startAngle) > 180 ? 1 : 0;
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${totalW} ${h+20}`);
+            
+            // Draw Interactive Segments
+            for(let i=0; i<wholes*d; i++) {
+                const segW = w/d;
+                const x = i * segW;
                 
-                const path = document.createElementNS(svgNS, "path");
-                path.setAttribute("d", `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
-                path.setAttribute("class", `shape-stroke ${cls}`);
-                path.onclick = () => like_clickPiece(type);
-                path.style.cursor = 'pointer';
-                svg.appendChild(path);
+                const rect = document.createElementNS(svgNS, "rect");
+                rect.setAttribute("x", x); rect.setAttribute("y", 10);
+                rect.setAttribute("width", segW); rect.setAttribute("height", h);
+                rect.setAttribute("stroke", "#37474f"); rect.setAttribute("stroke-width", 2);
+                
+                // Fill logic
+                if(i < n) rect.setAttribute("class", colorCls);
+                else rect.setAttribute("fill", "white");
+                
+                // Interaction
+                rect.style.cursor = "pointer";
+                rect.onclick = () => {
+                    // If clicking a filled part -> sub. If empty -> add (if mode matches)
+                    if(i < n) clickPiece(fracId, 'sub');
+                    else clickPiece(fracId, 'add');
+                };
+                
+                svg.appendChild(rect);
+            }
+
+            // Common Grid Overlay
+            if(state.showCommon && cd !== d) {
+                for(let i=1; i<wholes*cd; i++) {
+                    const x = i * (w/cd);
+                    if((i*d)%cd !== 0) { // Don't overlay existing lines
+                        const l = document.createElementNS(svgNS, "line");
+                        l.setAttribute("x1", x); l.setAttribute("x2", x);
+                        l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
+                        l.setAttribute("class", "sub-line");
+                        l.style.pointerEvents = "none"; // Pass clicks through
+                        svg.appendChild(l);
+                    }
+                }
             }
             container.appendChild(svg);
-        }
+        };
+
+        // 1. Green Bar
+        drawBar(state.n1, state.d1, 'fill-green', 1);
+        // 2. Blue Bar
+        drawBar(state.n2, state.d2, 'fill-blue', 2);
+        
+        // 3. Result Bar (Stacked/Overflow)
+        const drawResult = () => {
+             const w = 600; const h = 50; const gap = 15;
+             const val1 = state.n1/state.d1; 
+             const val2 = state.n2/state.d2;
+             const total = val1 + val2;
+             const wholes = Math.ceil(Math.max(1, total));
+             const svgNS = "http://www.w3.org/2000/svg";
+             
+             const totalH = (h * wholes) + (gap * (wholes-1)) + 20;
+             const svg = document.createElementNS(svgNS, "svg");
+             svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${w+4} ${totalH}`);
+
+             let remG = val1;
+             let remB = val2;
+
+             for(let r=0; r<wholes; r++){
+                 const y = 10 + r*(h+gap);
+                 // Frame
+                 const frame = document.createElementNS(svgNS, "rect");
+                 frame.setAttribute("x", 0); frame.setAttribute("y", y);
+                 frame.setAttribute("width", w); frame.setAttribute("height", h);
+                 frame.setAttribute("stroke", "#37474f"); frame.setAttribute("stroke-width", 2);
+                 frame.setAttribute("fill", "white");
+                 svg.appendChild(frame);
+
+                 // Green
+                 let gInRow = Math.min(remG, 1.0);
+                 if(gInRow > 0) {
+                     const rG = document.createElementNS(svgNS, "rect");
+                     rG.setAttribute("x", 0); rG.setAttribute("y", y);
+                     rG.setAttribute("width", gInRow*w); rG.setAttribute("height", h);
+                     rG.setAttribute("class", "fill-green");
+                     svg.appendChild(rG);
+                     remG -= gInRow; if(remG < 0.001) remG = 0;
+                 }
+
+                 // Blue
+                 if(remB > 0 && gInRow < 1.0) {
+                     let bInRow = Math.min(remB, 1.0 - gInRow);
+                     const rB = document.createElementNS(svgNS, "rect");
+                     rB.setAttribute("x", gInRow*w); rB.setAttribute("y", y);
+                     rB.setAttribute("width", bInRow*w); rB.setAttribute("height", h);
+                     rB.setAttribute("class", "fill-blue");
+                     svg.appendChild(rB);
+                     remB -= bInRow; if(remB < 0.001) remB = 0;
+                 }
+
+                 // Grid Lines
+                 if(state.showCommon) {
+                     for(let i=1; i<cd; i++) {
+                         const x = i * (w/cd);
+                         const l = document.createElementNS(svgNS, "line");
+                         l.setAttribute("x1", x); l.setAttribute("x2", x);
+                         l.setAttribute("y1", y); l.setAttribute("y2", y+h);
+                         l.setAttribute("class", "sub-line");
+                         l.style.opacity = 0.8;
+                         svg.appendChild(l);
+                     }
+                 } else {
+                     // Split Line
+                     if(gInRow > 0 && gInRow < 1) {
+                         const x = gInRow*w;
+                         const l = document.createElementNS(svgNS, "line");
+                         l.setAttribute("x1", x); l.setAttribute("x2", x);
+                         l.setAttribute("y1", y); l.setAttribute("y2", y+h);
+                         l.setAttribute("stroke", "white"); l.setAttribute("stroke-width", 2);
+                         svg.appendChild(l);
+                     }
+                 }
+             }
+             container.appendChild(svg);
+        };
+        drawResult();
     }
 
-    function like_renderLine(wholes) {
-        const container = document.getElementById('like-line');
+    function renderPies(cd) {
+        const container = document.getElementById('vis-pies');
         container.innerHTML = '';
-        const w = Math.max(600, wholes * 300);
+        
+        const drawPie = (n, d, colorCls, fracId) => {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const wholes = Math.ceil(Math.max(1, n/d));
+            
+            for(let w=0; w<wholes; w++) {
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("width", "120"); svg.setAttribute("height", "120");
+                svg.setAttribute("viewBox", "-5 -5 110 110");
+                const cx=50, cy=50, r=50;
+
+                for(let i=0; i<d; i++) {
+                    // Absolute index of this slice
+                    const absIdx = (w*d) + i;
+                    
+                    const startA = (i*360/d) - 90;
+                    const endA = ((i+1)*360/d) - 90;
+                    const x1 = cx + r * Math.cos(startA*Math.PI/180);
+                    const y1 = cy + r * Math.sin(startA*Math.PI/180);
+                    const x2 = cx + r * Math.cos(endA*Math.PI/180);
+                    const y2 = cy + r * Math.sin(endA*Math.PI/180);
+                    const large = (endA - startA) > 180 ? 1 : 0;
+                    
+                    const path = document.createElementNS(svgNS, "path");
+                    path.setAttribute("d", `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
+                    
+                    if(absIdx < n) path.setAttribute("class", `shape-stroke ${colorCls}`);
+                    else path.setAttribute("class", "shape-stroke fill-empty");
+                    
+                    path.style.cursor = "pointer";
+                    path.onclick = () => {
+                         if(absIdx < n) clickPiece(fracId, 'sub');
+                         else clickPiece(fracId, 'add');
+                    };
+                    svg.appendChild(path);
+                }
+                container.appendChild(svg);
+            }
+        };
+
+        drawPie(state.n1, state.d1, 'fill-green', 1);
+        drawPie(state.n2, state.d2, 'fill-blue', 2);
+    }
+
+    function renderLine(cd) {
+        const container = document.getElementById('vis-line');
+        container.innerHTML = '';
+        
+        // Use Common Denominator for ticks if Show Common is on, else just max(d1, d2)?
+        // Number line works best with CD ticks always available to show jump positions accurately.
+        const tickD = cd;
+        
+        const val1 = state.n1/state.d1; 
+        const val2 = state.n2/state.d2;
+        const total = val1 + val2;
+        const wholes = Math.ceil(Math.max(1, total));
+        
+        const w = Math.max(800, wholes * 400);
         const svgNS = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(svgNS, "svg");
-        svg.setAttribute("width", w); svg.setAttribute("height", "100");
+        svg.setAttribute("width", w); svg.setAttribute("height", "120");
         
-        const margin = 30; const lineY = 60; const effW = w - 2*margin;
-        const step = effW / (wholes * l_den);
+        const margin = 40; const lineY = 60; const effW = w - 2*margin;
+        const step = effW / (wholes * tickD);
 
+        // Main line
         const line = document.createElementNS(svgNS, "line");
         line.setAttribute("x1", margin); line.setAttribute("y1", lineY);
         line.setAttribute("x2", w-margin); line.setAttribute("y2", lineY);
         line.setAttribute("stroke", "#37474f"); line.setAttribute("stroke-width", 2);
         svg.appendChild(line);
 
-        for(let i=0; i<=wholes*l_den; i++){
+        for(let i=0; i<=wholes*tickD; i++){
             const x = margin + i*step;
-            const isWhole = i % l_den === 0;
+            const isWhole = i % tickD === 0;
             const tick = document.createElementNS(svgNS, "line");
             tick.setAttribute("x1", x); tick.setAttribute("x2", x);
-            tick.setAttribute("y1", lineY); tick.setAttribute("y2", lineY + (isWhole ? 15:8));
+            tick.setAttribute("y1", lineY); tick.setAttribute("y2", lineY + (isWhole ? 20:10));
             tick.setAttribute("stroke", "#37474f");
             svg.appendChild(tick);
 
+            // Small Fraction Label
+            const smTxt = document.createElementNS(svgNS, "text");
+            smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
+            smTxt.setAttribute("text-anchor", "middle");
+            smTxt.textContent = `${i}/${tickD}`;
+            smTxt.setAttribute("class", "nl-text-small");
+            svg.appendChild(smTxt);
+
+            // Large Integer Label
             if(isWhole) {
-                const txt = document.createElementNS(svgNS, "text");
-                txt.setAttribute("x", x); txt.setAttribute("y", lineY + 35);
-                txt.setAttribute("text-anchor", "middle");
-                txt.textContent = i/l_den;
-                txt.setAttribute("class", "svg-text-bold");
-                svg.appendChild(txt);
+                const lgTxt = document.createElementNS(svgNS, "text");
+                lgTxt.setAttribute("x", x); lgTxt.setAttribute("y", lineY + 60);
+                lgTxt.setAttribute("text-anchor", "middle");
+                lgTxt.textContent = i/tickD;
+                lgTxt.setAttribute("class", "nl-text-large");
+                svg.appendChild(lgTxt);
             }
         }
         
-        if(l_n1 > 0) {
-            const x1 = margin; const x2 = margin + l_n1*step;
+        // Jumps
+        if(val1 > 0) {
+            const width1 = val1 * effW / wholes;
+            const x1 = margin; const x2 = margin + width1;
             svg.appendChild(createJump(svgNS, x1, x2, lineY, 'var(--c-green)'));
         }
-        if(l_n2 > 0) {
-            const start = margin + l_n1*step;
-            const end = start + l_n2*step;
+        if(val2 > 0) {
+            const width1 = val1 * effW / wholes;
+            const width2 = val2 * effW / wholes;
+            const start = margin + width1;
+            const end = start + width2;
             svg.appendChild(createJump(svgNS, start, end, lineY, 'var(--c-blue)'));
         }
+        
         container.appendChild(svg);
     }
     
     function createJump(ns, x1, x2, y, color) {
         const path = document.createElementNS(ns, "path");
-        const mid = (x1+x2)/2; const h = Math.min(50, 20 + (x2-x1)/10);
-        path.setAttribute("d", `M ${x1} ${y-5} Q ${mid} ${y-5-h} ${x2} ${y-5}`);
+        const mid = (x1+x2)/2; const h = Math.min(50, 25 + (x2-x1)/12);
+        path.setAttribute("d", `M ${x1} ${y-10} Q ${mid} ${y-10-h} ${x2} ${y-10}`);
         path.setAttribute("fill", "none"); path.setAttribute("stroke", color); path.setAttribute("stroke-width", 4);
         return path;
     }
 
     // =====================================================
-    // LOGIC: UNLIKE FRACTIONS
-    // =====================================================
-    let u_common = false;
-    const gcd = (a, b) => b == 0 ? a : gcd(b, a % b);
-    const lcm = (a, b) => (a * b) / gcd(a, b);
-
-    function unlike_toggleCommon() {
-        u_common = !u_common;
-        const btn = document.getElementById('btn-common');
-        const root = document.getElementById('tab-unlike');
-        
-        if(u_common) {
-            btn.className = 'btn btn-gold';
-            btn.innerText = "Hide Common Grid";
-            root.classList.add('show-common');
-        } else {
-            btn.className = 'btn btn-outline';
-            btn.innerText = "Show Common Grid";
-            root.classList.remove('show-common');
-        }
-        unlike_render();
-    }
-
-    function unlike_update() { unlike_render(); }
-
-    function unlike_render() {
-        const n1 = parseInt(document.getElementById('u-n1').value)||0;
-        const d1 = parseInt(document.getElementById('u-d1').value)||1;
-        const n2 = parseInt(document.getElementById('u-n2').value)||0;
-        const d2 = parseInt(document.getElementById('u-d2').value)||1;
-        
-        const cd = lcm(d1, d2);
-        
-        const newN1 = n1 * (cd/d1);
-        const newN2 = n2 * (cd/d2);
-        document.getElementById('u-ghost-1').innerText = `${newN1}/${cd}`;
-        document.getElementById('u-ghost-2').innerText = `${newN2}/${cd}`;
-        
-        const resDiv = document.getElementById('u-res-final');
-        const unkDiv = document.getElementById('u-res-unknown');
-        
-        if(u_common) {
-            resDiv.style.display = 'block'; unkDiv.style.display = 'none';
-            document.getElementById('u-rn').innerText = newN1 + newN2;
-            document.getElementById('u-rd').innerText = cd;
-        } else {
-            resDiv.style.display = 'none'; unkDiv.style.display = 'block';
-        }
-
-        unlike_drawBar('u-svg-1', n1, d1, cd, 'fill-green');
-        unlike_drawBar('u-svg-2', n2, d2, cd, 'fill-blue');
-        unlike_drawResult('u-svg-3', n1, d1, n2, d2, cd);
-    }
-
-    // Draws a single bar, extending width if > 1
-    function unlike_drawBar(id, n, d, cd, colorCls) {
-        const div = document.getElementById(id);
-        div.innerHTML = '';
-        const w = 600; const h = 60;
-        const svgNS = "http://www.w3.org/2000/svg";
-        const totalW = Math.max(w, w*(n/d)) + 10;
-        
-        const svg = document.createElementNS(svgNS, "svg");
-        svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${totalW} ${h+20}`);
-        
-        const wholes = Math.ceil(Math.max(1, n/d));
-        for(let i=0; i<wholes; i++){
-            const rect = document.createElementNS(svgNS, "rect");
-            rect.setAttribute("x", i*w); rect.setAttribute("y", 10);
-            rect.setAttribute("width", w); rect.setAttribute("height", h);
-            rect.setAttribute("stroke", "#37474f"); rect.setAttribute("stroke-width", 2);
-            rect.setAttribute("fill", "transparent");
-            svg.appendChild(rect);
-        }
-        
-        const fillRect = document.createElementNS(svgNS, "rect");
-        fillRect.setAttribute("x", 0); fillRect.setAttribute("y", 10);
-        fillRect.setAttribute("width", (n/d)*w); fillRect.setAttribute("height", h);
-        fillRect.setAttribute("class", colorCls);
-        svg.appendChild(fillRect);
-        
-        for(let i=1; i<wholes*d; i++) {
-            const x = i * (w/d);
-            if(x % w !== 0) {
-                const l = document.createElementNS(svgNS, "line");
-                l.setAttribute("x1", x); l.setAttribute("x2", x);
-                l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
-                l.setAttribute("class", "shape-stroke");
-                svg.appendChild(l);
-            }
-        }
-        
-        if(cd !== d) {
-            for(let i=1; i<wholes*cd; i++) {
-                const x = i * (w/cd);
-                if((i*d)%cd !== 0) {
-                    const l = document.createElementNS(svgNS, "line");
-                    l.setAttribute("x1", x); l.setAttribute("x2", x);
-                    l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
-                    l.setAttribute("class", "sub-line");
-                    svg.appendChild(l);
-                }
-            }
-        }
-        div.appendChild(svg);
-    }
-
-    // Draws the result using STACKING bars (Overflow Logic)
-    function unlike_drawResult(id, n1, d1, n2, d2, cd) {
-        const div = document.getElementById(id);
-        div.innerHTML = '';
-        const unitW = 600; const h = 60; const gap = 20;
-        
-        const val1 = n1/d1; 
-        const val2 = n2/d2; 
-        const total = val1 + val2;
-        const wholes = Math.ceil(Math.max(1, total)); // Number of rows needed
-        
-        // Total height of SVG depends on number of wholes
-        const totalH = (h * wholes) + (gap * (wholes-1)) + 20;
-
-        const svgNS = "http://www.w3.org/2000/svg";
-        const svg = document.createElementNS(svgNS, "svg");
-        svg.setAttribute("width", "100%"); 
-        // We fix the viewbox width to 1 whole (unitW) + margin
-        // so it wraps visually like separate blocks
-        svg.setAttribute("viewBox", `0 0 ${unitW+4} ${totalH}`);
-        
-        // Tracking how much fill we have left to distribute
-        let remainingGreen = val1;
-        let remainingBlue = val2;
-
-        for(let r=0; r<wholes; r++) {
-            const y = 10 + r*(h+gap);
-            
-            // 1. Draw Background Frame for this Whole
-            const frame = document.createElementNS(svgNS, "rect");
-            frame.setAttribute("x", 0); frame.setAttribute("y", y);
-            frame.setAttribute("width", unitW); frame.setAttribute("height", h);
-            frame.setAttribute("stroke", "#37474f"); frame.setAttribute("stroke-width", 2);
-            frame.setAttribute("fill", "white");
-            svg.appendChild(frame);
-
-            // 2. Fill Green in this Whole
-            let greenInThisRow = 0;
-            if(remainingGreen > 0) {
-                // Take as much as fits in 1.0, or whatever is left
-                greenInThisRow = Math.min(remainingGreen, 1.0);
-                
-                const gRect = document.createElementNS(svgNS, "rect");
-                gRect.setAttribute("x", 0); gRect.setAttribute("y", y);
-                gRect.setAttribute("width", greenInThisRow * unitW); 
-                gRect.setAttribute("height", h);
-                gRect.setAttribute("class", "fill-green");
-                svg.appendChild(gRect);
-                
-                remainingGreen -= greenInThisRow;
-                // Avoid precision errors
-                if(remainingGreen < 0.0001) remainingGreen = 0;
-            }
-
-            // 3. Fill Blue in this Whole
-            // Blue starts where green ended (greenInThisRow)
-            if(remainingBlue > 0 && greenInThisRow < 1.0) {
-                const spaceLeft = 1.0 - greenInThisRow;
-                const blueInThisRow = Math.min(remainingBlue, spaceLeft);
-                
-                const bRect = document.createElementNS(svgNS, "rect");
-                bRect.setAttribute("x", greenInThisRow * unitW); 
-                bRect.setAttribute("y", y);
-                bRect.setAttribute("width", blueInThisRow * unitW);
-                bRect.setAttribute("height", h);
-                bRect.setAttribute("class", "fill-blue");
-                svg.appendChild(bRect);
-                
-                remainingBlue -= blueInThisRow;
-                if(remainingBlue < 0.0001) remainingBlue = 0;
-            }
-
-            // 4. Draw Lines (If common grid is ON)
-            if(u_common) {
-                // Draw all CD lines
-                for(let i=1; i<cd; i++) {
-                    const x = i * (unitW/cd);
-                    const l = document.createElementNS(svgNS, "line");
-                    l.setAttribute("x1", x); l.setAttribute("x2", x);
-                    l.setAttribute("y1", y); l.setAttribute("y2", y+h);
-                    l.setAttribute("class", "sub-line");
-                    l.style.opacity = 1; 
-                    svg.appendChild(l);
-                }
-            } else {
-                // Draw just the split line if it exists in this row
-                // The split happens at greenInThisRow if > 0 and < 1
-                if(greenInThisRow > 0.001 && greenInThisRow < 0.999) {
-                     const split = greenInThisRow * unitW;
-                     const l = document.createElementNS(svgNS, "line");
-                     l.setAttribute("x1", split); l.setAttribute("x2", split);
-                     l.setAttribute("y1", y); l.setAttribute("y2", y+h);
-                     l.setAttribute("stroke", "white"); l.setAttribute("stroke-width", 2);
-                     svg.appendChild(l);
-                }
-            }
-        }
-
-        div.appendChild(svg);
-    }
-
-    // =====================================================
-    // LOGIC: LCD FINDER (FULL)
+    // LOGIC: LCD FINDER
     // =====================================================
     const LCD_SIZE = 12;
     let lcd_selA = null;
     let lcd_selB = null;
     let lcd_mode = 'explore';
     let lcd_animating = false;
-    let lcd_challengePair = null;
+    let lcd_pair = null;
 
     function lcd_init() {
         const table = document.getElementById('lcd-table');
@@ -910,49 +840,47 @@
 
     function lcd_setMode(mode) {
         lcd_mode = mode;
-        document.querySelectorAll('.lcd-mode-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`.lcd-mode-btn[data-mode="${mode}"]`).classList.add('active');
-        
-        lcd_reset();
-        
-        if(mode === 'challenge') {
-            document.getElementById('challengeBox').style.display = 'block';
-            document.getElementById('narration').style.display = 'none';
-            document.getElementById('lcd-btn-anim').style.display = 'none';
-            lcd_generateChallenge();
+        const btnExp = document.getElementById('btn-lcd-explore');
+        const btnCha = document.getElementById('btn-lcd-challenge');
+        const dash = document.getElementById('lcd-dashboard');
+        const box = document.getElementById('challengeBox');
+
+        lcd_reset(); // Clear old state
+
+        if(mode === 'explore') {
+            btnExp.className = 'btn btn-gold';
+            btnCha.className = 'btn btn-outline';
+            dash.style.display = 'flex';
+            box.style.display = 'none';
         } else {
-            document.getElementById('challengeBox').style.display = 'none';
-            document.getElementById('narration').style.display = 'flex';
-            document.getElementById('lcd-btn-anim').style.display = 'inline-block';
+            btnExp.className = 'btn btn-outline';
+            btnCha.className = 'btn btn-gold';
+            dash.style.display = 'none';
+            box.style.display = 'block';
+            lcd_genChallenge();
         }
     }
 
     function lcd_select(num) {
-        if(lcd_animating) return;
+        if(lcd_animating || lcd_mode === 'challenge') return;
+        
         const narr = document.getElementById('narration');
         const btn = document.getElementById('lcd-btn-anim');
+
+        // Logic fix: If 2 selected, clicking a 3rd resets and selects the new one
+        if(lcd_selA !== null && lcd_selB !== null) {
+            lcd_reset();
+        }
 
         if(lcd_selA === null) {
             lcd_selA = num;
             lcd_highlightCol(num, 'sel-green');
-            if(lcd_mode === 'explore') narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${num}</span>. Now pick a second.`;
+            narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${num}</span>. Now pick a second.`;
         } else if(lcd_selB === null && num !== lcd_selA) {
             lcd_selB = num;
             lcd_highlightCol(num, 'sel-blue');
-            if(lcd_mode === 'explore') {
-                narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${lcd_selA}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_selB}</span>. Click 'Show Multiples'.`;
-                btn.disabled = false;
-            } else {
-                // In challenge mode, manual selection is mostly disabled or just highlights without logic
-            }
-        } else if(num === lcd_selA || num === lcd_selB) {
-            // ignore
-        } else {
-            // Reset if picking a 3rd
-            if(lcd_mode === 'explore') {
-                lcd_reset();
-                lcd_select(num);
-            }
+            narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${lcd_selA}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_selB}</span>.`;
+            btn.disabled = false;
         }
     }
 
@@ -967,8 +895,8 @@
         lcd_animating = true;
         
         const myLcm = lcm(lcd_selA, lcd_selB);
-        
         let r = 1;
+
         const interval = setInterval(() => {
             if(r > LCD_SIZE) { 
                 clearInterval(interval); 
@@ -976,14 +904,12 @@
                 return; 
             }
             
-            // Highlight A
             const cellA = document.getElementById(`cell-${r}-${lcd_selA}`);
             if(cellA) {
                 cellA.classList.add('hl-green');
                 if(r * lcd_selA === myLcm) cellA.classList.add('lcd-match');
             }
             
-            // Highlight B
             const cellB = document.getElementById(`cell-${r}-${lcd_selB}`);
             if(cellB) {
                 cellB.classList.add('hl-blue');
@@ -994,69 +920,63 @@
                document.getElementById('narration').innerHTML = 
                `Match found! The LCD is <span style="color:#f57f17; font-size:1.5rem; font-weight:bold">${myLcm}</span>`;
             }
-
             r++;
         }, 150);
     }
 
-    function lcd_generateChallenge() {
-        const pairs = [[2,3],[2,5],[3,4],[3,5],[4,5],[2,7],[3,7],[4,6],[6,8],[3,8],[4,9],[5,6],[6,7]];
-        lcd_challengePair = pairs[Math.floor(Math.random()*pairs.length)];
+    function lcd_reset() {
+        lcd_selA = null; lcd_selB = null; lcd_animating = false;
+        
+        // UI Reset
+        if(lcd_mode === 'explore') {
+            document.getElementById('narration').innerText = "Pick two denominators in the top row to start.";
+            document.getElementById('lcd-btn-anim').disabled = true;
+        }
+
+        // Class Clear
+        document.querySelectorAll('.col-header').forEach(el => el.classList.remove('sel-green', 'sel-blue'));
+        document.querySelectorAll('.data-cell').forEach(el => el.classList.remove('hl-green', 'hl-blue', 'lcd-match'));
+    }
+
+    function lcd_genChallenge() {
+        const pairs = [[2,3],[2,5],[3,4],[3,5],[4,5],[2,7],[3,7],[4,6],[6,8],[3,8]];
+        lcd_pair = pairs[Math.floor(Math.random()*pairs.length)];
         
         document.getElementById('challengePrompt').innerHTML = 
-            `Find LCD for <span style="color:var(--c-green); font-weight:bold">${lcd_challengePair[0]}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_challengePair[1]}</span>`;
+            `Find the LCD of <span style="color:var(--c-green); font-weight:bold">${lcd_pair[0]}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_pair[1]}</span>`;
         document.getElementById('challengeInput').value = '';
         document.getElementById('challengeFeedback').innerText = '';
         
-        // Auto highlight columns
-        lcd_selA = lcd_challengePair[0];
-        lcd_selB = lcd_challengePair[1];
-        lcd_highlightCol(lcd_selA, 'sel-green');
-        lcd_highlightCol(lcd_selB, 'sel-blue');
-        
-        // Highlight background cells lightly
-        for(let r=1; r<=LCD_SIZE; r++){
-            document.getElementById(`cell-${r}-${lcd_selA}`).classList.add('hl-green');
-            document.getElementById(`cell-${r}-${lcd_selB}`).classList.add('hl-blue');
-        }
+        // Highlight headers
+        lcd_highlightCol(lcd_pair[0], 'sel-green');
+        lcd_highlightCol(lcd_pair[1], 'sel-blue');
     }
 
     function lcd_checkAnswer() {
-        if(!lcd_challengePair) return;
+        if(!lcd_pair) return;
         const val = parseInt(document.getElementById('challengeInput').value);
-        const ans = lcm(lcd_challengePair[0], lcd_challengePair[1]);
+        const ans = lcm(lcd_pair[0], lcd_pair[1]);
         const fb = document.getElementById('challengeFeedback');
         
         if(val === ans) {
             fb.innerHTML = '<span style="color:var(--c-green)">Correct! ✓</span>';
             // Show match
-            const rowA = ans / lcd_challengePair[0];
-            const rowB = ans / lcd_challengePair[1];
-            document.getElementById(`cell-${rowA}-${lcd_challengePair[0]}`).classList.add('lcd-match');
-            document.getElementById(`cell-${rowB}-${lcd_challengePair[1]}`).classList.add('lcd-match');
-            setTimeout(lcd_generateChallenge, 2000); // Next problem
+            const rowA = ans / lcd_pair[0];
+            const rowB = ans / lcd_pair[1];
+            document.getElementById(`cell-${rowA}-${lcd_pair[0]}`).classList.add('lcd-match');
+            document.getElementById(`cell-${rowB}-${lcd_pair[1]}`).classList.add('lcd-match');
+            setTimeout(() => {
+                lcd_reset();
+                lcd_genChallenge();
+            }, 2000);
         } else {
             fb.innerHTML = '<span style="color:var(--c-red)">Try Again</span>';
         }
     }
 
-    function lcd_reset() {
-        lcd_selA = null; lcd_selB = null; lcd_animating = false;
-        if(lcd_mode === 'explore') {
-            document.getElementById('narration').innerText = "Pick two denominators in the top row to start.";
-            document.getElementById('lcd-btn-anim').disabled = true;
-        }
-        
-        document.querySelectorAll('.col-header').forEach(el => el.classList.remove('sel-green', 'sel-blue'));
-        document.querySelectorAll('.data-cell').forEach(el => el.classList.remove('hl-green', 'hl-blue', 'lcd-match'));
-        
-        if(lcd_mode === 'challenge') lcd_generateChallenge();
-    }
-
     // INIT
-    like_setPaintMode('a');
-    like_update();
-    unlike_update();
+    setPaintMode('a');
+    updateLab();
     lcd_init();
 
 </script>
