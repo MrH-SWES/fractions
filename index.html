@@ -156,6 +156,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 90px;
             position: relative;
             padding: 10px;
@@ -187,9 +188,21 @@
         .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; opacity: 0.8; }
         .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; font-weight: 300; }
 
-        /* Result Styles */
-        .res-container { min-width: 90px; display: flex; flex-direction: column; align-items: center; }
-        .res-text { font-size: 2.5rem; font-weight: bold; color: var(--text-main); }
+        /* Result Styles - FIXED NOTATION */
+        .res-container { 
+            min-width: 90px; 
+            display: flex; 
+            flex-direction: column; /* CRITICAL FIX: Stacks items vertically */
+            align-items: center; 
+            justify-content: center;
+        }
+        .res-text { 
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem; 
+            font-weight: bold; 
+            color: var(--text-main); 
+            line-height: 1.1;
+        }
 
         /* Ghost Labels (LCD Hints) */
         .ghost-label {
@@ -238,8 +251,8 @@
         .show-common .sub-line { opacity: 1; }
 
         /* Number Line Specifics */
-        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 12px; fill: var(--text-muted); }
-        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: bold; fill: var(--text-main); }
+        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 13px; fill: var(--text-muted); font-weight: 500; }
+        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: bold; fill: var(--text-main); }
 
         /* --- LCD CHART STYLES --- */
         .chart-container { overflow-x: auto; max-width: 100%; padding: 10px; }
@@ -319,9 +332,9 @@
                 <div class="operator">=</div>
 
                 <div class="res-container">
-                    <div id="res-final">
+                    <div id="res-final" style="display:flex; flex-direction:column; align-items:center;">
                         <span id="rn" class="res-text">2</span>
-                        <div class="frac-bar"></div>
+                        <div class="frac-bar" style="width:100%;"></div>
                         <span id="rd" class="res-text">4</span>
                     </div>
                     <div id="res-unknown" class="res-text" style="display:none; color:#ccc;">?</div>
@@ -396,7 +409,7 @@
     // =====================================================
     let state = {
         n1: 1, d1: 4,
-        n2: 1, d2: 4,
+        n2: 2, d2: 5,
         paintMode: 'a', // 'a' (green) or 'b' (blue)
         unlikeMode: false,
         showCommon: false
@@ -685,9 +698,7 @@
                 const cx=50, cy=50, r=50;
 
                 for(let i=0; i<d; i++) {
-                    // Absolute index of this slice
                     const absIdx = (w*d) + i;
-                    
                     const startA = (i*360/d) - 90;
                     const endA = ((i+1)*360/d) - 90;
                     const x1 = cx + r * Math.cos(startA*Math.PI/180);
@@ -721,8 +732,7 @@
         const container = document.getElementById('vis-line');
         container.innerHTML = '';
         
-        // Use Common Denominator for ticks if Show Common is on, else just max(d1, d2)?
-        // Number line works best with CD ticks always available to show jump positions accurately.
+        // Always show ticks for the CD so alignment is obvious
         const tickD = cd;
         
         const val1 = state.n1/state.d1; 
@@ -754,7 +764,7 @@
             tick.setAttribute("stroke", "#37474f");
             svg.appendChild(tick);
 
-            // Small Fraction Label
+            // Small Fraction Label (FIXED: Ensure visibility)
             const smTxt = document.createElementNS(svgNS, "text");
             smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
             smTxt.setAttribute("text-anchor", "middle");
@@ -845,7 +855,7 @@
         const dash = document.getElementById('lcd-dashboard');
         const box = document.getElementById('challengeBox');
 
-        lcd_reset(); // Clear old state
+        lcd_reset(); 
 
         if(mode === 'explore') {
             btnExp.className = 'btn btn-gold';
@@ -867,7 +877,7 @@
         const narr = document.getElementById('narration');
         const btn = document.getElementById('lcd-btn-anim');
 
-        // Logic fix: If 2 selected, clicking a 3rd resets and selects the new one
+        // FIXED: Click 3rd resets
         if(lcd_selA !== null && lcd_selB !== null) {
             lcd_reset();
         }
@@ -927,13 +937,12 @@
     function lcd_reset() {
         lcd_selA = null; lcd_selB = null; lcd_animating = false;
         
-        // UI Reset
         if(lcd_mode === 'explore') {
             document.getElementById('narration').innerText = "Pick two denominators in the top row to start.";
             document.getElementById('lcd-btn-anim').disabled = true;
         }
 
-        // Class Clear
+        // Clear All visual states
         document.querySelectorAll('.col-header').forEach(el => el.classList.remove('sel-green', 'sel-blue'));
         document.querySelectorAll('.data-cell').forEach(el => el.classList.remove('hl-green', 'hl-blue', 'lcd-match'));
     }
@@ -947,7 +956,7 @@
         document.getElementById('challengeInput').value = '';
         document.getElementById('challengeFeedback').innerText = '';
         
-        // Highlight headers
+        // Hint: Highlight headers
         lcd_highlightCol(lcd_pair[0], 'sel-green');
         lcd_highlightCol(lcd_pair[1], 'sel-blue');
     }
@@ -960,7 +969,6 @@
         
         if(val === ans) {
             fb.innerHTML = '<span style="color:var(--c-green)">Correct! ✓</span>';
-            // Show match
             const rowA = ans / lcd_pair[0];
             const rowB = ans / lcd_pair[1];
             document.getElementById(`cell-${rowA}-${lcd_pair[0]}`).classList.add('lcd-match');
@@ -975,7 +983,8 @@
     }
 
     // INIT
-    setPaintMode('a');
+    toggleUnlikeMode(); // Start in simple mode
+    toggleUnlikeMode(); // Toggle twice to ensure state
     updateLab();
     lcd_init();
 
