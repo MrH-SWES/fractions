@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            /* Palette */
             --c-green: #4CAF50;
             --c-green-light: #e8f5e9;
             --c-blue: #2196F3;
@@ -36,7 +35,6 @@
             padding-bottom: 60px;
         }
 
-        /* --- HEADER --- */
         .header {
             width: 100%;
             background: white;
@@ -53,7 +51,6 @@
             font-size: 1.5rem;
         }
 
-        /* --- NAVIGATION --- */
         .main-nav {
             display: flex;
             gap: 10px;
@@ -81,7 +78,6 @@
         }
         .nav-tab:hover:not(.active) { color: var(--text-main); background: rgba(255,255,255,0.5); }
 
-        /* --- SECTIONS --- */
         .tool-section {
             display: none;
             width: 100%;
@@ -94,7 +90,6 @@
         .tool-section.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- DASHBOARD & CONTROLS --- */
         .dashboard {
             background: var(--bg-card);
             padding: 25px;
@@ -118,7 +113,6 @@
             width: 100%;
         }
 
-        /* Toggle Switch */
         .switch-container {
             display: flex;
             align-items: center;
@@ -141,9 +135,7 @@
         }
         .switch-container.active .toggle-switch { background: var(--c-gold); }
         .switch-container.active .toggle-switch::after { transform: translateX(20px); }
-        .switch-container.active .switch-label { color: #3e2723; }
 
-        /* --- INPUTS --- */
         .equation-wrapper {
             display: flex;
             align-items: center;
@@ -161,7 +153,6 @@
             position: relative;
             padding: 10px;
             border-radius: 12px;
-            transition: all 0.3s;
             border: 2px solid transparent;
         }
         .frac-group.focus-green { background: var(--c-green-light); border-color: var(--c-green); }
@@ -177,34 +168,17 @@
             color: var(--text-main);
             border-radius: 8px;
             padding: 5px 0;
-            transition: all 0.2s;
         }
         .frac-input:focus { outline: none; border-color: var(--text-muted); }
-        .frac-input:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; }
-        
+
         .input-green { color: var(--c-green); }
         .input-blue { color: var(--c-blue); }
+        .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; }
+        .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; }
 
-        .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; opacity: 0.8; }
-        .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; font-weight: 300; }
+        .res-container { min-width: 90px; display: flex; flex-direction: column; align-items: center; }
+        .res-text { font-family: 'Fredoka', sans-serif; font-size: 2.5rem; font-weight: bold; color: var(--text-main); }
 
-        /* Result Styles */
-        .res-container { 
-            min-width: 90px; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center;
-        }
-        .res-text { 
-            font-family: 'Fredoka', sans-serif;
-            font-size: 2.5rem; 
-            font-weight: bold; 
-            color: var(--text-main); 
-            line-height: 1.1;
-        }
-
-        /* Simplified result */
         .simplified-badge {
             font-family: 'Fredoka', sans-serif;
             font-size: 0.85rem;
@@ -216,34 +190,19 @@
             padding: 3px 12px;
             margin-top: 6px;
             display: none;
-            white-space: nowrap;
         }
 
-        /* Ghost Labels (LCD Hints) */
-        .ghost-label {
-            position: absolute; top: -35px;
-            background: var(--c-gold); color: #3e2723;
-            padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;
-            opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap;
-        }
-        .show-common .ghost-label { opacity: 1; transform: translateY(0); }
-
-        /* --- BUTTONS --- */
         .btn {
             padding: 8px 20px; border-radius: 30px; font-family: 'Fredoka', sans-serif; font-weight: 600;
             cursor: pointer; border: none; transition: all 0.2s; font-size: 0.95rem;
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn:hover:not(:disabled) { transform: translateY(-2px); }
-        
         .btn-outline { background: white; border: 2px solid var(--border); color: var(--text-muted); }
-        .btn-green { background: var(--c-green); color: white; box-shadow: 0 4px 10px rgba(76,175,80,0.3); }
-        .btn-blue { background: var(--c-blue); color: white; box-shadow: 0 4px 10px rgba(33,150,243,0.3); }
-        .btn-gold { background: var(--c-gold); color: #3e2723; box-shadow: 0 4px 10px rgba(255,193,7,0.4); }
+        .btn-green { background: var(--c-green); color: white; }
+        .btn-blue { background: var(--c-blue); color: white; }
+        .btn-gold { background: var(--c-gold); color: #3e2723; }
 
-        /* --- VISUALS --- */
         .vis-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .vis-card {
             background: var(--bg-card); border-radius: 16px; padding: 25px;
@@ -256,7 +215,6 @@
             font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 20px;
         }
 
-        /* SVG Styles */
         svg { overflow: visible; }
         .shape-stroke { stroke: var(--text-main); stroke-width: 2px; }
         .fill-empty { fill: white; }
@@ -265,11 +223,6 @@
         .sub-line { stroke: var(--c-gold); stroke-width: 2px; stroke-dasharray: 4 3; opacity: 0; transition: opacity 0.5s; }
         .show-common .sub-line { opacity: 1; }
 
-        /* Number Line Specifics */
-        .nl-text-small { font-family: 'Fredoka', sans-serif; font-size: 14px; fill: var(--text-muted); font-weight: 500; }
-        .nl-text-large { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: bold; fill: var(--text-main); }
-
-        /* --- LCD CHART STYLES --- */
         .chart-container { overflow-x: auto; max-width: 100%; padding: 10px; }
         .mult-chart { border-collapse: separate; border-spacing: 3px; margin: 0 auto; }
         .mult-chart td, .mult-chart th {
@@ -278,209 +231,33 @@
             border-radius: 6px; cursor: pointer; transition: all 0.2s;
         }
         .col-header { background: #eceff1; color: var(--text-muted); font-weight: bold; }
-        .col-header:hover { background: #cfd8dc; }
-        .col-header.sel-green { background: var(--c-green); color: white; transform: scale(1.1); box-shadow: 0 4px 10px rgba(76,175,80,0.3); }
-        .col-header.sel-blue { background: var(--c-blue); color: white; transform: scale(1.1); box-shadow: 0 4px 10px rgba(33,150,243,0.3); }
-        
         .data-cell { background: white; color: var(--text-muted); border: 1px solid #f0f0f0; }
-        .data-cell.hl-green { background: var(--c-green-light); color: var(--c-green); font-weight: bold; border-color: var(--c-green); }
-        .data-cell.hl-blue { background: var(--c-blue-light); color: var(--c-blue); font-weight: bold; border-color: var(--c-blue); }
-        .data-cell.lcd-match { 
-            background: var(--c-gold); color: #3e2723; font-weight: 800;
-            transform: scale(1.2); z-index: 10;
-            box-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
-            border: 2px solid white;
-        }
-        
-        .challenge-box {
-            background: var(--c-gold-light); border: 2px solid var(--c-gold);
-            border-radius: 12px; padding: 15px; margin-bottom: 20px;
-            width: 100%; max-width: 500px; text-align: center; display: none;
-        }
+        .lcd-match { background: var(--c-gold); color: #3e2723; font-weight: 800; transform: scale(1.2); z-index: 10; }
 
-        /* LCD Explainer */
-        .explainer {
-            max-width: 600px; width: 100%; margin-top: 20px;
-            border-radius: 12px; background: white; border: 1px solid var(--border); overflow: hidden;
-        }
-        .explainer-toggle {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 18px; cursor: pointer;
-            font-family: 'Fredoka', sans-serif; font-weight: 600;
-            background: #f9f9f9; color: var(--text-muted);
-        }
-        .explainer-content { padding: 15px; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.6; }
-        .step-num { 
-            display: inline-block; background: var(--c-gold); color: #3e2723; 
-            width: 20px; height: 20px; border-radius: 50%; 
-            text-align: center; line-height: 20px; font-weight: bold; font-size: 12px; margin-right: 5px; 
-        }
-
-        /* --- SIMPLIFY TAB --- */
-        .simp-mode-row {
-            display: flex; gap: 10px; margin-bottom: 20px;
-        }
-        .simp-input-area {
-            display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;
-        }
-        .simp-frac-group {
-            display: flex; flex-direction: column; align-items: center; width: 80px;
-        }
-        .simp-frac-group .frac-input { font-size: 2rem; }
-        .simp-whole-input {
-            width: 70px; font-family: 'Fredoka', sans-serif; font-size: 2rem;
-            text-align: center; background: white; border: 2px solid #eceff1;
-            color: var(--text-main); border-radius: 8px; padding: 5px 0;
-        }
-        .simp-whole-input:focus { outline: none; border-color: var(--text-muted); }
-        .simp-arrow {
-            font-size: 2.5rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif;
-        }
-        .simp-result-box {
-            min-width: 120px; min-height: 80px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: var(--c-green-light); border: 2px solid var(--c-green);
-            border-radius: 16px; padding: 10px 20px;
-        }
-        .simp-result-whole {
-            font-family: 'Fredoka', sans-serif; font-size: 2.5rem; font-weight: bold; color: var(--c-green);
-        }
-        .simp-result-frac {
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .simp-result-frac span {
-            font-family: 'Fredoka', sans-serif; font-size: 2rem; font-weight: bold; color: var(--c-green); line-height: 1.1;
-        }
-        .simp-steps-container {
-            width: 100%; max-width: 600px; margin-top: 20px;
-        }
-        .simp-step {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px 16px; background: white; border-radius: 12px;
-            margin-bottom: 8px; border: 1px solid #eceff1;
-            font-family: 'Outfit', sans-serif; font-size: 1rem; color: var(--text-main);
-            opacity: 0; transform: translateX(-10px);
-            animation: stepReveal 0.3s ease forwards;
-        }
-        .simp-step .step-icon {
-            width: 32px; height: 32px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-weight: bold;
-            font-family: 'Fredoka', sans-serif; font-size: 0.85rem; flex-shrink: 0;
-        }
-        .simp-step .step-icon.green { background: var(--c-green-light); color: var(--c-green); }
-        .simp-step .step-icon.gold { background: var(--c-gold-light); color: #f57f17; }
-        .simp-step .step-icon.blue { background: var(--c-blue-light); color: var(--c-blue); }
-        @keyframes stepReveal { to { opacity: 1; transform: translateX(0); } }
-
-        .simp-vis-row {
-            display: flex; gap: 20px; align-items: center; justify-content: center;
-            flex-wrap: wrap; margin-top: 15px;
-        }
-
-        /* --- FRACTION BARS TAB --- */
+        /* Fraction Bars Styling */
         .fb-toolbar {
             display: flex; align-items: center; justify-content: space-between;
             flex-wrap: wrap; gap: 10px; width: 100%;
             background: #1f2937; color: white; padding: 10px 16px; border-radius: 12px;
             margin-bottom: 15px;
         }
-        .fb-tool-group { display: flex; align-items: center; gap: 15px; }
-        .fb-toggle-label { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer; user-select: none; }
-        .fb-toggle-label input[type="checkbox"] { transform: scale(1.2); cursor: pointer; accent-color: #3b82f6; }
         .fb-total-display {
             background: #374151; padding: 4px 12px; border-radius: 6px;
             font-weight: bold; font-family: monospace; font-size: 1.1rem;
-            min-width: 80px; text-align: center; border: 1px solid #4b5563;
         }
-        .fb-total-display.fb-hidden { visibility: hidden; opacity: 0; }
-
-        .fb-work-area {
-            width: 100%; max-width: 900px;
-            min-height: 200px; max-height: 55vh;
-            overflow-y: auto; padding: 15px 0; position: relative;
-        }
-        .fb-bars-wrapper {
-            display: flex; flex-direction: column; gap: 10px; width: 100%;
-        }
-
-        .fb-row {
-            display: flex; align-items: center; gap: 10px;
-            animation: fadeIn 0.3s ease-out;
-        }
-        .fb-row-label {
-            width: 50px; text-align: right; font-size: 0.9rem;
-            font-weight: 600; color: var(--text-muted); flex-shrink: 0;
-            cursor: pointer;
-        }
-        .fb-row-label:hover { color: var(--c-red); }
-        .fb-bar {
-            flex: 1; height: 50px; display: flex;
-            border: 2px solid #111827; background: transparent;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15); border-radius: 4px; overflow: hidden;
-        }
-        .fb-seg {
-            flex: 1; display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 16px; color: #111827;
-            background-color: var(--fb-base);
-            border-right: 2px solid #111827;
-            cursor: pointer; user-select: none;
-            transition: background-color 0.15s;
-        }
-        .fb-seg:last-child { border-right: none; }
-        .fb-seg:hover { filter: brightness(1.1); }
-        .fb-seg.fb-selected {
-            background-color: var(--fb-highlight) !important;
-            box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35);
-        }
-
-        .fb-controls-panel {
-            width: 100%; max-width: 900px; margin-top: 15px;
-            background: white; border-radius: 12px; padding: 12px;
-            border: 1px solid #eceff1;
-            display: flex; flex-direction: column; gap: 8px; align-items: center;
-        }
-        .fb-preset-row {
-            display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
-        }
-        .fb-preset-btn {
-            background: #f3f4f6; color: #374151; border: 1px solid #d1d5db;
-            padding: 7px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
-            font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.15s;
-        }
-        .fb-preset-btn:hover { background: #e5e7eb; }
-        .fb-custom-group {
-            display: flex; gap: 5px; background: #f3f4f6; padding: 4px;
-            border-radius: 8px; border: 1px solid #d1d5db;
-        }
-        .fb-custom-input {
-            width: 60px; padding: 4px 8px; border: 1px solid #d1d5db;
-            border-radius: 4px; font-family: 'Fredoka', sans-serif; font-size: 0.9rem;
-        }
-        .fb-add-btn {
-            background: var(--c-blue); color: white; border: none;
-            padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
-            font-weight: 600; cursor: pointer;
-        }
-        .fb-add-btn:hover { filter: brightness(1.1); }
-        .fb-clear-btn {
-            background: var(--c-red); color: white; border: none;
-            padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif;
-            font-weight: 600; cursor: pointer;
-        }
-        .fb-clear-btn:hover { filter: brightness(1.1); }
-
-        /* Ruler */
-        .fb-ruler-line {
-            position: absolute; top: 0; bottom: 0; width: 2px;
-            background-color: #ef4444; pointer-events: none; z-index: 50;
-            display: none; box-shadow: 0 0 4px rgba(0,0,0,0.4);
-        }
-        .fb-ruler-label {
-            position: absolute; top: -22px; left: -18px;
-            background: #ef4444; color: white; font-size: 11px;
-            padding: 2px 6px; border-radius: 4px; white-space: nowrap;
-            font-family: 'Fredoka', sans-serif;
-        }
+        .fb-work-area { width: 100%; max-width: 900px; min-height: 200px; max-height: 55vh; overflow-y: auto; padding: 15px 0; }
+        .fb-bars-wrapper { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .fb-row { display: flex; align-items: center; gap: 10px; }
+        .fb-row-label { width: 50px; text-align: right; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); flex-shrink: 0; }
+        .fb-bar { flex: 1; height: 50px; display: flex; border: 2px solid #111827; border-radius: 4px; overflow: hidden; }
+        .fb-seg { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #111827; border-right: 2px solid #111827; cursor: pointer; background-color: var(--fb-base); }
+        .fb-seg.fb-selected { background-color: var(--fb-highlight) !important; box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35); }
+        
+        .fb-controls-panel { width: 100%; max-width: 900px; margin-top: 15px; background: white; border-radius: 12px; padding: 20px; border: 1px solid #eceff1; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .fb-preset-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
+        .fb-preset-btn { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; padding: 7px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+        .fb-custom-input { width: 80px; padding: 8px; border: 2px solid var(--c-blue); border-radius: 8px; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; text-align: center; }
+        .fb-clear-btn { background: var(--c-red); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif; font-weight: 600; cursor: pointer; }
 
     </style>
 </head>
@@ -498,231 +275,113 @@
     </div>
 
     <div id="tab-fractions" class="tool-section active">
-        
         <div class="dashboard">
-            
             <div class="controls-row">
                 <div style="display:flex; gap:10px;">
                     <button id="btn-paint-a" class="btn btn-green" onclick="setPaintMode('a')">Paint Green</button>
                     <button id="btn-paint-b" class="btn btn-outline" onclick="setPaintMode('b')">Paint Blue</button>
                 </div>
-
                 <div class="switch-container" id="mode-toggle" onclick="toggleUnlikeMode()">
                     <span class="switch-label">Different Denominators</span>
                     <div class="toggle-switch"></div>
                 </div>
             </div>
-
             <div class="equation-wrapper">
                 <div class="frac-group focus-green" id="grp-1">
-                    <div class="ghost-label" id="ghost-1"></div>
                     <input type="number" id="n1" class="frac-input input-green" value="1" min="0" oninput="updateLab()">
                     <div class="frac-bar"></div>
-                    <input type="number" id="d1" class="frac-input" value="4" min="1" max="12" oninput="handleDenomChange(1, this.value)">
+                    <input type="number" id="d1" class="frac-input" value="4" min="1" max="100" oninput="handleDenomChange(1, this.value)">
                 </div>
-
                 <div class="operator">+</div>
-
                 <div class="frac-group" id="grp-2">
-                    <div class="ghost-label" id="ghost-2"></div>
                     <input type="number" id="n2" class="frac-input input-blue" value="1" min="0" oninput="updateLab()">
                     <div class="frac-bar"></div>
-                    <input type="number" id="d2" class="frac-input" value="4" min="1" max="12" oninput="handleDenomChange(2, this.value)" disabled>
+                    <input type="number" id="d2" class="frac-input" value="4" min="1" max="100" oninput="handleDenomChange(2, this.value)" disabled>
                 </div>
-
                 <div class="operator">=</div>
-
                 <div class="res-container">
-                    <div id="res-final" style="display:flex; flex-direction:column; align-items:center;">
-                        <span id="rn" class="res-text">2</span>
-                        <div class="frac-bar" style="width:100%;"></div>
-                        <span id="rd" class="res-text">4</span>
-                    </div>
-                    <div id="res-unknown" class="res-text" style="display:none; color:#ccc;">?</div>
+                    <span id="rn" class="res-text">2</span>
+                    <div class="frac-bar" style="width:100%;"></div>
+                    <span id="rd" class="res-text">4</span>
                     <div id="simplified-badge" class="simplified-badge"></div>
                 </div>
             </div>
-
-            <button class="btn btn-gold" id="btn-common" onclick="toggleCommonGrid()" style="display:none; margin-top:10px;">
-                Show Common Grid
-            </button>
         </div>
-
-        <div class="vis-container" id="vis-root">
+        <div class="vis-container">
             <div class="vis-card">
-                <div class="vis-label">Bar Model (Click to Paint)</div>
-                <div id="vis-bars" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:15px;"></div>
-            </div>
-            
-            <div class="vis-card">
-                <div class="vis-label">Circle Model (Click to Paint)</div>
-                <div id="vis-pies" style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center;"></div>
-            </div>
-
-            <div class="vis-card">
-                <div class="vis-label">Number Line</div>
-                <div id="vis-line" style="width:100%; overflow-x:auto; padding-bottom:10px;"></div>
+                <div class="vis-label">Bar Model</div>
+                <div id="vis-bars" style="width:100%;"></div>
             </div>
         </div>
     </div>
 
     <div id="tab-lcd" class="tool-section">
-        
-        <div style="display:flex; gap:10px; margin-bottom:20px;">
-            <button class="btn btn-gold" id="btn-lcd-explore" onclick="lcd_setMode('explore')">Explore</button>
-            <button class="btn btn-outline" id="btn-lcd-challenge" onclick="lcd_setMode('challenge')">Challenge</button>
+        <div class="dashboard">
+            <p style="font-family:'Fredoka';">Select two numbers from the top row to find the Lowest Common Denominator.</p>
         </div>
-
-        <div class="challenge-box" id="challengeBox">
-            <p id="challengePrompt" style="font-size:1.2rem; margin-bottom:10px; font-family:'Fredoka',sans-serif;"></p>
-            <input type="number" id="challengeInput" class="frac-input" style="width:100px; display:inline-block; font-size:1.5rem;" placeholder="?">
-            <button class="btn btn-green" onclick="lcd_checkAnswer()">Check</button>
-            <div id="challengeFeedback" style="margin-top:10px; font-weight:bold; min-height:24px;"></div>
-        </div>
-
-        <div class="dashboard" id="lcd-dashboard">
-            <div id="narration" style="font-family:'Fredoka',sans-serif; font-size:1.1rem; color:var(--text-main); min-height:30px;">
-                Pick two denominators in the top row to start.
-            </div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-outline" onclick="lcd_reset()">Reset</button>
-                <button class="btn btn-gold" id="lcd-btn-anim" onclick="lcd_animate()" disabled>Show Multiples</button>
-            </div>
-        </div>
-
         <div class="chart-container">
             <table class="mult-chart" id="lcd-table"></table>
         </div>
-
-        <div class="explainer">
-            <div class="explainer-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display==='none'?'block':'none'">
-                <span>How to Find the LCD</span> <span>▼</span>
-            </div>
-            <div class="explainer-content" style="display:none">
-                <p><span class="step-num">1</span> <strong>Check:</strong> Does the smaller number divide into the bigger one? If yes, the bigger number is the LCD! (e.g. 2 and 6 → LCD is 6).</p>
-                <p style="margin-top:8px;"><span class="step-num">2</span> <strong>If not:</strong> List the multiples of each until you find a match. (e.g. 4 and 6 → 4, 8, 12... vs 6, 12... Match at 12).</p>
-                <p style="margin-top:8px;"><span class="step-num">3</span> <strong>Shortcut:</strong> If they share no factors, just multiply them. (e.g. 3 and 5 → 15).</p>
-            </div>
-        </div>
     </div>
 
-    <!-- ==================== SIMPLIFY TAB ==================== -->
     <div id="tab-simplify" class="tool-section">
-
-        <div class="simp-mode-row">
-            <button class="btn btn-gold" id="btn-simp-simplify" onclick="simp_setMode('simplify')">Simplify</button>
-            <button class="btn btn-outline" id="btn-simp-improper" onclick="simp_setMode('improper')">Improper → Mixed</button>
-            <button class="btn btn-outline" id="btn-simp-mixed" onclick="simp_setMode('mixed')">Mixed → Improper</button>
-        </div>
-
         <div class="dashboard">
-            <!-- Simplify Mode Input -->
-            <div id="simp-input-simplify" class="simp-input-area">
-                <div class="simp-frac-group">
-                    <input type="number" id="simp-n" class="frac-input" value="6" min="0" oninput="simp_update()">
+            <div style="display:flex; align-items:center; gap:20px;">
+                <div class="frac-group">
+                    <input type="number" id="simp-n" class="frac-input" value="6" oninput="simp_update()">
                     <div class="frac-bar"></div>
-                    <input type="number" id="simp-d" class="frac-input" value="8" min="1" max="100" oninput="simp_update()">
+                    <input type="number" id="simp-d" class="frac-input" value="8" oninput="simp_update()">
                 </div>
-                <div class="simp-arrow">→</div>
-                <div id="simp-result-simplify" class="simp-result-box">
-                    <div class="simp-result-frac">
-                        <span id="simp-rn">3</span>
-                        <div class="frac-bar" style="width:100%;"></div>
-                        <span id="simp-rd">4</span>
-                    </div>
+                <div class="operator">→</div>
+                <div class="res-container">
+                    <span id="simp-rn" class="res-text">3</span>
+                    <div class="frac-bar" style="width:100%;"></div>
+                    <span id="simp-rd" class="res-text">4</span>
                 </div>
             </div>
-
-            <!-- Improper → Mixed Input -->
-            <div id="simp-input-improper" class="simp-input-area" style="display:none;">
-                <div class="simp-frac-group">
-                    <input type="number" id="simp-imp-n" class="frac-input" value="11" min="0" oninput="simp_update()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="simp-imp-d" class="frac-input" value="4" min="1" max="100" oninput="simp_update()">
-                </div>
-                <div class="simp-arrow">→</div>
-                <div id="simp-result-improper" class="simp-result-box">
-                    <span id="simp-imp-whole" class="simp-result-whole"></span>
-                    <div class="simp-result-frac" id="simp-imp-frac-part">
-                        <span id="simp-imp-rn"></span>
-                        <div class="frac-bar" style="width:100%;"></div>
-                        <span id="simp-imp-rd"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mixed → Improper Input -->
-            <div id="simp-input-mixed" class="simp-input-area" style="display:none;">
-                <input type="number" id="simp-mix-w" class="simp-whole-input" value="2" min="0" oninput="simp_update()">
-                <div class="simp-frac-group">
-                    <input type="number" id="simp-mix-n" class="frac-input" value="3" min="0" oninput="simp_update()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="simp-mix-d" class="frac-input" value="4" min="1" max="100" oninput="simp_update()">
-                </div>
-                <div class="simp-arrow">→</div>
-                <div id="simp-result-mixed" class="simp-result-box">
-                    <div class="simp-result-frac">
-                        <span id="simp-mix-rn"></span>
-                        <div class="frac-bar" style="width:100%;"></div>
-                        <span id="simp-mix-rd"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step-by-step explanation -->
-        <div class="simp-steps-container" id="simp-steps"></div>
-
-        <!-- Visual -->
-        <div class="vis-card" style="max-width:900px; width:100%;">
-            <div class="vis-label">Visual Model</div>
-            <div class="simp-vis-row" id="simp-vis"></div>
         </div>
     </div>
 
-    <!-- ==================== FRACTION BARS TAB ==================== -->
     <div id="tab-bars" class="tool-section">
-
         <div class="fb-toolbar">
-            <div class="fb-tool-group">
-                <label class="fb-toggle-label">
-                    <input type="checkbox" id="fb-ruler-toggle">
-                    <span>Ruler Tool</span>
-                </label>
-                <label class="fb-toggle-label">
-                    <input type="checkbox" id="fb-total-toggle" checked>
-                    <span>Show Decimal</span>
-                </label>
-            </div>
             <div class="fb-total-display" id="fb-total-display">Total: 0</div>
+            <button class="fb-clear-btn" onclick="fb_reset()">Clear All</button>
         </div>
 
-        <div class="dashboard" style="padding:15px; position:relative;">
-            <div class="fb-ruler-line" id="fb-ruler-line">
-                <div class="fb-ruler-label" id="fb-ruler-label"></div>
-            </div>
+        <div class="dashboard" style="padding:15px;">
             <div class="fb-work-area" id="fb-work-area">
                 <div class="fb-bars-wrapper" id="fb-bars-wrapper"></div>
             </div>
         </div>
 
         <div class="fb-controls-panel">
+            <div class="fb-preset-row" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px dashed var(--border); width: 100%;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <label style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--c-blue);">CUSTOM DENOMINATOR (1-100)</label>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <input type="range" id="fb-slider" min="1" max="100" value="8" 
+                               style="width: 250px; accent-color: var(--c-blue);"
+                               oninput="syncFBInput(this.value)">
+                        <input type="number" id="fb-custom-input" class="fb-custom-input" 
+                               value="8" min="1" max="100"
+                               oninput="syncFBSlider(this.value)"
+                               onkeydown="if(event.key==='Enter') fb_addCustom()">
+                        <button class="btn btn-blue" onclick="fb_addCustom()" style="height: 45px; padding: 0 25px;">
+                            Add 1/<span id="fb-preview-val">8</span> Bar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="fb-preset-row">
+                <span style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); margin-right: 10px;">COMMON PRESETS:</span>
                 <button class="fb-preset-btn" onclick="fb_addBar(2)">1/2</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(3)">1/3</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(4)">1/4</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(5)">1/5</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(6)">1/6</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(8)">1/8</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(10)">1/10</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(12)">1/12</button>
-            </div>
-            <div class="fb-preset-row">
-                <div class="fb-custom-group">
-                    <input type="number" id="fb-custom-input" class="fb-custom-input" placeholder="#" min="1" max="50">
-                    <button class="fb-add-btn" onclick="fb_addCustom()">Add</button>
-                </div>
-                <button class="fb-clear-btn" onclick="fb_reset()">Clear All</button>
             </div>
         </div>
     </div>
@@ -732,1099 +391,144 @@
     function switchTab(tabId) {
         document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-        
         document.getElementById(tabId).classList.add('active');
         const tabMap = {'tab-fractions':0, 'tab-lcd':1, 'tab-simplify':2, 'tab-bars':3};
         document.querySelectorAll('.nav-tab')[tabMap[tabId]].classList.add('active');
     }
 
-    // =====================================================
-    // LOGIC: FRACTION LAB (Unified)
-    // =====================================================
-    let state = {
-        n1: 1, d1: 4,
-        n2: 1, d2: 4,
-        paintMode: 'a', // 'a' (green) or 'b' (blue)
-        unlikeMode: false,
-        showCommon: false
-    };
-
-    // --- Interaction Handlers ---
-
-    function setPaintMode(mode) {
-        state.paintMode = mode;
-        const btnA = document.getElementById('btn-paint-a');
-        const btnB = document.getElementById('btn-paint-b');
-        const grp1 = document.getElementById('grp-1');
-        const grp2 = document.getElementById('grp-2');
-
-        if(mode === 'a') {
-            btnA.className = 'btn btn-green'; btnB.className = 'btn btn-outline';
-            grp1.classList.add('focus-green'); grp2.classList.remove('focus-blue');
-        } else {
-            btnA.className = 'btn btn-outline'; btnB.className = 'btn btn-blue';
-            grp1.classList.remove('focus-green'); grp2.classList.add('focus-blue');
-        }
-    }
-
-    function toggleUnlikeMode() {
-        state.unlikeMode = !state.unlikeMode;
-        state.showCommon = false;
-        
-        const toggleEl = document.getElementById('mode-toggle');
-        const d2Input = document.getElementById('d2');
-        const commonBtn = document.getElementById('btn-common');
-
-        if(state.unlikeMode) {
-            toggleEl.classList.add('active');
-            d2Input.disabled = false;
-            commonBtn.style.display = 'inline-block';
-            commonBtn.innerText = "Show Common Grid";
-            commonBtn.classList.remove('active');
-        } else {
-            toggleEl.classList.remove('active');
-            d2Input.disabled = true;
-            state.d2 = state.d1;
-            d2Input.value = state.d1;
-            commonBtn.style.display = 'none';
-        }
-        document.getElementById('tab-fractions').classList.remove('show-common');
-        updateLab();
-    }
-
-    function toggleCommonGrid() {
-        state.showCommon = !state.showCommon;
-        const btn = document.getElementById('btn-common');
-        const root = document.getElementById('tab-fractions');
-        
-        if(state.showCommon) {
-            btn.classList.add('active');
-            btn.innerText = "Hide Common Grid";
-            root.classList.add('show-common');
-        } else {
-            btn.classList.remove('active');
-            btn.innerText = "Show Common Grid";
-            root.classList.remove('show-common');
-        }
-        updateLab();
-    }
-
-    function handleDenomChange(which, val) {
-        let v = parseInt(val) || 1;
-        if(v > 12) v = 12; if(v < 1) v = 1;
-
-        if(which === 1) {
-            state.d1 = v;
-            if(!state.unlikeMode) {
-                state.d2 = v;
-                document.getElementById('d2').value = v;
-            }
-        } else {
-            state.d2 = v;
-        }
-        updateLab();
-    }
-
-    // --- Main Update ---
-
-    const gcd = (a, b) => b == 0 ? a : gcd(b, a % b);
-    const lcm = (a, b) => (a * b) / gcd(a, b);
-
+    // --- FRACTION LAB LOGIC ---
+    let state = { n1: 1, d1: 4, n2: 1, d2: 4, paintMode: 'a', unlikeMode: false };
     function updateLab() {
-        // Read numerators
         state.n1 = parseInt(document.getElementById('n1').value) || 0;
         state.n2 = parseInt(document.getElementById('n2').value) || 0;
-        
         const cd = lcm(state.d1, state.d2);
-
-        // Update Ghost Labels
-        const n1_conv = state.n1 * (cd/state.d1);
-        const n2_conv = state.n2 * (cd/state.d2);
-        document.getElementById('ghost-1').innerText = `${n1_conv}/${cd}`;
-        document.getElementById('ghost-2').innerText = `${n2_conv}/${cd}`;
-
-        // Result Logic
-        const resFinal = document.getElementById('res-final');
-        const resUnk = document.getElementById('res-unknown');
-        const simplBadge = document.getElementById('simplified-badge');
-        
-        if(state.d1 === state.d2 || state.showCommon) {
-            resFinal.style.display = 'flex';
-            resUnk.style.display = 'none';
-            
-            const sumNum = n1_conv + n2_conv;
-            document.getElementById('rn').innerText = sumNum;
-            document.getElementById('rd').innerText = cd;
-
-            // FIX 5: Show simplified form
-            const g = gcd(Math.abs(sumNum), cd);
-            const simpNum = sumNum / g;
-            const simpDen = cd / g;
-            
-            if(g > 1 && sumNum > 0) {
-                if(simpDen === 1) {
-                    simplBadge.innerText = `= ${simpNum}`;
-                } else {
-                    const wholepart = Math.floor(simpNum / simpDen);
-                    const remainder = simpNum % simpDen;
-                    if(wholepart >= 1 && remainder > 0) {
-                        simplBadge.innerText = `= ${wholepart} ${remainder}/${simpDen}`;
-                    } else {
-                        simplBadge.innerText = `= ${simpNum}/${simpDen}`;
-                    }
-                }
-                simplBadge.style.display = 'inline-block';
-            } else if(sumNum > 0 && sumNum > cd) {
-                // Not reducible but improper — show mixed number
-                const wholepart = Math.floor(sumNum / cd);
-                const remainder = sumNum % cd;
-                if(wholepart >= 1 && remainder > 0) {
-                    simplBadge.innerText = `= ${wholepart} ${remainder}/${cd}`;
-                    simplBadge.style.display = 'inline-block';
-                } else if(remainder === 0) {
-                    simplBadge.innerText = `= ${wholepart}`;
-                    simplBadge.style.display = 'inline-block';
-                } else {
-                    simplBadge.style.display = 'none';
-                }
-            } else {
-                simplBadge.style.display = 'none';
-            }
-        } else {
-            resFinal.style.display = 'none';
-            resUnk.style.display = 'block';
-            simplBadge.style.display = 'none';
-        }
-
-        renderBars(cd);
-        renderPies(cd);
-        renderLine(cd);
+        const resN = (state.n1 * (cd/state.d1)) + (state.n2 * (cd/state.d2));
+        document.getElementById('rn').innerText = resN;
+        document.getElementById('rd').innerText = cd;
+        renderBars();
     }
-
-    // FIX 1: Reworked click logic — clicking directly adds/removes from the correct fraction
-    function clickPiece(fracId, operation) {
-        if(fracId === 1) {
-            if(operation === 'add') state.n1++;
-            else state.n1 = Math.max(0, state.n1 - 1);
-        } else {
-            if(operation === 'add') state.n2++;
-            else state.n2 = Math.max(0, state.n2 - 1);
-        }
-        document.getElementById('n1').value = state.n1;
-        document.getElementById('n2').value = state.n2;
+    function toggleUnlikeMode() {
+        state.unlikeMode = !state.unlikeMode;
+        document.getElementById('mode-toggle').classList.toggle('active');
+        document.getElementById('d2').disabled = !state.unlikeMode;
+        if(!state.unlikeMode) { state.d2 = state.d1; document.getElementById('d2').value = state.d1; }
         updateLab();
     }
-
-    // --- Renderers ---
-
-    function renderBars(cd) {
+    function handleDenomChange(id, val) {
+        if(id===1) { state.d1 = parseInt(val) || 1; if(!state.unlikeMode) { state.d2 = state.d1; document.getElementById('d2').value = val; }}
+        else state.d2 = parseInt(val) || 1;
+        updateLab();
+    }
+    function renderBars() {
         const container = document.getElementById('vis-bars');
         container.innerHTML = '';
-
-        const drawBar = (n, d, colorCls, fracId) => {
-            const w = 600; const h = 50;
-            const svgNS = "http://www.w3.org/2000/svg";
-            const wholes = Math.ceil(Math.max(1, n/d));
-            const totalW = Math.max(w, w*(n/d)) + 10;
-            
-            const svg = document.createElementNS(svgNS, "svg");
-            svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${totalW} ${h+20}`);
-            
-            for(let i=0; i<wholes*d; i++) {
-                const segW = w/d;
-                const x = i * segW;
-                
-                const rect = document.createElementNS(svgNS, "rect");
-                rect.setAttribute("x", x); rect.setAttribute("y", 10);
-                rect.setAttribute("width", segW); rect.setAttribute("height", h);
-                rect.setAttribute("stroke", "#37474f"); rect.setAttribute("stroke-width", 2);
-                
-                if(i < n) rect.setAttribute("class", colorCls);
-                else rect.setAttribute("fill", "white");
-                
-                rect.style.cursor = "pointer";
-                rect.onclick = () => {
-                    if(i < n) clickPiece(fracId, 'sub');
-                    else clickPiece(fracId, 'add');
-                };
-                
+        const draw = (n, d, cls) => {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "100%"); svg.setAttribute("height", "60");
+            for(let i=0; i<d; i++) {
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", (i*(100/d)) + "%"); rect.setAttribute("y", "10");
+                rect.setAttribute("width", (100/d) + "%"); rect.setAttribute("height", "40");
+                rect.setAttribute("stroke", "#333"); rect.setAttribute("fill", i < n ? (cls==='a'?'#4CAF50':'#2196F3') : 'white');
                 svg.appendChild(rect);
-            }
-
-            // Common Grid Overlay
-            if(state.showCommon && cd !== d) {
-                for(let i=1; i<wholes*cd; i++) {
-                    const x = i * (w/cd);
-                    if((i*d)%cd !== 0) {
-                        const l = document.createElementNS(svgNS, "line");
-                        l.setAttribute("x1", x); l.setAttribute("x2", x);
-                        l.setAttribute("y1", 10); l.setAttribute("y2", 10+h);
-                        l.setAttribute("class", "sub-line");
-                        l.style.pointerEvents = "none"; 
-                        svg.appendChild(l);
-                    }
-                }
             }
             container.appendChild(svg);
         };
-
-        drawBar(state.n1, state.d1, 'fill-green', 1);
-        drawBar(state.n2, state.d2, 'fill-blue', 2);
-        
-        // Result Bar
-        const drawResult = () => {
-             const w = 600; const h = 50; const gap = 15;
-             const val1 = state.n1/state.d1; 
-             const val2 = state.n2/state.d2;
-             const total = val1 + val2;
-             const wholes = Math.ceil(Math.max(1, total));
-             const svgNS = "http://www.w3.org/2000/svg";
-             
-             const totalH = (h * wholes) + (gap * (wholes-1)) + 20;
-             const svg = document.createElementNS(svgNS, "svg");
-             svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${w+4} ${totalH}`);
-
-             let remG = val1;
-             let remB = val2;
-
-             for(let r=0; r<wholes; r++){
-                 const y = 10 + r*(h+gap);
-                 const frame = document.createElementNS(svgNS, "rect");
-                 frame.setAttribute("x", 0); frame.setAttribute("y", y);
-                 frame.setAttribute("width", w); frame.setAttribute("height", h);
-                 frame.setAttribute("stroke", "#37474f"); frame.setAttribute("stroke-width", 2);
-                 frame.setAttribute("fill", "white");
-                 svg.appendChild(frame);
-
-                 let gInRow = Math.min(remG, 1.0);
-                 if(gInRow > 0) {
-                     const rG = document.createElementNS(svgNS, "rect");
-                     rG.setAttribute("x", 0); rG.setAttribute("y", y);
-                     rG.setAttribute("width", gInRow*w); rG.setAttribute("height", h);
-                     rG.setAttribute("class", "fill-green");
-                     svg.appendChild(rG);
-                     remG -= gInRow; if(remG < 0.001) remG = 0;
-                 }
-
-                 if(remB > 0 && gInRow < 1.0) {
-                     let spaceLeft = 1.0 - gInRow;
-                     let bInRow = Math.min(remB, spaceLeft);
-                     
-                     const rB = document.createElementNS(svgNS, "rect");
-                     rB.setAttribute("x", gInRow*w); rB.setAttribute("y", y);
-                     rB.setAttribute("width", bInRow*w); rB.setAttribute("height", h);
-                     rB.setAttribute("class", "fill-blue");
-                     svg.appendChild(rB);
-                     
-                     remB -= bInRow; if(remB < 0.001) remB = 0;
-                 }
-
-                 if(state.showCommon) {
-                     for(let i=1; i<cd; i++) {
-                         const x = i * (w/cd);
-                         const l = document.createElementNS(svgNS, "line");
-                         l.setAttribute("x1", x); l.setAttribute("x2", x);
-                         l.setAttribute("y1", y); l.setAttribute("y2", y+h);
-                         l.setAttribute("class", "sub-line");
-                         l.style.opacity = 0.8;
-                         svg.appendChild(l);
-                     }
-                 } else {
-                     if(gInRow > 0.001 && gInRow < 0.999) {
-                         const x = gInRow*w;
-                         const l = document.createElementNS(svgNS, "line");
-                         l.setAttribute("x1", x); l.setAttribute("x2", x);
-                         l.setAttribute("y1", y); l.setAttribute("y2", y+h);
-                         l.setAttribute("stroke", "white"); l.setAttribute("stroke-width", 2);
-                         svg.appendChild(l);
-                     }
-                 }
-             }
-             container.appendChild(svg);
-        };
-        drawResult();
+        draw(state.n1, state.d1, 'a'); draw(state.n2, state.d2, 'b');
     }
 
-    // FIX 2: Circle model now includes common grid overlay lines
-    function renderPies(cd) {
-        const container = document.getElementById('vis-pies');
-        container.innerHTML = '';
-        
-        const svgNS = "http://www.w3.org/2000/svg";
-
-        const drawPie = (n, d, colorCls, fracId) => {
-            const wholes = Math.ceil(Math.max(1, n/d));
-            
-            for(let w=0; w<wholes; w++) {
-                const svg = document.createElementNS(svgNS, "svg");
-                svg.setAttribute("width", "120"); svg.setAttribute("height", "120");
-                svg.setAttribute("viewBox", "-5 -5 110 110");
-                const cx=50, cy=50, r=50;
-
-                // Draw the main slices
-                for(let i=0; i<d; i++) {
-                    const absIdx = (w*d) + i;
-                    const startA = (i*360/d) - 90;
-                    const endA = ((i+1)*360/d) - 90;
-                    const x1 = cx + r * Math.cos(startA*Math.PI/180);
-                    const y1 = cy + r * Math.sin(startA*Math.PI/180);
-                    const x2 = cx + r * Math.cos(endA*Math.PI/180);
-                    const y2 = cy + r * Math.sin(endA*Math.PI/180);
-                    const large = (endA - startA) > 180 ? 1 : 0;
-                    
-                    const path = document.createElementNS(svgNS, "path");
-                    path.setAttribute("d", `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
-                    
-                    if(absIdx < n) path.setAttribute("class", `shape-stroke ${colorCls}`);
-                    else path.setAttribute("class", "shape-stroke fill-empty");
-                    
-                    path.style.cursor = "pointer";
-                    path.onclick = () => {
-                         if(absIdx < n) clickPiece(fracId, 'sub');
-                         else clickPiece(fracId, 'add');
-                    };
-                    svg.appendChild(path);
-                }
-
-                // FIX 2: Common grid overlay — draw subdivision lines for the LCD
-                if(state.showCommon && cd !== d) {
-                    for(let i=0; i<cd; i++) {
-                        // Only draw lines that don't already exist from the main slices
-                        if((i * d) % cd !== 0) {
-                            const angle = (i * 360 / cd) - 90;
-                            const lx = cx + r * Math.cos(angle * Math.PI / 180);
-                            const ly = cy + r * Math.sin(angle * Math.PI / 180);
-                            
-                            const line = document.createElementNS(svgNS, "line");
-                            line.setAttribute("x1", cx);
-                            line.setAttribute("y1", cy);
-                            line.setAttribute("x2", lx);
-                            line.setAttribute("y2", ly);
-                            line.setAttribute("class", "sub-line");
-                            line.style.pointerEvents = "none";
-                            svg.appendChild(line);
-                        }
-                    }
-                }
-
-                container.appendChild(svg);
-            }
-        };
-
-        drawPie(state.n1, state.d1, 'fill-green', 1);
-        drawPie(state.n2, state.d2, 'fill-blue', 2);
-    }
-
-    // FIX 3: Number line with smart label filtering for large LCDs
-    function renderLine(cd) {
-        const container = document.getElementById('vis-line');
-        container.innerHTML = '';
-        
-        const tickD = cd;
-        
-        const val1 = state.n1/state.d1; 
-        const val2 = state.n2/state.d2;
-        const total = val1 + val2;
-        const wholes = Math.ceil(Math.max(1, total));
-        
-        // Calculate smart label interval based on LCD size
-        // If there are too many ticks, only label every Nth one
-        const totalTicks = wholes * tickD;
-        let labelInterval = 1;
-        if(totalTicks > 40) labelInterval = 5;
-        else if(totalTicks > 24) labelInterval = 3;
-        else if(totalTicks > 16) labelInterval = 2;
-        
-        const minW = 800;
-        const pixelsPerTick = Math.max(30, minW / totalTicks); // At least 30px per tick
-        const w = Math.max(minW, totalTicks * pixelsPerTick + 80);
-        
-        const svgNS = "http://www.w3.org/2000/svg";
-        const svg = document.createElementNS(svgNS, "svg");
-        svg.setAttribute("width", w); svg.setAttribute("height", "120");
-        
-        const margin = 40; const lineY = 60; const effW = w - 2*margin;
-        const step = effW / totalTicks;
-
-        // Main line
-        const line = document.createElementNS(svgNS, "line");
-        line.setAttribute("x1", margin); line.setAttribute("y1", lineY);
-        line.setAttribute("x2", w-margin); line.setAttribute("y2", lineY);
-        line.setAttribute("stroke", "#37474f"); line.setAttribute("stroke-width", 2);
-        svg.appendChild(line);
-
-        for(let i=0; i<=totalTicks; i++){
-            const x = margin + i*step;
-            const isWhole = i % tickD === 0;
-            const tick = document.createElementNS(svgNS, "line");
-            tick.setAttribute("x1", x); tick.setAttribute("x2", x);
-            tick.setAttribute("y1", lineY); tick.setAttribute("y2", lineY + (isWhole ? 20:10));
-            tick.setAttribute("stroke", "#37474f");
-            svg.appendChild(tick);
-
-            // Smart fraction label — only show at intervals or at key positions
-            const showLabel = isWhole || (i % labelInterval === 0);
-            if(showLabel) {
-                const smTxt = document.createElementNS(svgNS, "text");
-                smTxt.setAttribute("x", x); smTxt.setAttribute("y", lineY + 30);
-                smTxt.setAttribute("text-anchor", "middle");
-                smTxt.textContent = `${i}/${tickD}`;
-                smTxt.setAttribute("class", "nl-text-small");
-                svg.appendChild(smTxt);
-            }
-
-            // Large Integer Label at whole numbers
-            if(isWhole) {
-                const lgTxt = document.createElementNS(svgNS, "text");
-                lgTxt.setAttribute("x", x); lgTxt.setAttribute("y", lineY + 60);
-                lgTxt.setAttribute("text-anchor", "middle");
-                lgTxt.textContent = i/tickD;
-                lgTxt.setAttribute("class", "nl-text-large");
-                svg.appendChild(lgTxt);
-            }
-        }
-        
-        // Jumps
-        if(val1 > 0) {
-            const width1 = val1 * effW / wholes;
-            const x1 = margin; const x2 = margin + width1;
-            svg.appendChild(createJump(svgNS, x1, x2, lineY, 'var(--c-green)'));
-        }
-        if(val2 > 0) {
-            const width1 = val1 * effW / wholes;
-            const width2 = val2 * effW / wholes;
-            const start = margin + width1;
-            const end = start + width2;
-            svg.appendChild(createJump(svgNS, start, end, lineY, 'var(--c-blue)'));
-        }
-        
-        container.appendChild(svg);
-    }
-    
-    function createJump(ns, x1, x2, y, color) {
-        const path = document.createElementNS(ns, "path");
-        const mid = (x1+x2)/2; const h = Math.min(50, 25 + (x2-x1)/12);
-        path.setAttribute("d", `M ${x1} ${y-10} Q ${mid} ${y-10-h} ${x2} ${y-10}`);
-        path.setAttribute("fill", "none"); path.setAttribute("stroke", color); path.setAttribute("stroke-width", 4);
-        return path;
-    }
-
-    // =====================================================
-    // LOGIC: LCD FINDER
-    // =====================================================
-    const LCD_SIZE = 12;
-    let lcd_selA = null;
-    let lcd_selB = null;
-    let lcd_mode = 'explore';
-    let lcd_animating = false;
-    let lcd_pair = null;
-
-    function lcd_init() {
+    // --- LCD FINDER LOGIC ---
+    function initLCD() {
         const table = document.getElementById('lcd-table');
-        table.innerHTML = '';
-        
-        const hRow = document.createElement('tr');
-        hRow.innerHTML = '<th style="background:transparent; border:none;">×</th>';
-        for(let c=1; c<=LCD_SIZE; c++){
-            const th = document.createElement('th');
-            th.className = 'col-header';
-            th.textContent = c;
-            th.dataset.num = c;
-            th.onclick = () => lcd_select(c);
-            hRow.appendChild(th);
+        let html = '<tr><th>×</th>';
+        for(let i=1; i<=12; i++) html += `<th class="col-header" onclick="lcd_select(${i})">${i}</th>`;
+        html += '</tr>';
+        for(let r=1; r<=12; r++) {
+            html += `<tr><td style="background:#eee; font-weight:bold;">${r}</td>`;
+            for(let c=1; c<=12; c++) html += `<td class="data-cell" id="lcd-${r}-${c}">${r*c}</td>`;
+            html += '</tr>';
         }
-        table.appendChild(hRow);
-
-        for(let r=1; r<=LCD_SIZE; r++){
-            const row = document.createElement('tr');
-            row.innerHTML = `<td style="background:#eceff1; font-weight:bold; color:#78909c">${r}</td>`;
-            for(let c=1; c<=LCD_SIZE; c++){
-                const td = document.createElement('td');
-                td.className = 'data-cell';
-                td.textContent = r*c;
-                td.id = `cell-${r}-${c}`;
-                row.appendChild(td);
-            }
-            table.appendChild(row);
+        table.innerHTML = html;
+    }
+    let lcdA = null;
+    function lcd_select(n) {
+        document.querySelectorAll('.data-cell').forEach(e => e.classList.remove('lcd-match'));
+        if(!lcdA) lcdA = n;
+        else {
+            const match = lcm(lcdA, n);
+            document.querySelectorAll('.data-cell').forEach(e => { if(parseInt(e.innerText) === match) e.classList.add('lcd-match'); });
+            lcdA = null;
         }
     }
 
-    function lcd_setMode(mode) {
-        lcd_mode = mode;
-        const btnExp = document.getElementById('btn-lcd-explore');
-        const btnCha = document.getElementById('btn-lcd-challenge');
-        const dash = document.getElementById('lcd-dashboard');
-        const box = document.getElementById('challengeBox');
-
-        lcd_reset(); 
-
-        if(mode === 'explore') {
-            btnExp.className = 'btn btn-gold';
-            btnCha.className = 'btn btn-outline';
-            dash.style.display = 'flex';
-            box.style.display = 'none';
-        } else {
-            btnExp.className = 'btn btn-outline';
-            btnCha.className = 'btn btn-gold';
-            dash.style.display = 'none';
-            box.style.display = 'block';
-            lcd_genChallenge();
-        }
-    }
-
-    function lcd_select(num) {
-        if(lcd_animating || lcd_mode === 'challenge') return;
-        
-        const narr = document.getElementById('narration');
-        const btn = document.getElementById('lcd-btn-anim');
-
-        if(lcd_selA !== null && lcd_selB !== null) {
-            lcd_reset();
-        }
-
-        if(lcd_selA === null) {
-            lcd_selA = num;
-            lcd_highlightCol(num, 'sel-green');
-            narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${num}</span>. Now pick a second.`;
-        } else if(lcd_selB === null && num !== lcd_selA) {
-            lcd_selB = num;
-            lcd_highlightCol(num, 'sel-blue');
-            narr.innerHTML = `Selected <span style="color:var(--c-green); font-weight:bold">${lcd_selA}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_selB}</span>.`;
-            btn.disabled = false;
-        }
-    }
-
-    function lcd_highlightCol(col, cls) {
-        const headers = document.querySelectorAll('.col-header');
-        if(headers[col-1]) headers[col-1].classList.add(cls);
-    }
-
-    function lcd_animate() {
-        if(!lcd_selA || !lcd_selB) return;
-        document.getElementById('lcd-btn-anim').disabled = true;
-        lcd_animating = true;
-        
-        const myLcm = lcm(lcd_selA, lcd_selB);
-        let r = 1;
-
-        const interval = setInterval(() => {
-            if(r > LCD_SIZE) { 
-                clearInterval(interval); 
-                lcd_animating = false;
-                return; 
-            }
-            
-            const cellA = document.getElementById(`cell-${r}-${lcd_selA}`);
-            if(cellA) {
-                cellA.classList.add('hl-green');
-                if(r * lcd_selA === myLcm) cellA.classList.add('lcd-match');
-            }
-            
-            const cellB = document.getElementById(`cell-${r}-${lcd_selB}`);
-            if(cellB) {
-                cellB.classList.add('hl-blue');
-                if(r * lcd_selB === myLcm) cellB.classList.add('lcd-match');
-            }
-
-            if(r * lcd_selA >= myLcm && r * lcd_selB >= myLcm) {
-               document.getElementById('narration').innerHTML = 
-               `Match found! The LCD is <span style="color:#f57f17; font-size:1.5rem; font-weight:bold">${myLcm}</span>`;
-            }
-            r++;
-        }, 150);
-    }
-
-    function lcd_reset() {
-        lcd_selA = null; lcd_selB = null; lcd_animating = false;
-        
-        if(lcd_mode === 'explore') {
-            document.getElementById('narration').innerText = "Pick two denominators in the top row to start.";
-            document.getElementById('lcd-btn-anim').disabled = true;
-        }
-
-        document.querySelectorAll('.col-header').forEach(el => el.classList.remove('sel-green', 'sel-blue'));
-        document.querySelectorAll('.data-cell').forEach(el => el.classList.remove('hl-green', 'hl-blue', 'lcd-match'));
-    }
-
-    function lcd_genChallenge() {
-        const pairs = [[2,3],[2,5],[3,4],[3,5],[4,5],[2,7],[3,7],[4,6],[6,8],[3,8]];
-        lcd_pair = pairs[Math.floor(Math.random()*pairs.length)];
-        
-        document.getElementById('challengePrompt').innerHTML = 
-            `Find the LCD of <span style="color:var(--c-green); font-weight:bold">${lcd_pair[0]}</span> and <span style="color:var(--c-blue); font-weight:bold">${lcd_pair[1]}</span>`;
-        document.getElementById('challengeInput').value = '';
-        document.getElementById('challengeFeedback').innerText = '';
-        
-        lcd_highlightCol(lcd_pair[0], 'sel-green');
-        lcd_highlightCol(lcd_pair[1], 'sel-blue');
-    }
-
-    function lcd_checkAnswer() {
-        if(!lcd_pair) return;
-        const val = parseInt(document.getElementById('challengeInput').value);
-        const ans = lcm(lcd_pair[0], lcd_pair[1]);
-        const fb = document.getElementById('challengeFeedback');
-        
-        if(val === ans) {
-            fb.innerHTML = '<span style="color:var(--c-green)">Correct! ✓</span>';
-            const rowA = ans / lcd_pair[0];
-            const rowB = ans / lcd_pair[1];
-            document.getElementById(`cell-${rowA}-${lcd_pair[0]}`).classList.add('lcd-match');
-            document.getElementById(`cell-${rowB}-${lcd_pair[1]}`).classList.add('lcd-match');
-            setTimeout(() => {
-                lcd_reset();
-                lcd_genChallenge();
-            }, 2000);
-        } else {
-            fb.innerHTML = '<span style="color:var(--c-red)">Try Again</span>';
-        }
-    }
-
-    // =====================================================
-    // LOGIC: SIMPLIFY TAB
-    // =====================================================
-    let simp_mode = 'simplify'; // 'simplify', 'improper', 'mixed'
-
-    function simp_setMode(mode) {
-        simp_mode = mode;
-        const modes = ['simplify', 'improper', 'mixed'];
-        const btns = [
-            document.getElementById('btn-simp-simplify'),
-            document.getElementById('btn-simp-improper'),
-            document.getElementById('btn-simp-mixed')
-        ];
-        modes.forEach((m, i) => {
-            document.getElementById('simp-input-' + m).style.display = m === mode ? 'flex' : 'none';
-            btns[i].className = m === mode ? 'btn btn-gold' : 'btn btn-outline';
-        });
-        simp_update();
-    }
-
+    // --- SIMPLIFY LOGIC ---
     function simp_update() {
-        if(simp_mode === 'simplify') simp_doSimplify();
-        else if(simp_mode === 'improper') simp_doImproper();
-        else simp_doMixed();
-    }
-
-    function simp_doSimplify() {
         const n = parseInt(document.getElementById('simp-n').value) || 0;
         const d = parseInt(document.getElementById('simp-d').value) || 1;
-        const g = gcd(Math.abs(n), Math.abs(d));
-        const sn = n / g;
-        const sd = d / g;
-
-        document.getElementById('simp-rn').textContent = sn;
-        document.getElementById('simp-rd').textContent = sd;
-
-        // Steps
-        const steps = document.getElementById('simp-steps');
-        steps.innerHTML = '';
-
-        if(g === 1 && n <= d) {
-            steps.innerHTML = simp_stepHTML('green', '✓', `${n}/${d} is already in simplest form — no common factors.`);
-        } else {
-            // Find common factors for explanation
-            const factors = [];
-            for(let i = 2; i <= Math.min(Math.abs(n), Math.abs(d)); i++) {
-                if(n % i === 0 && d % i === 0) factors.push(i);
-            }
-            
-            let delay = 0;
-            if(factors.length > 0) {
-                steps.innerHTML += simp_stepHTML('gold', '1', 
-                    `Find common factors of ${n} and ${d}: <strong>${factors.join(', ')}</strong>`, delay);
-                delay++;
-                steps.innerHTML += simp_stepHTML('gold', '2', 
-                    `The greatest common factor (GCF) is <strong>${g}</strong>`, delay);
-                delay++;
-                steps.innerHTML += simp_stepHTML('blue', '3', 
-                    `Divide both by ${g}: &nbsp; ${n} ÷ ${g} = <strong>${sn}</strong> &nbsp;and&nbsp; ${d} ÷ ${g} = <strong>${sd}</strong>`, delay);
-                delay++;
-            }
-
-            // Check if result is improper
-            if(sn > sd && sd > 1) {
-                const whole = Math.floor(sn / sd);
-                const rem = sn % sd;
-                if(rem > 0) {
-                    steps.innerHTML += simp_stepHTML('green', '✓', 
-                        `<strong>${sn}/${sd}</strong> = <strong>${whole} ${rem}/${sd}</strong> as a mixed number`, delay);
-                } else {
-                    steps.innerHTML += simp_stepHTML('green', '✓', 
-                        `<strong>${sn}/${sd}</strong> = <strong>${whole}</strong>`, delay);
-                }
-            } else if(sd === 1) {
-                steps.innerHTML += simp_stepHTML('green', '✓', 
-                    `<strong>${n}/${d}</strong> = <strong>${sn}</strong>`, delay);
-            } else {
-                steps.innerHTML += simp_stepHTML('green', '✓', 
-                    `Simplest form: <strong>${sn}/${sd}</strong>`, delay);
-            }
-        }
-
-        // Visual: show original and simplified as circle models side by side
-        simp_drawComparison(n, d, sn, sd);
+        const common = gcd(n, d);
+        document.getElementById('simp-rn').innerText = n / common;
+        document.getElementById('simp-rd').innerText = d / common;
     }
 
-    function simp_doImproper() {
-        const n = parseInt(document.getElementById('simp-imp-n').value) || 0;
-        const d = parseInt(document.getElementById('simp-imp-d').value) || 1;
-
-        const whole = Math.floor(n / d);
-        const rem = n % d;
-
-        // Simplify the remainder fraction
-        const g = rem > 0 ? gcd(rem, d) : 1;
-        const simpRem = rem / g;
-        const simpD = d / g;
-
-        const wholeEl = document.getElementById('simp-imp-whole');
-        const fracPart = document.getElementById('simp-imp-frac-part');
-        const rnEl = document.getElementById('simp-imp-rn');
-        const rdEl = document.getElementById('simp-imp-rd');
-
-        if(whole > 0) {
-            wholeEl.textContent = whole;
-            wholeEl.style.display = 'inline';
-        } else {
-            wholeEl.style.display = 'none';
-        }
-
-        if(simpRem > 0) {
-            rnEl.textContent = simpRem;
-            rdEl.textContent = simpD;
-            fracPart.style.display = 'flex';
-        } else {
-            fracPart.style.display = 'none';
-        }
-
-        // Steps
-        const steps = document.getElementById('simp-steps');
-        steps.innerHTML = '';
-
-        if(n < d) {
-            steps.innerHTML = simp_stepHTML('green', '✓', `${n}/${d} is already a proper fraction (numerator < denominator).`);
-        } else {
-            let delay = 0;
-            steps.innerHTML += simp_stepHTML('gold', '1',
-                `Divide: ${n} ÷ ${d} = <strong>${whole}</strong> remainder <strong>${rem}</strong>`, delay);
-            delay++;
-            steps.innerHTML += simp_stepHTML('blue', '2',
-                `The whole number is <strong>${whole}</strong>, the remainder goes over the denominator: <strong>${rem}/${d}</strong>`, delay);
-            delay++;
-            if(g > 1) {
-                steps.innerHTML += simp_stepHTML('blue', '3',
-                    `Simplify ${rem}/${d} by dividing both by ${g}: <strong>${simpRem}/${simpD}</strong>`, delay);
-                delay++;
-            }
-            const mixedStr = simpRem > 0 ? `${whole} ${simpRem}/${simpD}` : `${whole}`;
-            steps.innerHTML += simp_stepHTML('green', '✓',
-                `<strong>${n}/${d}</strong> = <strong>${mixedStr}</strong>`, delay);
-        }
-
-        // Visual: show circles with filled slices
-        simp_drawImproper(n, d);
-    }
-
-    function simp_doMixed() {
-        const w = parseInt(document.getElementById('simp-mix-w').value) || 0;
-        const n = parseInt(document.getElementById('simp-mix-n').value) || 0;
-        const d = parseInt(document.getElementById('simp-mix-d').value) || 1;
-
-        const impNum = (w * d) + n;
-
-        document.getElementById('simp-mix-rn').textContent = impNum;
-        document.getElementById('simp-mix-rd').textContent = d;
-
-        // Steps
-        const steps = document.getElementById('simp-steps');
-        steps.innerHTML = '';
-        let delay = 0;
-
-        steps.innerHTML += simp_stepHTML('gold', '1',
-            `Multiply the whole number by the denominator: ${w} × ${d} = <strong>${w * d}</strong>`, delay);
-        delay++;
-        steps.innerHTML += simp_stepHTML('blue', '2',
-            `Add the numerator: ${w * d} + ${n} = <strong>${impNum}</strong>`, delay);
-        delay++;
-        steps.innerHTML += simp_stepHTML('green', '✓',
-            `<strong>${w} ${n}/${d}</strong> = <strong>${impNum}/${d}</strong>`, delay);
-
-        // Visual
-        simp_drawImproper(impNum, d);
-    }
-
-    function simp_stepHTML(colorClass, icon, text, delayIdx) {
-        const delay = (delayIdx || 0) * 0.15;
-        return `<div class="simp-step" style="animation-delay:${delay}s">
-            <div class="step-icon ${colorClass}">${icon}</div>
-            <div>${text}</div>
-        </div>`;
-    }
-
-    // Draw side-by-side circle comparison for simplify mode
-    function simp_drawComparison(n1, d1, n2, d2) {
-        const container = document.getElementById('simp-vis');
-        container.innerHTML = '';
-        
-        if(d1 < 1 || d2 < 1 || n1 < 0) return;
-
-        // Clamp for visual sanity
-        const showN1 = Math.min(n1, d1 * 3);
-        const showN2 = Math.min(n2, d2 * 3);
-
-        // Original
-        const leftDiv = document.createElement('div');
-        leftDiv.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:8px;';
-        leftDiv.innerHTML = `<div style="font-family:'Fredoka',sans-serif; font-weight:600; color:var(--text-muted); font-size:0.85rem;">ORIGINAL</div>`;
-        const leftCircles = document.createElement('div');
-        leftCircles.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; justify-content:center;';
-        const wholes1 = Math.ceil(Math.max(1, showN1 / d1));
-        for(let w = 0; w < wholes1; w++) {
-            leftCircles.appendChild(simp_drawCircle(showN1, d1, w, 'var(--c-blue)'));
-        }
-        leftDiv.appendChild(leftCircles);
-        container.appendChild(leftDiv);
-
-        // Arrow
-        const arrow = document.createElement('div');
-        arrow.className = 'simp-arrow';
-        arrow.textContent = '→';
-        container.appendChild(arrow);
-
-        // Simplified
-        const rightDiv = document.createElement('div');
-        rightDiv.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:8px;';
-        rightDiv.innerHTML = `<div style="font-family:'Fredoka',sans-serif; font-weight:600; color:var(--c-green); font-size:0.85rem;">SIMPLIFIED</div>`;
-        const rightCircles = document.createElement('div');
-        rightCircles.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; justify-content:center;';
-        const wholes2 = Math.ceil(Math.max(1, showN2 / d2));
-        for(let w = 0; w < wholes2; w++) {
-            rightCircles.appendChild(simp_drawCircle(showN2, d2, w, 'var(--c-green)'));
-        }
-        rightDiv.appendChild(rightCircles);
-        container.appendChild(rightDiv);
-    }
-
-    // Draw circles for improper/mixed mode (single set)
-    function simp_drawImproper(n, d) {
-        const container = document.getElementById('simp-vis');
-        container.innerHTML = '';
-        if(d < 1) return;
-
-        const showN = Math.min(n, d * 6);
-        const wholes = Math.ceil(Math.max(1, showN / d));
-        
-        for(let w = 0; w < wholes; w++) {
-            container.appendChild(simp_drawCircle(showN, d, w, 'var(--c-green)'));
-        }
-    }
-
-    function simp_drawCircle(n, d, wholeIdx, fillColor) {
-        const svgNS = "http://www.w3.org/2000/svg";
-        const svg = document.createElementNS(svgNS, "svg");
-        svg.setAttribute("width", "100"); svg.setAttribute("height", "100");
-        svg.setAttribute("viewBox", "-5 -5 110 110");
-        const cx = 50, cy = 50, r = 50;
-
-        for(let i = 0; i < d; i++) {
-            const absIdx = (wholeIdx * d) + i;
-            const startA = (i * 360 / d) - 90;
-            const endA = ((i + 1) * 360 / d) - 90;
-            const x1 = cx + r * Math.cos(startA * Math.PI / 180);
-            const y1 = cy + r * Math.sin(startA * Math.PI / 180);
-            const x2 = cx + r * Math.cos(endA * Math.PI / 180);
-            const y2 = cy + r * Math.sin(endA * Math.PI / 180);
-            const large = (endA - startA) > 180 ? 1 : 0;
-
-            const path = document.createElementNS(svgNS, "path");
-            path.setAttribute("d", `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
-            path.setAttribute("stroke", "#37474f");
-            path.setAttribute("stroke-width", "2");
-
-            if(absIdx < n) {
-                path.setAttribute("fill", fillColor);
-            } else {
-                path.setAttribute("fill", "white");
-            }
-            svg.appendChild(path);
-        }
-
-        return svg;
-    }
-
-    // =====================================================
-    // LOGIC: FRACTION BARS TAB
-    // =====================================================
+    // --- FRACTION BARS LOGIC ---
     let fb_bars = [];
-
-    const fb_colorMap = {
-        1:  { base: '#ef4444', hl: '#fca5a5' },
-        2:  { base: '#f97316', hl: '#fdba74' },
-        3:  { base: '#f59e0b', hl: '#fde047' },
-        4:  { base: '#eab308', hl: '#fef08a' },
-        5:  { base: '#84cc16', hl: '#bef264' },
-        6:  { base: '#22c55e', hl: '#86efac' },
-        7:  { base: '#10b981', hl: '#6ee7b7' },
-        8:  { base: '#14b8a6', hl: '#5eead4' },
-        9:  { base: '#06b6d4', hl: '#67e8f9' },
-        10: { base: '#0ea5e9', hl: '#7dd3fc' },
-        12: { base: '#6366f1', hl: '#a5b4fc' }
-    };
-
-    function fb_getColors(n) {
-        if(fb_colorMap[n]) return fb_colorMap[n];
-        const hue = (n * 137.508) % 360;
-        return { base: `hsl(${hue}, 70%, 50%)`, hl: `hsl(${hue}, 90%, 80%)` };
+    function syncFBInput(val) {
+        document.getElementById('fb-custom-input').value = val;
+        document.getElementById('fb-preview-val').innerText = val;
     }
-
+    function syncFBSlider(val) {
+        document.getElementById('fb-slider').value = val;
+        document.getElementById('fb-preview-val').innerText = val;
+    }
     function fb_addBar(denom) {
-        const id = Date.now() + Math.random();
-        const colors = fb_getColors(denom);
-        const barObj = { id, denom, colors };
-        fb_bars.push(barObj);
-
-        const wrapper = document.getElementById('fb-bars-wrapper');
-        const row = fb_createRow(barObj);
-
-        // Insert sorted by denom (smallest denom = biggest fraction first)
-        const existing = Array.from(wrapper.children);
-        let inserted = false;
-        for(const el of existing) {
-            if(parseInt(el.dataset.denom) > denom) {
-                wrapper.insertBefore(row, el);
-                inserted = true;
-                break;
-            }
-        }
-        if(!inserted) wrapper.appendChild(row);
+        const id = Date.now();
+        const hue = (denom * 137.5) % 360;
+        const bar = { id, denom, base: `hsl(${hue}, 70%, 50%)`, hl: `hsl(${hue}, 90%, 80%)` };
+        fb_bars.push(bar);
+        fb_render();
     }
-
-    function fb_createRow(barObj) {
-        const row = document.createElement('div');
-        row.className = 'fb-row';
-        row.dataset.id = barObj.id;
-        row.dataset.denom = barObj.denom;
-        row.style.setProperty('--fb-base', barObj.colors.base);
-        row.style.setProperty('--fb-highlight', barObj.colors.hl);
-
-        // Label (double-click to remove)
-        const label = document.createElement('div');
-        label.className = 'fb-row-label';
-        label.textContent = barObj.denom === 1 ? '1' : `1/${barObj.denom}`;
-        label.title = 'Double-click to remove';
-        label.addEventListener('dblclick', () => fb_removeBar(barObj.id));
-        row.appendChild(label);
-
-        // Bar
-        const bar = document.createElement('div');
-        bar.className = 'fb-bar';
-        for(let i = 0; i < barObj.denom; i++) {
-            const seg = document.createElement('div');
-            seg.className = 'fb-seg';
-            seg.textContent = barObj.denom === 1 ? '1' : `1/${barObj.denom}`;
-            seg.dataset.value = 1 / barObj.denom;
-            seg.addEventListener('click', () => {
-                seg.classList.toggle('fb-selected');
-                fb_calcTotal();
-            });
-            bar.appendChild(seg);
-        }
-        row.appendChild(bar);
-        return row;
-    }
-
-    function fb_removeBar(id) {
-        fb_bars = fb_bars.filter(b => b.id !== id);
-        const el = document.querySelector(`.fb-row[data-id='${id}']`);
-        if(el) el.remove();
-        fb_calcTotal();
-    }
-
-    function fb_reset() {
-        fb_bars = [];
-        document.getElementById('fb-bars-wrapper').innerHTML = '';
-        fb_calcTotal();
-        fb_addBar(1);
-    }
-
-    function fb_calcTotal() {
-        const selected = document.querySelectorAll('.fb-seg.fb-selected');
-        let sum = 0;
-        selected.forEach(s => sum += parseFloat(s.dataset.value));
-        sum = Math.round(sum * 10000) / 10000;
-        document.getElementById('fb-total-display').textContent = `Total: ${sum}`;
-    }
-
     function fb_addCustom() {
-        const input = document.getElementById('fb-custom-input');
-        const val = parseInt(input.value);
-        if(val && val > 0 && val <= 100) {
-            fb_addBar(val);
-            input.value = '';
-        }
+        const val = parseInt(document.getElementById('fb-custom-input').value);
+        if(val > 0 && val <= 100) fb_addBar(val);
     }
+    function fb_render() {
+        const wrapper = document.getElementById('fb-bars-wrapper');
+        wrapper.innerHTML = '';
+        fb_bars.sort((a,b) => a.denom - b.denom).forEach(bar => {
+            const row = document.createElement('div');
+            row.className = 'fb-row';
+            row.innerHTML = `<div class="fb-row-label">1/${bar.denom}</div>`;
+            const barEl = document.createElement('div');
+            barEl.className = 'fb-bar';
+            for(let i=0; i<bar.denom; i++) {
+                const seg = document.createElement('div');
+                seg.className = 'fb-seg';
+                seg.style.backgroundColor = bar.base;
+                seg.style.setProperty('--fb-highlight', bar.hl);
+                seg.onclick = () => { seg.classList.toggle('fb-selected'); fb_calcTotal(); };
+                barEl.appendChild(seg);
+            }
+            row.appendChild(barEl);
+            wrapper.appendChild(row);
+        });
+    }
+    function fb_calcTotal() {
+        let total = 0;
+        document.querySelectorAll('.fb-row').forEach(row => {
+            const denom = parseInt(row.querySelector('.fb-row-label').innerText.split('/')[1]);
+            const selected = row.querySelectorAll('.fb-seg.fb-selected').length;
+            total += (selected / denom);
+        });
+        document.getElementById('fb-total-display').innerText = `Total: ${total.toFixed(3)}`;
+    }
+    function fb_reset() { fb_bars = []; fb_render(); document.getElementById('fb-total-display').innerText = 'Total: 0'; }
 
-    // Ruler tool
-    let fb_rulerOn = false;
-    document.getElementById('fb-ruler-toggle').addEventListener('change', (e) => {
-        fb_rulerOn = e.target.checked;
-        document.getElementById('fb-ruler-line').style.display = fb_rulerOn ? 'block' : 'none';
-    });
+    // --- MATH HELPERS ---
+    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+    const lcm = (a, b) => (a * b) / gcd(a, b);
 
-    const fb_dashboard = document.querySelector('#tab-bars .dashboard');
-    fb_dashboard.addEventListener('mousemove', (e) => {
-        if(!fb_rulerOn) return;
-        const wrapperEl = document.getElementById('fb-bars-wrapper');
-        const wrapperRect = wrapperEl.getBoundingClientRect();
-        const dashRect = fb_dashboard.getBoundingClientRect();
-        const x = e.clientX - dashRect.left;
-        const relLeft = wrapperRect.left - dashRect.left;
-        const relRight = relLeft + wrapperRect.width;
-        const rulerLine = document.getElementById('fb-ruler-line');
-        const rulerLabel = document.getElementById('fb-ruler-label');
-
-        if(x >= relLeft && x <= relRight) {
-            rulerLine.style.display = 'block';
-            rulerLine.style.left = x + 'px';
-            const pct = (e.clientX - wrapperRect.left) / wrapperRect.width;
-            rulerLabel.textContent = pct.toFixed(2);
-        } else {
-            rulerLine.style.display = 'none';
-        }
-    });
-
-    fb_dashboard.addEventListener('mouseleave', () => {
-        if(fb_rulerOn) document.getElementById('fb-ruler-line').style.display = 'none';
-    });
-
-    // Total toggle
-    document.getElementById('fb-total-toggle').addEventListener('change', (e) => {
-        const el = document.getElementById('fb-total-display');
-        if(e.target.checked) el.classList.remove('fb-hidden');
-        else el.classList.add('fb-hidden');
-    });
-
-    // FIX 4: Clean initialization — set state directly, no double-toggle hack
-    (function init() {
-        // Ensure state matches the DOM defaults
-        state.unlikeMode = false;
-        state.showCommon = false;
-        state.n1 = parseInt(document.getElementById('n1').value) || 1;
-        state.n2 = parseInt(document.getElementById('n2').value) || 1;
-        state.d1 = parseInt(document.getElementById('d1').value) || 4;
-        state.d2 = state.d1; // Sync d2 to d1 in like-denom mode
-        document.getElementById('d2').value = state.d2;
-        document.getElementById('d2').disabled = true;
-        document.getElementById('mode-toggle').classList.remove('active');
-        document.getElementById('btn-common').style.display = 'none';
-        
-        updateLab();
-        lcd_init();
-        simp_update();
-        fb_addBar(1);
-    })();
-
+    // INIT
+    window.onload = () => { initLCD(); updateLab(); fb_addBar(1); };
 </script>
 </body>
 </html>
