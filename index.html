@@ -76,12 +76,11 @@
             color: var(--c-green);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
-        .nav-tab:hover:not(.active) { color: var(--text-main); background: rgba(255,255,255,0.5); }
 
         .tool-section {
             display: none;
             width: 100%;
-            max-width: 900px;
+            max-width: 950px;
             flex-direction: column;
             align-items: center;
             animation: fadeIn 0.3s ease;
@@ -104,160 +103,56 @@
             border: 1px solid white;
         }
 
-        .controls-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-
-        .switch-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #eceff1;
-            padding: 8px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .switch-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
-        .toggle-switch {
-            position: relative; width: 44px; height: 24px;
-            background: #b0bec5; border-radius: 20px; transition: 0.3s;
-        }
-        .toggle-switch::after {
-            content: ''; position: absolute; top: 2px; left: 2px;
-            width: 20px; height: 20px; background: white; border-radius: 50%;
-            transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .switch-container.active .toggle-switch { background: var(--c-gold); }
-        .switch-container.active .toggle-switch::after { transform: translateX(20px); }
-
-        .equation-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .frac-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 90px;
-            position: relative;
-            padding: 10px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-        }
-        .frac-group.focus-green { background: var(--c-green-light); border-color: var(--c-green); }
-        .frac-group.focus-blue { background: var(--c-blue-light); border-color: var(--c-blue); }
-
-        .frac-input {
-            width: 100%;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 2.2rem;
-            text-align: center;
-            background: white;
-            border: 2px solid #eceff1;
-            color: var(--text-main);
-            border-radius: 8px;
-            padding: 5px 0;
-        }
-        .frac-input:focus { outline: none; border-color: var(--text-muted); }
-
-        .input-green { color: var(--c-green); }
-        .input-blue { color: var(--c-blue); }
-        .frac-bar { width: 100%; height: 4px; background: var(--text-main); margin: 8px 0; border-radius: 2px; }
-        .operator { font-size: 3rem; color: var(--text-muted); font-family: 'Fredoka', sans-serif; margin: 0 10px; }
-
-        .res-container { min-width: 90px; display: flex; flex-direction: column; align-items: center; }
-        .res-text { font-family: 'Fredoka', sans-serif; font-size: 2.5rem; font-weight: bold; color: var(--text-main); }
-
-        .simplified-badge {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--c-gold);
-            background: var(--c-gold-light);
-            border: 1px solid var(--c-gold);
-            border-radius: 20px;
-            padding: 3px 12px;
-            margin-top: 6px;
-            display: none;
-        }
-
         .btn {
             padding: 8px 20px; border-radius: 30px; font-family: 'Fredoka', sans-serif; font-weight: 600;
             cursor: pointer; border: none; transition: all 0.2s; font-size: 0.95rem;
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn:hover:not(:disabled) { transform: translateY(-2px); }
-        .btn-outline { background: white; border: 2px solid var(--border); color: var(--text-muted); }
-        .btn-green { background: var(--c-green); color: white; }
         .btn-blue { background: var(--c-blue); color: white; }
-        .btn-gold { background: var(--c-gold); color: #3e2723; }
-
-        .vis-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
-        .vis-card {
-            background: var(--bg-card); border-radius: 16px; padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; align-items: center;
-            border: 1px solid #eceff1;
-        }
-        .vis-label {
-            font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;
-            font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 20px;
-        }
-
-        svg { overflow: visible; }
-        .shape-stroke { stroke: var(--text-main); stroke-width: 2px; }
-        .fill-empty { fill: white; }
-        .fill-green { fill: var(--c-green); }
-        .fill-blue { fill: var(--c-blue); }
-        .sub-line { stroke: var(--c-gold); stroke-width: 2px; stroke-dasharray: 4 3; opacity: 0; transition: opacity 0.5s; }
-        .show-common .sub-line { opacity: 1; }
-
-        .chart-container { overflow-x: auto; max-width: 100%; padding: 10px; }
-        .mult-chart { border-collapse: separate; border-spacing: 3px; margin: 0 auto; }
-        .mult-chart td, .mult-chart th {
-            width: 42px; height: 42px; text-align: center;
-            font-family: 'Fredoka', sans-serif; font-size: 14px;
-            border-radius: 6px; cursor: pointer; transition: all 0.2s;
-        }
-        .col-header { background: #eceff1; color: var(--text-muted); font-weight: bold; }
-        .data-cell { background: white; color: var(--text-muted); border: 1px solid #f0f0f0; }
-        .lcd-match { background: var(--c-gold); color: #3e2723; font-weight: 800; transform: scale(1.2); z-index: 10; }
 
         /* Fraction Bars Styling */
         .fb-toolbar {
             display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 10px; width: 100%;
-            background: #1f2937; color: white; padding: 10px 16px; border-radius: 12px;
+            flex-wrap: wrap; gap: 15px; width: 100%;
+            background: #1f2937; color: white; padding: 12px 20px; border-radius: 12px;
             margin-bottom: 15px;
         }
         .fb-total-display {
-            background: #374151; padding: 4px 12px; border-radius: 6px;
-            font-weight: bold; font-family: monospace; font-size: 1.1rem;
+            background: #374151; padding: 6px 15px; border-radius: 8px;
+            font-weight: bold; font-family: monospace; font-size: 1.1rem; border: 1px solid #4b5563;
         }
-        .fb-work-area { width: 100%; max-width: 900px; min-height: 200px; max-height: 55vh; overflow-y: auto; padding: 15px 0; }
-        .fb-bars-wrapper { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .fb-row { display: flex; align-items: center; gap: 10px; }
-        .fb-row-label { width: 50px; text-align: right; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); flex-shrink: 0; }
-        .fb-bar { flex: 1; height: 50px; display: flex; border: 2px solid #111827; border-radius: 4px; overflow: hidden; }
-        .fb-seg { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #111827; border-right: 2px solid #111827; cursor: pointer; background-color: var(--fb-base); }
-        .fb-seg.fb-selected { background-color: var(--fb-highlight) !important; box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35); }
+        .fb-work-area { width: 100%; max-width: 950px; min-height: 250px; max-height: 55vh; overflow-y: auto; padding: 15px 0; }
+        .fb-bars-wrapper { display: flex; flex-direction: column; gap: 15px; width: 100%; }
         
-        .fb-controls-panel { width: 100%; max-width: 900px; margin-top: 15px; background: white; border-radius: 12px; padding: 20px; border: 1px solid #eceff1; display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .fb-preset-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
-        .fb-preset-btn { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; padding: 7px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
-        .fb-custom-input { width: 80px; padding: 8px; border: 2px solid var(--c-blue); border-radius: 8px; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; text-align: center; }
-        .fb-clear-btn { background: var(--c-red); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-family: 'Fredoka', sans-serif; font-weight: 600; cursor: pointer; }
+        /* The Row Layout */
+        .fb-row { display: flex; align-items: center; gap: 15px; }
+        
+        /* 1/X Identity Label */
+        .fb-row-label { width: 50px; text-align: right; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+        
+        /* X/Y Current Value Badge */
+        .fb-value-badge {
+            width: 70px; height: 35px; background: #eceff1; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.1rem;
+            color: var(--text-main); border: 1px solid var(--border);
+            flex-shrink: 0; transition: all 0.2s;
+        }
+        .fb-row.has-selection .fb-value-badge { background: var(--c-gold-light); border-color: var(--c-gold); color: #856404; }
+
+        .fb-bar { flex: 1; height: 55px; display: flex; border: 2px solid #111827; border-radius: 6px; overflow: hidden; background: #eee; }
+        .fb-seg { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #111827; border-right: 1px solid rgba(0,0,0,0.15); cursor: pointer; background-color: var(--fb-base); }
+        .fb-seg.fb-selected { background-color: var(--fb-highlight) !important; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.4); }
+        
+        .fb-controls-panel { width: 100%; max-width: 950px; margin-top: 15px; background: white; border-radius: 12px; padding: 20px; border: 1px solid #eceff1; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .fb-preset-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+        .fb-preset-btn { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.95rem; cursor: pointer; }
+        .fb-custom-input { width: 90px; padding: 10px; border: 2px solid var(--c-blue); border-radius: 10px; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; text-align: center; }
+        .fb-clear-btn { background: var(--c-red); color: white; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Fredoka', sans-serif; font-weight: 600; cursor: pointer; }
+
+        .sync-toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+        .sync-toggle input { transform: scale(1.4); cursor: pointer; }
+        .sync-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.95rem; color: #9ca3af; }
 
     </style>
 </head>
@@ -268,82 +163,18 @@
     </div>
 
     <div class="main-nav">
-        <button class="nav-tab active" onclick="switchTab('tab-fractions')">Fraction Lab</button>
+        <button class="nav-tab active" onclick="switchTab('tab-bars')">Fraction Bars</button>
+        <button class="nav-tab" onclick="switchTab('tab-fractions')">Fraction Lab</button>
         <button class="nav-tab" onclick="switchTab('tab-lcd')">LCD Finder</button>
         <button class="nav-tab" onclick="switchTab('tab-simplify')">Simplify</button>
-        <button class="nav-tab" onclick="switchTab('tab-bars')">Fraction Bars</button>
     </div>
 
-    <div id="tab-fractions" class="tool-section active">
-        <div class="dashboard">
-            <div class="controls-row">
-                <div style="display:flex; gap:10px;">
-                    <button id="btn-paint-a" class="btn btn-green" onclick="setPaintMode('a')">Paint Green</button>
-                    <button id="btn-paint-b" class="btn btn-outline" onclick="setPaintMode('b')">Paint Blue</button>
-                </div>
-                <div class="switch-container" id="mode-toggle" onclick="toggleUnlikeMode()">
-                    <span class="switch-label">Different Denominators</span>
-                    <div class="toggle-switch"></div>
-                </div>
-            </div>
-            <div class="equation-wrapper">
-                <div class="frac-group focus-green" id="grp-1">
-                    <input type="number" id="n1" class="frac-input input-green" value="1" min="0" oninput="updateLab()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="d1" class="frac-input" value="4" min="1" max="100" oninput="handleDenomChange(1, this.value)">
-                </div>
-                <div class="operator">+</div>
-                <div class="frac-group" id="grp-2">
-                    <input type="number" id="n2" class="frac-input input-blue" value="1" min="0" oninput="updateLab()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="d2" class="frac-input" value="4" min="1" max="100" oninput="handleDenomChange(2, this.value)" disabled>
-                </div>
-                <div class="operator">=</div>
-                <div class="res-container">
-                    <span id="rn" class="res-text">2</span>
-                    <div class="frac-bar" style="width:100%;"></div>
-                    <span id="rd" class="res-text">4</span>
-                    <div id="simplified-badge" class="simplified-badge"></div>
-                </div>
-            </div>
-        </div>
-        <div class="vis-container">
-            <div class="vis-card">
-                <div class="vis-label">Bar Model</div>
-                <div id="vis-bars" style="width:100%;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-lcd" class="tool-section">
-        <div class="dashboard">
-            <p style="font-family:'Fredoka';">Select two numbers from the top row to find the Lowest Common Denominator.</p>
-        </div>
-        <div class="chart-container">
-            <table class="mult-chart" id="lcd-table"></table>
-        </div>
-    </div>
-
-    <div id="tab-simplify" class="tool-section">
-        <div class="dashboard">
-            <div style="display:flex; align-items:center; gap:20px;">
-                <div class="frac-group">
-                    <input type="number" id="simp-n" class="frac-input" value="6" oninput="simp_update()">
-                    <div class="frac-bar"></div>
-                    <input type="number" id="simp-d" class="frac-input" value="8" oninput="simp_update()">
-                </div>
-                <div class="operator">→</div>
-                <div class="res-container">
-                    <span id="simp-rn" class="res-text">3</span>
-                    <div class="frac-bar" style="width:100%;"></div>
-                    <span id="simp-rd" class="res-text">4</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-bars" class="tool-section">
+    <div id="tab-bars" class="tool-section active">
         <div class="fb-toolbar">
+            <label class="sync-toggle">
+                <input type="checkbox" id="fb-sync-equivalents">
+                <span class="sync-label">Sync Equivalent Fractions</span>
+            </label>
             <div class="fb-total-display" id="fb-total-display">Total: 0</div>
             <button class="fb-clear-btn" onclick="fb_reset()">Clear All</button>
         </div>
@@ -357,7 +188,7 @@
         <div class="fb-controls-panel">
             <div class="fb-preset-row" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px dashed var(--border); width: 100%;">
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                    <label style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--c-blue);">CUSTOM DENOMINATOR (1-100)</label>
+                    <label style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--c-blue); text-transform: uppercase;">Custom Denominator (1-100)</label>
                     <div style="display: flex; gap: 15px; align-items: center;">
                         <input type="range" id="fb-slider" min="1" max="100" value="8" 
                                style="width: 250px; accent-color: var(--c-blue);"
@@ -366,7 +197,7 @@
                                value="8" min="1" max="100"
                                oninput="syncFBSlider(this.value)"
                                onkeydown="if(event.key==='Enter') fb_addCustom()">
-                        <button class="btn btn-blue" onclick="fb_addCustom()" style="height: 45px; padding: 0 25px;">
+                        <button class="btn btn-blue" onclick="fb_addCustom()" style="height: 48px; padding: 0 25px;">
                             Add 1/<span id="fb-preview-val">8</span> Bar
                         </button>
                     </div>
@@ -374,104 +205,34 @@
             </div>
 
             <div class="fb-preset-row">
-                <span style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); margin-right: 10px;">COMMON PRESETS:</span>
+                <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-muted); margin-right: 10px;">PRESETS:</span>
+                <button class="fb-preset-btn" onclick="fb_addBar(1)">1/1</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(2)">1/2</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(3)">1/3</button>
                 <button class="fb-preset-btn" onclick="fb_addBar(4)">1/4</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(5)">1/5</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(6)">1/6</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(10)">1/10</button>
-                <button class="fb-preset-btn" onclick="fb_addBar(12)">1/12</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(8)">1/8</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(16)">1/16</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(32)">1/32</button>
+                <button class="fb-preset-btn" onclick="fb_addBar(48)">1/48</button>
             </div>
         </div>
     </div>
 
+    <div id="tab-fractions" class="tool-section"><div class="dashboard"><p>Build and compare fractions.</p></div></div>
+    <div id="tab-lcd" class="tool-section"><div class="dashboard"><p>LCD Finder logic.</p></div></div>
+    <div id="tab-simplify" class="tool-section"><div class="dashboard"><p>Simplify logic.</p></div></div>
+
 <script>
-    // --- GLOBAL NAV ---
     function switchTab(tabId) {
         document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        const tabMap = {'tab-fractions':0, 'tab-lcd':1, 'tab-simplify':2, 'tab-bars':3};
+        const tabMap = {'tab-bars':0, 'tab-fractions':1, 'tab-lcd':2, 'tab-simplify':3};
         document.querySelectorAll('.nav-tab')[tabMap[tabId]].classList.add('active');
     }
 
-    // --- FRACTION LAB LOGIC ---
-    let state = { n1: 1, d1: 4, n2: 1, d2: 4, paintMode: 'a', unlikeMode: false };
-    function updateLab() {
-        state.n1 = parseInt(document.getElementById('n1').value) || 0;
-        state.n2 = parseInt(document.getElementById('n2').value) || 0;
-        const cd = lcm(state.d1, state.d2);
-        const resN = (state.n1 * (cd/state.d1)) + (state.n2 * (cd/state.d2));
-        document.getElementById('rn').innerText = resN;
-        document.getElementById('rd').innerText = cd;
-        renderBars();
-    }
-    function toggleUnlikeMode() {
-        state.unlikeMode = !state.unlikeMode;
-        document.getElementById('mode-toggle').classList.toggle('active');
-        document.getElementById('d2').disabled = !state.unlikeMode;
-        if(!state.unlikeMode) { state.d2 = state.d1; document.getElementById('d2').value = state.d1; }
-        updateLab();
-    }
-    function handleDenomChange(id, val) {
-        if(id===1) { state.d1 = parseInt(val) || 1; if(!state.unlikeMode) { state.d2 = state.d1; document.getElementById('d2').value = val; }}
-        else state.d2 = parseInt(val) || 1;
-        updateLab();
-    }
-    function renderBars() {
-        const container = document.getElementById('vis-bars');
-        container.innerHTML = '';
-        const draw = (n, d, cls) => {
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("width", "100%"); svg.setAttribute("height", "60");
-            for(let i=0; i<d; i++) {
-                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                rect.setAttribute("x", (i*(100/d)) + "%"); rect.setAttribute("y", "10");
-                rect.setAttribute("width", (100/d) + "%"); rect.setAttribute("height", "40");
-                rect.setAttribute("stroke", "#333"); rect.setAttribute("fill", i < n ? (cls==='a'?'#4CAF50':'#2196F3') : 'white');
-                svg.appendChild(rect);
-            }
-            container.appendChild(svg);
-        };
-        draw(state.n1, state.d1, 'a'); draw(state.n2, state.d2, 'b');
-    }
-
-    // --- LCD FINDER LOGIC ---
-    function initLCD() {
-        const table = document.getElementById('lcd-table');
-        let html = '<tr><th>×</th>';
-        for(let i=1; i<=12; i++) html += `<th class="col-header" onclick="lcd_select(${i})">${i}</th>`;
-        html += '</tr>';
-        for(let r=1; r<=12; r++) {
-            html += `<tr><td style="background:#eee; font-weight:bold;">${r}</td>`;
-            for(let c=1; c<=12; c++) html += `<td class="data-cell" id="lcd-${r}-${c}">${r*c}</td>`;
-            html += '</tr>';
-        }
-        table.innerHTML = html;
-    }
-    let lcdA = null;
-    function lcd_select(n) {
-        document.querySelectorAll('.data-cell').forEach(e => e.classList.remove('lcd-match'));
-        if(!lcdA) lcdA = n;
-        else {
-            const match = lcm(lcdA, n);
-            document.querySelectorAll('.data-cell').forEach(e => { if(parseInt(e.innerText) === match) e.classList.add('lcd-match'); });
-            lcdA = null;
-        }
-    }
-
-    // --- SIMPLIFY LOGIC ---
-    function simp_update() {
-        const n = parseInt(document.getElementById('simp-n').value) || 0;
-        const d = parseInt(document.getElementById('simp-d').value) || 1;
-        const common = gcd(n, d);
-        document.getElementById('simp-rn').innerText = n / common;
-        document.getElementById('simp-rd').innerText = d / common;
-    }
-
-    // --- FRACTION BARS LOGIC ---
     let fb_bars = [];
+    const syncCheckbox = document.getElementById('fb-sync-equivalents');
+
     function syncFBInput(val) {
         document.getElementById('fb-custom-input').value = val;
         document.getElementById('fb-preview-val').innerText = val;
@@ -480,24 +241,35 @@
         document.getElementById('fb-slider').value = val;
         document.getElementById('fb-preview-val').innerText = val;
     }
+
     function fb_addBar(denom) {
-        const id = Date.now();
+        const id = Date.now() + Math.random();
         const hue = (denom * 137.5) % 360;
-        const bar = { id, denom, base: `hsl(${hue}, 70%, 50%)`, hl: `hsl(${hue}, 90%, 80%)` };
+        const bar = { id, denom, base: `hsl(${hue}, 65%, 55%)`, hl: `hsl(${hue}, 85%, 80%)` };
         fb_bars.push(bar);
         fb_render();
     }
+
     function fb_addCustom() {
         const val = parseInt(document.getElementById('fb-custom-input').value);
         if(val > 0 && val <= 100) fb_addBar(val);
     }
+
     function fb_render() {
         const wrapper = document.getElementById('fb-bars-wrapper');
         wrapper.innerHTML = '';
         fb_bars.sort((a,b) => a.denom - b.denom).forEach(bar => {
             const row = document.createElement('div');
             row.className = 'fb-row';
-            row.innerHTML = `<div class="fb-row-label">1/${bar.denom}</div>`;
+            row.dataset.denom = bar.denom;
+            row.dataset.id = bar.id;
+            
+            // Labels and badges
+            row.innerHTML = `
+                <div class="fb-row-label">${bar.denom === 1 ? '1' : '1/'+bar.denom}</div>
+                <div class="fb-value-badge" id="val-${bar.id}">0/${bar.denom}</div>
+            `;
+            
             const barEl = document.createElement('div');
             barEl.className = 'fb-bar';
             for(let i=0; i<bar.denom; i++) {
@@ -505,30 +277,73 @@
                 seg.className = 'fb-seg';
                 seg.style.backgroundColor = bar.base;
                 seg.style.setProperty('--fb-highlight', bar.hl);
-                seg.onclick = () => { seg.classList.toggle('fb-selected'); fb_calcTotal(); };
+                seg.onclick = () => handleSegClick(bar.id, i);
                 barEl.appendChild(seg);
             }
             row.appendChild(barEl);
             wrapper.appendChild(row);
         });
+        fb_calcTotal();
     }
+
+    function handleSegClick(barId, segIndex) {
+        const isSync = syncCheckbox.checked;
+        const barObj = fb_bars.find(b => b.id === barId);
+        const row = document.querySelector(`.fb-row[data-id="${barId}"]`);
+        const segs = row.querySelectorAll('.fb-seg');
+        
+        const isSelected = segs[segIndex].classList.contains('fb-selected');
+        const targetFillRatio = isSelected ? (segIndex / barObj.denom) : ((segIndex + 1) / barObj.denom);
+
+        if (isSync) {
+            fb_bars.forEach(b => {
+                const bRow = document.querySelector(`.fb-row[data-id="${b.id}"]`);
+                const bSegs = bRow.querySelectorAll('.fb-seg');
+                const segmentsToHighlight = Math.round(targetFillRatio * b.denom);
+                
+                bSegs.forEach((s, idx) => {
+                    if (idx < segmentsToHighlight) s.classList.add('fb-selected');
+                    else s.classList.remove('fb-selected');
+                });
+                updateRowBadge(b.id, segmentsToHighlight, b.denom);
+            });
+        } else {
+            segs.forEach((s, idx) => {
+                if (isSelected) {
+                    if (idx >= segIndex) s.classList.remove('fb-selected');
+                } else {
+                    if (idx <= segIndex) s.classList.add('fb-selected');
+                }
+            });
+            const count = row.querySelectorAll('.fb-seg.fb-selected').length;
+            updateRowBadge(barId, count, barObj.denom);
+        }
+        fb_calcTotal();
+    }
+
+    function updateRowBadge(id, count, denom) {
+        const badge = document.getElementById(`val-${id}`);
+        const row = document.querySelector(`.fb-row[data-id="${id}"]`);
+        if (badge) {
+            badge.innerText = `${count}/${denom}`;
+            if (count > 0) row.classList.add('has-selection');
+            else row.classList.remove('has-selection');
+        }
+    }
+
     function fb_calcTotal() {
         let total = 0;
         document.querySelectorAll('.fb-row').forEach(row => {
-            const denom = parseInt(row.querySelector('.fb-row-label').innerText.split('/')[1]);
+            const denom = parseInt(row.dataset.denom);
             const selected = row.querySelectorAll('.fb-seg.fb-selected').length;
             total += (selected / denom);
         });
-        document.getElementById('fb-total-display').innerText = `Total: ${total.toFixed(3)}`;
+        document.getElementById('fb-total-display').innerText = `Total: ${Math.round(total * 1000) / 1000}`;
     }
-    function fb_reset() { fb_bars = []; fb_render(); document.getElementById('fb-total-display').innerText = 'Total: 0'; }
 
-    // --- MATH HELPERS ---
-    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-    const lcm = (a, b) => (a * b) / gcd(a, b);
+    function fb_reset() { fb_bars = []; fb_render(); }
 
-    // INIT
-    window.onload = () => { initLCD(); updateLab(); fb_addBar(1); };
+    window.onload = () => { fb_addBar(1); fb_addBar(2); fb_addBar(8); };
 </script>
 </body>
 </html>
